@@ -1,3 +1,8 @@
-const App = () => <div>LoL</div>
+import { useRoutes } from "react-router-dom"
+import routes from "./routes"
 
-export default App
+export default () => {
+  const routing = useRoutes(routes)
+
+  return <div> {routing} </div>
+}
