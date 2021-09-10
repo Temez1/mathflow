@@ -1,6 +1,7 @@
 import { PartialRouteObject } from "react-router-dom"
-import Layout from "./Layout"
+import Layout from "./layouts/Main"
 import Learn from "./views/Learn"
+import Profile from "./views/Profile"
 import Progress from "./views/Progress"
 
 const routes: [PartialRouteObject] = [
@@ -15,6 +16,10 @@ const routes: [PartialRouteObject] = [
       {
         path: "/progress",
         element: <Progress />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
