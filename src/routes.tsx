@@ -1,13 +1,15 @@
-import { PartialRouteObject } from "react-router-dom"
-import Layout from "./layouts/Main"
+import { RouteObject } from "react-router-dom"
+import AppLayout from "./layouts/app/App"
+import LearningSessionLayout from "./layouts/LearningSession"
 import Learn from "./views/Learn"
+import LearningSession from "./views/LearningSession"
 import Profile from "./views/Profile"
 import Progress from "./views/Progress"
 
-const routes: [PartialRouteObject] = [
+const routes: RouteObject[] = [
   {
     path: "/",
-    element: <Layout />,
+    element: <AppLayout />,
     children: [
       {
         path: "/",
@@ -20,6 +22,16 @@ const routes: [PartialRouteObject] = [
       {
         path: "/profile",
         element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/learning",
+    element: <LearningSessionLayout />,
+    children: [
+      {
+        path: "/learning/",
+        element: <LearningSession />,
       },
     ],
   },

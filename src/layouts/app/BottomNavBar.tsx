@@ -33,7 +33,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize={6} color={iconColor} as={MdHome} />
+            <Icon boxSize="6" color={iconColor} as={MdHome} />
             <Text>Opi</Text>
           </Flex>
         </Center>
@@ -48,7 +48,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize={6} color={iconColor} as={MdShowChart} />
+            <Icon boxSize="6" color={iconColor} as={MdShowChart} />
             <Text>Edistyminen</Text>
           </Flex>
         </Center>
@@ -63,7 +63,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize={6} color={iconColor} as={MdPerson} />
+            <Icon boxSize="6" color={iconColor} as={MdPerson} />
             <Text>Profiili</Text>
           </Flex>
         </Center>

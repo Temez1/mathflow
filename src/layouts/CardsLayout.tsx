@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@chakra-ui/react"
-import { bottomNavBarHeightInPixels } from "./BottomNavBar"
+import { bottomNavBarHeightInPixels } from "./app/BottomNavBar"
 import responsiveConstants from "./responsiveConstants"
 
 export interface AppBarProps {

@@ -1,6 +1,6 @@
 import { Heading, Switch, Text, useColorMode } from "@chakra-ui/react"
 import Card from "../components/Card"
-import AppBarLayout from "../layouts/AppBarLayout"
+import AppBarLayout from "../layouts/app/AppBarLayout"
 import CardsLayout from "../layouts/CardsLayout"
 
 export default () => {

@@ -1,20 +1,27 @@
-import { Heading, Text, Button } from "@chakra-ui/react"
+import { Heading, Text, Button, Flex } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 import Card from "../components/Card"
-import AppBarLayout from "../layouts/AppBarLayout"
+import AppBarLayout from "../layouts/app/AppBarLayout"
 import CardsLayout from "../layouts/CardsLayout"
 
-export default () => (
-  <>
-    <AppBarLayout>
-      <Heading size="xl">Tervetuloa takaisin!</Heading>
-    </AppBarLayout>
-    <CardsLayout>
-      <Card>
-        <Text>Jatka oppimista siitä mihin jäit</Text>
-        <Button my="4" size="lg">
-          Jatka oppimista
-        </Button>
-      </Card>
-    </CardsLayout>
-  </>
-)
+export default () => {
+  const navigate = useNavigate()
+
+  return (
+    <>
+      <AppBarLayout>
+        <Heading size="xl">Tervetuloa takaisin!</Heading>
+      </AppBarLayout>
+      <CardsLayout>
+        <Card>
+          <Text>Jatka oppimista siitä mihin jäit</Text>
+          <Flex direction="row-reverse">
+            <Button my="4" size="lg" onClick={() => navigate("/learning")}>
+              Jatka oppimista
+            </Button>
+          </Flex>
+        </Card>
+      </CardsLayout>
+    </>
+  )
+}

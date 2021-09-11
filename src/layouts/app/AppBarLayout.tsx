@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react"
-import responsiveConstants from "./responsiveConstants"
+import responsiveConstants from "../responsiveConstants"
 
 export interface AppBarProps {
   children: React.ReactNode

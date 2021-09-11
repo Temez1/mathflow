@@ -1,5 +1,5 @@
 import { Heading } from "@chakra-ui/react"
-import AppBarLayout from "../layouts/AppBarLayout"
+import AppBarLayout from "../layouts/app/AppBarLayout"
 
 export default () => (
   <>
