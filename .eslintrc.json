@@ -24,6 +24,8 @@
     // New jsx transform makes these rules obsolete
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    // I prefer to use the ( prop=<defaultValue> ) => {} syntax
+    "react/require-default-props": [2, { "ignoreFunctionalComponents": true }]
   }
 }
