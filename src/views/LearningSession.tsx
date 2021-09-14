@@ -1,16 +1,13 @@
-import { Text, Flex, Spacer, Button } from "@chakra-ui/react"
-import "mathlive/dist/mathlive-fonts.css"
-import "mathlive/dist/sounds/plonk.wav"
-import "mathlive/dist/sounds/keypress-standard.wav"
-import "mathlive/dist/sounds/keypress-delete.wav"
-import "mathlive/dist/sounds/keypress-return.wav"
-import "mathlive/dist/sounds/keypress-spacebar.wav"
-import { MathfieldElement } from "mathlive"
+import { Text, Flex, Spacer, Button, Box } from "@chakra-ui/react"
+import { useState } from "react"
+import MathField from "../components/MathField"
 
 export default () => {
-  const mfe = new MathfieldElement()
+  const [inputValue, setInputValue] = useState("")
 
-  mfe.setOptions({ virtualKeyboardMode: "manual" })
+  const onMathFieldChange = (newValue: string) => {
+    setInputValue(newValue)
+  }
 
   return (
     <Flex h="100%" direction="column">
@@ -18,7 +15,10 @@ export default () => {
 
       <Spacer />
 
-      <math-field />
+      <Box border="1px" rounded="md" boxShadow="base" my="8">
+        <MathField onChange={onMathFieldChange} />
+        {inputValue}
+      </Box>
 
       <Flex direction="row-reverse">
         <Button size="lg">Vihje</Button>

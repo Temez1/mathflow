@@ -1,9 +1,13 @@
 type SkillLevel = "unknown" | "beginner" | "skilled" | "pro" | "expert"
 
+interface Step {
+  mathLatex: string
+  explanation?: string
+}
+
 interface Challenge {
   description: string
-  steps: string
-  skillLevel: SkillLevel
+  steps: Step[]
 }
 
 interface SubTopic {
@@ -13,10 +17,10 @@ interface SubTopic {
 
 interface Topic {
   name: string
-  subTopics: [SubTopic]
+  subTopics: SubTopic[]
 }
 
 interface Category {
   name: string
-  topics: [Topic]
+  topics: Topic[]
 }
