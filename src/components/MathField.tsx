@@ -2,12 +2,10 @@ import { useLayoutEffect, useRef } from "react"
 
 import { MathfieldElement } from "mathlive"
 import "mathlive/dist/mathlive-fonts.css"
-import "mathlive/dist/sounds/plonk.wav"
-import "mathlive/dist/sounds/keypress-standard.wav"
-import "mathlive/dist/sounds/keypress-delete.wav"
-import "mathlive/dist/sounds/keypress-return.wav"
-import "mathlive/dist/sounds/keypress-spacebar.wav"
 import { OutputFormat } from "mathlive/dist/public/mathfield"
+
+const IS_DEV = import.meta.env.DEV
+const RELATIVE_PUBLIC_DIR_PATH = IS_DEV ? "../../" : "../"
 
 export interface MathFieldProps {
   onChange?: (newValue: string) => void
@@ -25,7 +23,7 @@ export default ({
   const mfe = new MathfieldElement({
     virtualKeyboardMode: "manual",
     fontsDirectory: ".",
-    soundsDirectory: ".",
+    soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
   })
 
   mfe.addEventListener("input", () => {
