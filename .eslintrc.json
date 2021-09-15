@@ -26,6 +26,13 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
     // I prefer to use the ( prop=<defaultValue> ) => {} syntax
-    "react/require-default-props": [2, { "ignoreFunctionalComponents": true }]
+    "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
+    // I prefer to enable For of syntax
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ]
   }
 }
