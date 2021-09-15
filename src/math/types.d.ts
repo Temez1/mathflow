@@ -1,13 +1,15 @@
 type SkillLevel = "unknown" | "beginner" | "skilled" | "pro" | "expert"
 
 interface Step {
-  mathLatex: string
+  latex: string
   explanation?: string
 }
 
 interface Challenge {
   description: string
+  descriptionLatex?: string
   steps: Step[]
+  answerLatex: string
 }
 
 interface SubTopic {

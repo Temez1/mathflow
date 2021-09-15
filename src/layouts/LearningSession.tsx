@@ -16,7 +16,7 @@ export default () => {
         position="fixed"
         top={exitButtonSpacingTop}
         right={responsiveConstants.mx}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/progress")}
       >
         <Icon
           aria-label="Exit learning session"

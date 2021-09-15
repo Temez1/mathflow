@@ -2,7 +2,7 @@ import categories from "./categories"
 
 export type AllDone = null
 
-const allDone = null
+export const ALL_DONE: AllDone = null
 
 export default (): Challenge | AllDone => {
   for (const category of categories) {
@@ -24,5 +24,5 @@ export default (): Challenge | AllDone => {
       }
     }
   }
-  return allDone
+  return ALL_DONE
 }
