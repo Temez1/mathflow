@@ -12,7 +12,8 @@ interface Challenge {
 
 interface SubTopic {
   name: string
-  challenge: Challenge
+  getChallenge: () => Challenge
+  getCurrentSkillLevel: () => SkillLevel
 }
 
 interface Topic {

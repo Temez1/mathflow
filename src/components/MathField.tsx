@@ -22,7 +22,11 @@ export default ({
 }: MathFieldProps) => {
   const ref = useRef<HTMLDivElement>(null)
 
-  const mfe = new MathfieldElement({ virtualKeyboardMode: "manual" })
+  const mfe = new MathfieldElement({
+    virtualKeyboardMode: "manual",
+    fontsDirectory: ".",
+    soundsDirectory: ".",
+  })
 
   mfe.addEventListener("input", () => {
     onChange(mfe.getValue(format))
