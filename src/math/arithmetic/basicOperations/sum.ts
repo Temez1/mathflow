@@ -35,7 +35,9 @@ const getChallenge = (): Challenge => {
 
   return {
     description: "Ratkaise",
-    steps: [{ mathLatex: `${a}+${b}` }, { mathLatex: `=${a + b}` }],
+    descriptionLatex: `${a}+${b}`,
+    steps: [{ latex: `=${a + b}` }],
+    answerLatex: `${a + b}`,
   }
 }
 
