@@ -37,7 +37,7 @@ export default () => {
       )}
 
       {steps.map((step) => (
-        <MathField key={step.latex} initialValue={step.latex} readOnly />
+        <MathField key={step.math} initialValue={step.math} readOnly />
       ))}
 
       <Spacer />
