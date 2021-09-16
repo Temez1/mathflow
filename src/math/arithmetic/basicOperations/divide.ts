@@ -19,19 +19,25 @@ const getChallenge = (): Challenge => {
     min = 0
     max = 10
   } else if (currentSkillLevel === "skilled") {
-    min = -50
-    max = 50
+    min = -10
+    max = 10
   } else if (currentSkillLevel === "pro") {
-    min = -100
-    max = 100
+    min = -15
+    max = 15
   } else if (currentSkillLevel === "expert") {
-    min = -100
-    max = 100
+    min = -20
+    max = 20
   }
 
-  const a = getRandomInt(min, max)
-
   const b = getRandomInt(min, max)
+  let a
+
+  if (b === 0) {
+    a = getRandomInt(min, max)
+  } else {
+    // We want the answer to be an integer
+    a = b * getRandomInt(min, max)
+  }
 
   let finalStep = ""
   let explanation: undefined | string
