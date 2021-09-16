@@ -19,13 +19,13 @@ const getChallenge = (): Challenge => {
     min = 0
     max = 10
   } else if (currentSkillLevel === "skilled") {
-    min = 0
+    min = -50
     max = 50
   } else if (currentSkillLevel === "pro") {
-    min = 0
+    min = -100
     max = 100
   } else if (currentSkillLevel === "expert") {
-    min = 0
+    min = -100
     max = 100
   }
 
@@ -35,9 +35,9 @@ const getChallenge = (): Challenge => {
 
   return {
     description: "Ratkaise",
-    descriptionLatex: `${a}+${b}`,
-    steps: [{ math: `=${a + b}` }],
-    answers: [`${a + b}`],
+    descriptionLatex: `${a}-${b}`,
+    steps: [{ math: `=${a - b}` }],
+    answers: [`${a - b}`],
   }
 }
 

@@ -19,14 +19,14 @@ const getChallenge = (): Challenge => {
     min = 0
     max = 10
   } else if (currentSkillLevel === "skilled") {
-    min = 0
-    max = 50
+    min = -10
+    max = 10
   } else if (currentSkillLevel === "pro") {
-    min = 0
-    max = 100
+    min = -15
+    max = 15
   } else if (currentSkillLevel === "expert") {
-    min = 0
-    max = 100
+    min = -20
+    max = 20
   }
 
   const a = getRandomInt(min, max)
@@ -35,9 +35,9 @@ const getChallenge = (): Challenge => {
 
   return {
     description: "Ratkaise",
-    descriptionLatex: `${a}+${b}`,
-    steps: [{ math: `=${a + b}` }],
-    answers: [`${a + b}`],
+    descriptionLatex: `${a}*${b}`,
+    steps: [{ math: `=${a * b}` }],
+    answers: [`${a * b}`],
   }
 }
 
