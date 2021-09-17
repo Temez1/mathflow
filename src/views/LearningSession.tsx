@@ -1,25 +1,60 @@
-import { Text, Flex, Spacer, Button, Box } from "@chakra-ui/react"
+import {
+  Text,
+  Flex,
+  Spacer,
+  Button,
+  Box,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Modal,
+  ModalContent,
+  ModalBody,
+  Center,
+  Heading,
+  useColorModeValue,
+} from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import MathDisplay from "../components/MathDisplay"
 import MathField from "../components/MathField"
 import recommendationAlgorithm, {
   ALL_DONE,
 } from "../math/recommendationAlgorithm"
 
-export default () => {
-  const [inputValue, setInputValue] = useState("")
-  const [steps, setSteps] = useState<Step[]>([])
-  const challenge = recommendationAlgorithm()
-  const navigate = useNavigate()
-
-  if (challenge === ALL_DONE) {
+const createNewChallenge = (): Challenge => {
+  const newChallenge = recommendationAlgorithm()
+  if (newChallenge === ALL_DONE) {
+    const navigate = useNavigate()
     alert("Wau! Oot Pro kaikessa, onnittelut!")
     navigate("/progress")
-    return <></>
   }
 
-  const onMathFieldChange = (newValue: string) => {
-    setInputValue(newValue)
+  return newChallenge as Challenge
+}
+
+export default () => {
+  const [isAlert, setIsAlert] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [steps, setSteps] = useState<Step[]>([])
+  const successBgColor = useColorModeValue("lightgreen", "darkgreen")
+
+  const [challenge, setChallenge] = useState<Challenge>(createNewChallenge())
+
+  console.log("current challenge", challenge.descriptionLatex)
+
+  const showAlert = () => {
+    setIsAlert(true)
+    setTimeout(() => {
+      setIsAlert(false)
+    }, 3000)
+  }
+
+  const showSuccess = () => {
+    setIsSuccess(true)
+    setTimeout(() => {
+      setIsSuccess(false)
+    }, 2000)
   }
 
   const showStep = () => {
@@ -29,22 +64,56 @@ export default () => {
     setSteps(steps.concat(challenge.steps[steps.length]))
   }
 
+  const checkAnswer = (studentAnswer: string) => {
+    console.log("Checking answer, challenge", challenge.descriptionLatex)
+    for (const answer of challenge.answers) {
+      console.log("Answer", answer)
+
+      if (studentAnswer === answer) {
+        showSuccess()
+        setChallenge(createNewChallenge())
+        return
+      }
+    }
+    console.log(studentAnswer, "!=", challenge.answers[0])
+    showAlert()
+  }
+
   return (
     <Flex h="100%" direction="column">
+      <Modal isOpen={isSuccess} size="full" onClose={() => {}}>
+        <ModalContent>
+          <ModalBody bg={successBgColor}>
+            <Center h="100vh">
+              <Heading>Hienosti tehty!</Heading>
+            </Center>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <Text>Description of the challenge</Text>
+
+      {console.log(challenge.descriptionLatex)}
       {challenge.descriptionLatex && (
-        <MathField initialValue={challenge.descriptionLatex} readOnly />
+        <MathDisplay value={challenge.descriptionLatex} />
       )}
 
       {steps.map((step) => (
-        <MathField key={step.math} initialValue={step.math} readOnly />
+        <MathDisplay key={step.math} value={step.math} />
       ))}
 
       <Spacer />
 
+      {isAlert && (
+        <Alert status="warning">
+          <AlertIcon />
+          <AlertDescription>
+            Vastauksessa on vähän vielä korjattavaa
+          </AlertDescription>
+        </Alert>
+      )}
       <Box border="1px" rounded="md" boxShadow="base" my="8">
-        <MathField onChange={onMathFieldChange} />
-        {inputValue}
+        <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
       </Box>
 
       <Flex direction="row-reverse">
