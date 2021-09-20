@@ -8,42 +8,47 @@ const IS_DEV = import.meta.env.DEV
 const RELATIVE_PUBLIC_DIR_PATH = IS_DEV ? "../../" : "../"
 
 export interface MathFieldProps {
-  initialValue?: string
-  onChange?: (newValue: string) => void
   onEnterKeyPressedOrFocusLostAndValueChanged?: (newValue: string) => void
   format?: OutputFormat
-  readOnly?: boolean
 }
 
 export default ({
-  initialValue = undefined,
-  onChange = () => null,
   onEnterKeyPressedOrFocusLostAndValueChanged = () => null,
   format = "latex",
-  readOnly = false,
 }: MathFieldProps) => {
-  const ref = useRef<HTMLDivElement>(null)
-
+  const ref = useRef<HTMLInputElement>(null)
   const mfe = new MathfieldElement({
     virtualKeyboardMode: "manual",
     fontsDirectory: ".",
     soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
-    readOnly,
   })
 
-  mfe.setValue(initialValue)
-
-  mfe.addEventListener("input", () => {
-    onChange(mfe.getValue(format))
-  })
-
-  mfe.addEventListener("change", () => {
-    onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
-  })
+  const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
+    if (mfe.value !== "") {
+      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
+      mfe.setValue("")
+    }
+  }
 
   useLayoutEffect(() => {
     ref.current?.appendChild(mfe)
+    mfe.addEventListener(
+      "change",
+      handleOnEnterKeyPressedOrFocusLostAndValueChanged
+    )
+
+    return () => {
+      mfe.removeEventListener(
+        "change",
+        handleOnEnterKeyPressedOrFocusLostAndValueChanged
+      )
+      ref.current?.removeChild(mfe)
+    }
   }, [])
 
-  return <div ref={ref} />
+  return (
+    <div>
+      <div ref={ref} />
+    </div>
+  )
 }
