@@ -20,7 +20,6 @@ export default (props: MathDisplayProps) => {
 
   useLayoutEffect(() => {
     ref.current?.appendChild(mfe)
-    console.log("Adding math display to DOM")
     return () => {
       ref.current?.removeChild(mfe)
     }
