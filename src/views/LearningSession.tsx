@@ -86,6 +86,7 @@ export default () => {
         showSuccess()
         const newChallenge = createNewChallenge()
         setChallenge(newChallenge)
+        setSteps([])
         return
       }
     }
@@ -98,7 +99,12 @@ export default () => {
 
   return (
     <Flex h="100%" direction="column">
-      <Modal isOpen={isSuccess} size="full" onClose={() => {}}>
+      <Modal
+        trapFocus={false}
+        isOpen={isSuccess}
+        size="full"
+        onClose={() => {}}
+      >
         <ModalContent>
           <ModalBody bg={successBgColor}>
             <Center h="100vh">
