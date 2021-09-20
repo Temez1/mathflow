@@ -16,16 +16,12 @@ export default (props: MathDisplayProps) => {
     readOnly: true,
   })
 
-  console.log("Math display value", value)
-
   mfe.setValue(value)
 
   useLayoutEffect(() => {
-    console.log("Adding math display to DOM")
     ref.current?.appendChild(mfe)
-
+    console.log("Adding math display to DOM")
     return () => {
-      console.log("Removing math display from DOM")
       ref.current?.removeChild(mfe)
     }
   }, [value])

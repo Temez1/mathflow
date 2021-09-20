@@ -14,7 +14,7 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import MathDisplay from "../components/MathDisplay"
 import MathField from "../components/MathField"
@@ -22,12 +22,13 @@ import recommendationAlgorithm, {
   ALL_DONE,
 } from "../math/recommendationAlgorithm"
 
-const createNewChallenge = (): Challenge => {
+const createNewChallenge = (): Challenge | null => {
   const newChallenge = recommendationAlgorithm()
   if (newChallenge === ALL_DONE) {
     const navigate = useNavigate()
     alert("Wau! Oot Pro kaikessa, onnittelut!")
     navigate("/progress")
+    return null
   }
 
   return newChallenge as Challenge
@@ -38,13 +39,14 @@ export default () => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
   const successBgColor = useColorModeValue("lightgreen", "darkgreen")
-  const [challenge, setChallenge] = useState<Challenge>(createNewChallenge())
-
-  console.log("current challenge", challenge.descriptionLatex)
+  const [challenge, setChallenge] = useState<Challenge | null>(null)
+  const challengeRef = useRef<Challenge | null>(null)
+  challengeRef.current = challenge
 
   useEffect(() => {
-    console.log("current challenge", challenge.descriptionLatex)
-  }, [challenge])
+    const newChallenge = createNewChallenge()
+    setChallenge(newChallenge)
+  }, [])
 
   const showAlert = () => {
     setIsAlert(true)
@@ -57,27 +59,41 @@ export default () => {
     setIsSuccess(true)
     setTimeout(() => {
       setIsSuccess(false)
-    }, 2000)
+    }, 2500)
   }
 
   const showStep = () => {
+    if (challenge === null) {
+      return
+    }
+
     if (steps.length === challenge.steps.length) {
       return
     }
     setSteps(steps.concat(challenge.steps[steps.length]))
   }
 
+  // We are using ref because this function is passed as an event handler for MathField.
+  // Using the state would lead to stale state because the event listeners aren't
+  // updated when the state of the challenge changes.
   const checkAnswer = (studentAnswer: string) => {
-    console.log("Checking answer, challenge", challenge.descriptionLatex)
-    for (const answer of challenge.answers) {
+    if (challengeRef.current === null) {
+      return
+    }
+
+    for (const answer of challengeRef.current.answers) {
       if (studentAnswer === answer) {
         showSuccess()
-        setChallenge(createNewChallenge())
+        const newChallenge = createNewChallenge()
+        setChallenge(newChallenge)
         return
       }
     }
-    console.log(studentAnswer, "!=", challenge.answers[0])
     showAlert()
+  }
+
+  if (challenge === null) {
+    return <></>
   }
 
   return (
@@ -92,7 +108,7 @@ export default () => {
         </ModalContent>
       </Modal>
 
-      <Text>Description of the challenge</Text>
+      <Text>{challenge.description}</Text>
 
       {challenge.descriptionLatex && (
         <MathDisplay value={challenge.descriptionLatex} />

@@ -8,44 +8,40 @@ const IS_DEV = import.meta.env.DEV
 const RELATIVE_PUBLIC_DIR_PATH = IS_DEV ? "../../" : "../"
 
 export interface MathFieldProps {
-  onChange?: (newValue: string) => void
   onEnterKeyPressedOrFocusLostAndValueChanged?: (newValue: string) => void
   format?: OutputFormat
 }
 
 export default ({
-  onChange = () => null,
   onEnterKeyPressedOrFocusLostAndValueChanged = () => null,
   format = "latex",
 }: MathFieldProps) => {
   const ref = useRef<HTMLInputElement>(null)
-
   const mfe = new MathfieldElement({
     virtualKeyboardMode: "manual",
     fontsDirectory: ".",
     soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
   })
 
-  mfe.addEventListener("input", () => {
-    onChange(mfe.getValue(format))
-  })
-
-  mfe.addEventListener("change", () => {
-    console.log("Mfe value", mfe.value)
-
+  const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
       onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
       mfe.setValue("")
     }
-  })
+  }
 
   useLayoutEffect(() => {
-    console.log("Adding math field to DOM")
-
     ref.current?.appendChild(mfe)
+    mfe.addEventListener(
+      "change",
+      handleOnEnterKeyPressedOrFocusLostAndValueChanged
+    )
 
     return () => {
-      console.log("Removing math field from DOM")
+      mfe.removeEventListener(
+        "change",
+        handleOnEnterKeyPressedOrFocusLostAndValueChanged
+      )
       ref.current?.removeChild(mfe)
     }
   }, [])
