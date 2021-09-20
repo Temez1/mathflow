@@ -14,7 +14,7 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import MathDisplay from "../components/MathDisplay"
 import MathField from "../components/MathField"
@@ -38,10 +38,13 @@ export default () => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
   const successBgColor = useColorModeValue("lightgreen", "darkgreen")
-
   const [challenge, setChallenge] = useState<Challenge>(createNewChallenge())
 
   console.log("current challenge", challenge.descriptionLatex)
+
+  useEffect(() => {
+    console.log("current challenge", challenge.descriptionLatex)
+  }, [challenge])
 
   const showAlert = () => {
     setIsAlert(true)
@@ -67,8 +70,6 @@ export default () => {
   const checkAnswer = (studentAnswer: string) => {
     console.log("Checking answer, challenge", challenge.descriptionLatex)
     for (const answer of challenge.answers) {
-      console.log("Answer", answer)
-
       if (studentAnswer === answer) {
         showSuccess()
         setChallenge(createNewChallenge())
@@ -93,7 +94,6 @@ export default () => {
 
       <Text>Description of the challenge</Text>
 
-      {console.log(challenge.descriptionLatex)}
       {challenge.descriptionLatex && (
         <MathDisplay value={challenge.descriptionLatex} />
       )}

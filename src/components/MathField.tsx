@@ -18,7 +18,7 @@ export default ({
   onEnterKeyPressedOrFocusLostAndValueChanged = () => null,
   format = "latex",
 }: MathFieldProps) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLInputElement>(null)
 
   const mfe = new MathfieldElement({
     virtualKeyboardMode: "manual",
@@ -31,21 +31,28 @@ export default ({
   })
 
   mfe.addEventListener("change", () => {
-    console.log("Change triggered")
+    console.log("Mfe value", mfe.value)
 
-    onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
+    if (mfe.value !== "") {
+      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
+      mfe.setValue("")
+    }
   })
 
   useLayoutEffect(() => {
-    console.log("Rendering math field")
+    console.log("Adding math field to DOM")
 
     ref.current?.appendChild(mfe)
+
     return () => {
       console.log("Removing math field from DOM")
-
       ref.current?.removeChild(mfe)
     }
   }, [])
 
-  return <div ref={ref} />
+  return (
+    <div>
+      <div ref={ref} />
+    </div>
+  )
 }
