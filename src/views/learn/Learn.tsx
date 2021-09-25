@@ -1,8 +1,8 @@
 import { Heading, Text, Button, Flex } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-import Card from "../components/Card"
-import AppBarLayout from "../layouts/app/AppBarLayout"
-import CardsLayout from "../layouts/CardsLayout"
+import Card from "../../sharedComponents/Card"
+import AppBarLayout from "../../layouts/app/AppBarLayout"
+import CardsLayout from "../../layouts/CardsLayout"
 
 export default () => {
   const navigate = useNavigate()

@@ -2,6 +2,8 @@ type SkillLevel = "unknown" | "beginner" | "skilled" | "pro" | "expert"
 
 type Latex = string
 
+type NameLowerCamelCase = string
+
 interface Step {
   math: Latex
   explanation?: string
@@ -18,14 +20,15 @@ interface SubTopic {
   name: string
   getChallenge: () => Challenge
   getCurrentSkillLevel: () => SkillLevel
+  updateSkillLevel: (newSkillLevel: SkillLevel) => void
 }
 
 interface Topic {
   name: string
-  subTopics: SubTopic[]
+  subTopics: Map<NameLowerCamelCase, SubTopic>
 }
 
 interface Category {
   name: string
-  topics: Topic[]
+  topics: Map<NameLowerCamelCase, Topic>
 }

@@ -1,10 +1,10 @@
 import { RouteObject } from "react-router-dom"
 import AppLayout from "./layouts/app/App"
 import LearningSessionLayout from "./layouts/LearningSession"
-import Learn from "./views/Learn"
-import LearningSession from "./views/LearningSession"
-import Profile from "./views/Profile"
-import Progress from "./views/Progress"
+import Learn from "./views/learn/Learn"
+import LearningSession from "./views/learningSession/LearningSession"
+import Profile from "./views/profile/Profile"
+import Progress from "./views/progress/Progress"
 
 const routes: RouteObject[] = [
   {

@@ -1,7 +1,7 @@
 import { Heading, Switch, Text, useColorMode } from "@chakra-ui/react"
-import Card from "../components/Card"
-import AppBarLayout from "../layouts/app/AppBarLayout"
-import CardsLayout from "../layouts/CardsLayout"
+import Card from "../../sharedComponents/Card"
+import AppBarLayout from "../../layouts/app/AppBarLayout"
+import CardsLayout from "../../layouts/CardsLayout"
 
 export default () => {
   const { colorMode, toggleColorMode } = useColorMode()

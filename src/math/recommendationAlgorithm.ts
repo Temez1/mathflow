@@ -1,25 +1,29 @@
-import categories from "./categories"
+import Categories from "./Categories"
 
 export type AllDone = null
 
 export const ALL_DONE: AllDone = null
 
-export default (): Challenge | AllDone => {
-  for (const category of categories) {
-    for (const topic of category.topics) {
-      for (const subTopic of topic.subTopics) {
+export default async (): Promise<SubTopic | AllDone> => {
+  const categories = await Categories
+  for (const [, category] of categories) {
+    for (const [, topic] of category.topics) {
+      const { subTopics } = topic
+
+      for (const [, subTopic] of subTopics) {
         const currentSkillLevel = subTopic.getCurrentSkillLevel()
         if (
           currentSkillLevel === "unknown" ||
           currentSkillLevel === "beginner"
         ) {
-          return subTopic.getChallenge()
+          return subTopic
         }
       }
-      for (const subTopic of topic.subTopics) {
+
+      for (const [, subTopic] of subTopics) {
         const currentSkillLevel = subTopic.getCurrentSkillLevel()
         if (currentSkillLevel === "skilled") {
-          return subTopic.getChallenge()
+          return subTopic
         }
       }
     }
