@@ -31,13 +31,17 @@ export default ({
   }
 
   useLayoutEffect(() => {
+    console.log("Mounting mathfield")
+
     ref.current?.appendChild(mfe)
     mfe.addEventListener(
       "change",
       handleOnEnterKeyPressedOrFocusLostAndValueChanged
     )
-
+    mfe.focus()
     return () => {
+      console.log("Unmounting mathfield")
+
       mfe.removeEventListener(
         "change",
         handleOnEnterKeyPressedOrFocusLostAndValueChanged

@@ -16,36 +16,53 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import MathDisplay from "../components/MathDisplay"
-import MathField from "../components/MathField"
+import MathDisplay from "../../sharedComponents/MathDisplay"
+import MathField from "../../sharedComponents/MathField"
 import recommendationAlgorithm, {
   ALL_DONE,
-} from "../math/recommendationAlgorithm"
-
-const createNewChallenge = (): Challenge | null => {
-  const newChallenge = recommendationAlgorithm()
-  if (newChallenge === ALL_DONE) {
-    const navigate = useNavigate()
-    alert("Wau! Oot Pro kaikessa, onnittelut!")
-    navigate("/progress")
-    return null
-  }
-
-  return newChallenge as Challenge
-}
+} from "../../math/recommendationAlgorithm"
+import SessionAnswers from "./SessionAnswers"
 
 export default () => {
   const [isAlert, setIsAlert] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
   const successBgColor = useColorModeValue("lightgreen", "darkgreen")
+  const [subTopic, setSubTopic] = useState<SubTopic | null>(null)
   const [challenge, setChallenge] = useState<Challenge | null>(null)
-  const challengeRef = useRef<Challenge | null>(null)
+
+  const subTopicRef = useRef<SubTopic | null>(subTopic)
+  subTopicRef.current = subTopic
+  const challengeRef = useRef<Challenge | null>(challenge)
   challengeRef.current = challenge
+  const sessionAnswers = useRef(new SessionAnswers()).current
+
+  const navigate = useNavigate()
+
+  const setNextSubTopicAndChallenge = async (init = false) => {
+    subTopicRef.current = await recommendationAlgorithm()
+
+    if (subTopicRef.current === ALL_DONE) {
+      alert("Wau! Oot Pro kaikessa, onnittelut!")
+      navigate("/progress")
+      return
+    }
+
+    if (!init) {
+      sessionAnswers.saveSubTopicAnswers()
+      sessionAnswers.resetLastFiveAnswers()
+    }
+
+    setSubTopic(subTopicRef.current)
+    setChallenge(subTopicRef.current.getChallenge())
+  }
 
   useEffect(() => {
-    const newChallenge = createNewChallenge()
-    setChallenge(newChallenge)
+    setNextSubTopicAndChallenge(true)
+    return () => {
+      setSubTopic(null)
+      setChallenge(null)
+    }
   }, [])
 
   const showAlert = () => {
@@ -70,12 +87,47 @@ export default () => {
     if (steps.length === challenge.steps.length) {
       return
     }
+    sessionAnswers.helpUsed = true
     setSteps(steps.concat(challenge.steps[steps.length]))
   }
 
-  // We are using ref because this function is passed as an event handler for MathField.
-  // Using the state would lead to stale state because the event listeners aren't
-  // updated when the state of the challenge changes.
+  const updateLearningSessionRightAnswer = () => {
+    if (subTopicRef.current === null) {
+      return
+    }
+
+    sessionAnswers.addRightAnswer()
+    const currentSkillLevel = subTopicRef.current.getCurrentSkillLevel()
+
+    if (currentSkillLevel === "unknown") {
+      subTopicRef.current.updateSkillLevel("beginner")
+      console.log("Hi, I'm now a beginner!")
+      setChallenge(subTopicRef.current.getChallenge())
+    } else if (
+      currentSkillLevel === "beginner" &&
+      sessionAnswers.lastFiveAnswers.answers === 5 &&
+      sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
+      sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
+    ) {
+      subTopicRef.current.updateSkillLevel("skilled")
+      console.log("Hi, I'm now skilled!")
+      setNextSubTopicAndChallenge()
+    } else if (
+      currentSkillLevel === "skilled" &&
+      sessionAnswers.lastFiveAnswers.streak === 5 &&
+      sessionAnswers.lastFiveAnswers.answersWithHelp === 0
+    ) {
+      subTopicRef.current.updateSkillLevel("pro")
+      console.log("Hi, I'm now pro!")
+      setNextSubTopicAndChallenge()
+    } else {
+      setChallenge(subTopicRef.current.getChallenge())
+    }
+
+    showSuccess()
+    setSteps([])
+  }
+
   const checkAnswer = (studentAnswer: string) => {
     if (challengeRef.current === null) {
       return
@@ -83,17 +135,18 @@ export default () => {
 
     for (const answer of challengeRef.current.answers) {
       if (studentAnswer === answer) {
-        showSuccess()
-        const newChallenge = createNewChallenge()
-        setChallenge(newChallenge)
-        setSteps([])
+        updateLearningSessionRightAnswer()
+        console.log(sessionAnswers)
+
         return
       }
     }
+    console.log(sessionAnswers)
+    sessionAnswers.addWrongAnswer()
     showAlert()
   }
 
-  if (challenge === null) {
+  if (subTopic === null || challenge === null) {
     return <></>
   }
 
