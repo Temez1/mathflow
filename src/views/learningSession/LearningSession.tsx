@@ -37,16 +37,20 @@ export default () => {
   challengeRef.current = challenge
   const sessionAnswers = useRef(new SessionAnswers()).current
 
-  const setNextSubTopicAndChallenge = async () => {
+  const navigate = useNavigate()
+
+  const setNextSubTopicAndChallenge = async (init = false) => {
     subTopicRef.current = await recommendationAlgorithm()
 
     if (subTopicRef.current === ALL_DONE) {
-      const navigate = useNavigate()
       alert("Wau! Oot Pro kaikessa, onnittelut!")
       navigate("/progress")
-      setSubTopic(null)
-      setChallenge(null)
       return
+    }
+
+    if (!init) {
+      sessionAnswers.saveSubTopicAnswers()
+      sessionAnswers.resetLastFiveAnswers()
     }
 
     setSubTopic(subTopicRef.current)
@@ -54,7 +58,11 @@ export default () => {
   }
 
   useEffect(() => {
-    setNextSubTopicAndChallenge()
+    setNextSubTopicAndChallenge(true)
+    return () => {
+      setSubTopic(null)
+      setChallenge(null)
+    }
   }, [])
 
   const showAlert = () => {
@@ -88,22 +96,34 @@ export default () => {
       return
     }
 
+    sessionAnswers.addRightAnswer()
     const currentSkillLevel = subTopicRef.current.getCurrentSkillLevel()
 
     if (currentSkillLevel === "unknown") {
       subTopicRef.current.updateSkillLevel("beginner")
       console.log("Hi, I'm now a beginner!")
       setChallenge(subTopicRef.current.getChallenge())
-    } else if (currentSkillLevel === "beginner") {
+    } else if (
+      currentSkillLevel === "beginner" &&
+      sessionAnswers.lastFiveAnswers.answers === 5 &&
+      sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
+      sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
+    ) {
       subTopicRef.current.updateSkillLevel("skilled")
       console.log("Hi, I'm now skilled!")
       setNextSubTopicAndChallenge()
-    } else if (currentSkillLevel === "skilled") {
-      console.log("Hi, I'm still skilled!")
+    } else if (
+      currentSkillLevel === "skilled" &&
+      sessionAnswers.lastFiveAnswers.streak === 5 &&
+      sessionAnswers.lastFiveAnswers.answersWithHelp === 0
+    ) {
+      subTopicRef.current.updateSkillLevel("pro")
+      console.log("Hi, I'm now pro!")
+      setNextSubTopicAndChallenge()
+    } else {
       setChallenge(subTopicRef.current.getChallenge())
     }
 
-    sessionAnswers.addRightAnswer()
     showSuccess()
     setSteps([])
   }
@@ -117,6 +137,7 @@ export default () => {
       if (studentAnswer === answer) {
         updateLearningSessionRightAnswer()
         console.log(sessionAnswers)
+
         return
       }
     }
