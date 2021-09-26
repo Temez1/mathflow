@@ -1,14 +1,6 @@
 import { getRandomInt } from "../../utils"
 
-let currentSkillLevel: SkillLevel = "unknown"
-
-const updateSkillLevel = (newSkillLevel: SkillLevel) => {
-  currentSkillLevel = newSkillLevel
-}
-
-const getSkillLevel = (): SkillLevel => currentSkillLevel
-
-const getChallenge = (): Challenge => {
+const getChallenge = (currentSkillLevel: SkillLevels): Challenge => {
   let min = 0
   let max = 10
 
@@ -42,7 +34,5 @@ const getChallenge = (): Challenge => {
 }
 
 export default {
-  updateSkillLevel,
-  getSkillLevel,
   getChallenge,
 }

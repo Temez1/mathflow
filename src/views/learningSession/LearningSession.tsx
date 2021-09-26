@@ -54,7 +54,11 @@ export default () => {
     }
 
     setSubTopic(subTopicRef.current)
-    setChallenge(subTopicRef.current.getChallenge())
+    setChallenge(
+      subTopicRef.current.getChallenge(
+        subTopicRef.current.skillLevel.getSkillLevel()
+      )
+    )
   }
 
   useEffect(() => {
@@ -97,19 +101,23 @@ export default () => {
     }
 
     sessionAnswers.addRightAnswer()
-    const currentSkillLevel = subTopicRef.current.getCurrentSkillLevel()
+    const currentSkillLevel = subTopicRef.current.skillLevel.getSkillLevel()
 
     if (currentSkillLevel === "unknown") {
-      subTopicRef.current.updateSkillLevel("beginner")
+      subTopicRef.current.skillLevel.updateSkillLevel("beginner")
       console.log("Hi, I'm now a beginner!")
-      setChallenge(subTopicRef.current.getChallenge())
+      setChallenge(
+        subTopicRef.current.getChallenge(
+          subTopicRef.current.skillLevel.getSkillLevel()
+        )
+      )
     } else if (
       currentSkillLevel === "beginner" &&
       sessionAnswers.lastFiveAnswers.answers === 5 &&
       sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
     ) {
-      subTopicRef.current.updateSkillLevel("skilled")
+      subTopicRef.current.skillLevel.updateSkillLevel("skilled")
       console.log("Hi, I'm now skilled!")
       setNextSubTopicAndChallenge()
     } else if (
@@ -117,11 +125,15 @@ export default () => {
       sessionAnswers.lastFiveAnswers.streak === 5 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
-      subTopicRef.current.updateSkillLevel("pro")
+      subTopicRef.current.skillLevel.updateSkillLevel("pro")
       console.log("Hi, I'm now pro!")
       setNextSubTopicAndChallenge()
     } else {
-      setChallenge(subTopicRef.current.getChallenge())
+      setChallenge(
+        subTopicRef.current.getChallenge(
+          subTopicRef.current.skillLevel.getSkillLevel()
+        )
+      )
     }
 
     showSuccess()

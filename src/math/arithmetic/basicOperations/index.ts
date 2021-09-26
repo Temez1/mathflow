@@ -1,3 +1,4 @@
+import SkillLevel from "../../SkillLevel"
 import divide from "./divide"
 import multiply from "./multiply"
 import substract from "./substract"
@@ -8,29 +9,25 @@ const subTopics = new Map<NameLowerCamelCase, SubTopic>()
 subTopics.set("sum", {
   name: "Yhteenlasku",
   getChallenge: sum.getChallenge,
-  getCurrentSkillLevel: sum.getSkillLevel,
-  updateSkillLevel: sum.updateSkillLevel,
+  skillLevel: new SkillLevel(),
 })
 
 subTopics.set("substract", {
   name: "Vähennyslasku",
   getChallenge: substract.getChallenge,
-  getCurrentSkillLevel: substract.getSkillLevel,
-  updateSkillLevel: substract.updateSkillLevel,
+  skillLevel: new SkillLevel(),
 })
 
 subTopics.set("multiply", {
   name: "Kertolasku",
   getChallenge: multiply.getChallenge,
-  getCurrentSkillLevel: multiply.getSkillLevel,
-  updateSkillLevel: multiply.updateSkillLevel,
+  skillLevel: new SkillLevel(),
 })
 
 subTopics.set("divide", {
   name: "Jakolasku",
   getChallenge: divide.getChallenge,
-  getCurrentSkillLevel: divide.getSkillLevel,
-  updateSkillLevel: divide.updateSkillLevel,
+  skillLevel: new SkillLevel(),
 })
 
 export default subTopics
