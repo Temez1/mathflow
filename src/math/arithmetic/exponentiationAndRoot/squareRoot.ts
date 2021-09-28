@@ -1,56 +1,58 @@
 import { getRandomInt } from "../../utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
-  let min = 0
-  let max = 10
+  let min = 1
+  let max = 5
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    min = 0
-    max = 10
+    min = 1
+    max = 5
   } else if (currentSkillLevel === "skilled") {
-    min = -10
+    min = -5
     max = 10
   } else if (currentSkillLevel === "pro") {
-    min = -15
-    max = 15
+    min = -10
+    max = 10
   } else if (currentSkillLevel === "expert") {
-    min = -20
-    max = 20
+    min = -10
+    max = 10
   }
 
-  const denominator = getRandomInt(min, max)
-  let numerator
+  let a = getRandomInt(min, max)
 
-  if (denominator === 0) {
-    numerator = getRandomInt(min, max)
+  if (a < 0) {
+    a = -(a * a)
   } else {
-    // We want the answer to be an integer
-    numerator = denominator * getRandomInt(min, max)
+    a *= a
   }
 
   let steps: Step[] = []
   let answers: Latex[] | undefined = []
 
-  if (denominator === 0) {
+  if (a < 0) {
     steps = [
       {
         math: "=määrittelemätön",
-        explanation: "Nollalla jakamista ei ole määritelty",
+        explanation: "Negatiivisen luvun neliöjuurta ei ole määritelty",
       },
     ]
     answers = undefined
   } else {
+    const solvedA = Math.sqrt(a)
     steps = [
       {
-        math: `=${numerator / denominator}`,
+        math: `=${solvedA}`,
+        explanation: `${solvedA} * ${solvedA} =${
+          solvedA * solvedA
+        }, mikä on alkuperäinen luku neliöjuuressa`,
       },
     ]
-    answers = [`${numerator / denominator}`]
+    answers = [`${solvedA}`]
   }
 
   return {
     description: "Ratkaise",
-    descriptionLatex: `${numerator}/${denominator}`,
+    descriptionLatex: `\\sqrt{${a}}`,
     steps,
     answers,
   }

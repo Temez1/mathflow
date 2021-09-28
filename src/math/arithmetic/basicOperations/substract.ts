@@ -1,13 +1,10 @@
 import { getRandomInt } from "../../utils"
 
-const getChallenge = (currentSkillLevel: SkillLevels): Challenge => {
+export default (currentSkillLevel: SkillLevels): Challenge => {
   let min = 0
   let max = 10
 
-  if (currentSkillLevel === "unknown") {
-    min = 0
-    max = 10
-  } else if (currentSkillLevel === "beginner") {
+  if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     min = 0
     max = 10
   } else if (currentSkillLevel === "skilled") {
@@ -31,8 +28,4 @@ const getChallenge = (currentSkillLevel: SkillLevels): Challenge => {
     steps: [{ math: `=${a - b}` }],
     answers: [`${a - b}`],
   }
-}
-
-export default {
-  getChallenge,
 }

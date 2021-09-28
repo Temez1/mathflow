@@ -26,6 +26,7 @@ export default ({
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
       onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
+      mfe.setValue("")
     }
   }
 

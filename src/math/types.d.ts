@@ -13,7 +13,7 @@ interface Challenge {
   description: string
   descriptionLatex?: Latex
   steps: Step[]
-  answers: Latex[] | string[]
+  answers: Latex[] | undefined
 }
 
 interface SubTopic {
