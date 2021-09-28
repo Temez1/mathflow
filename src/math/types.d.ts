@@ -1,8 +1,8 @@
-type SkillLevel = "unknown" | "beginner" | "skilled" | "pro" | "expert"
-
 type Latex = string
 
 type NameLowerCamelCase = string
+
+type SkillLevels = import("./SkillLevel").SkillLevels
 
 interface Step {
   math: Latex
@@ -13,14 +13,13 @@ interface Challenge {
   description: string
   descriptionLatex?: Latex
   steps: Step[]
-  answers: Latex[] | string[]
+  answers: Latex[] | undefined
 }
 
 interface SubTopic {
   name: string
-  getChallenge: () => Challenge
-  getCurrentSkillLevel: () => SkillLevel
-  updateSkillLevel: (newSkillLevel: SkillLevel) => void
+  getChallenge: (currentSkillLevel: SkillLevels) => Challenge
+  skillLevel: import("./SkillLevel").default
 }
 
 interface Topic {

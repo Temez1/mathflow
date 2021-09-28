@@ -11,7 +11,7 @@ export default async (): Promise<SubTopic | AllDone> => {
       const { subTopics } = topic
 
       for (const [, subTopic] of subTopics) {
-        const currentSkillLevel = subTopic.getCurrentSkillLevel()
+        const currentSkillLevel = subTopic.skillLevel.getSkillLevel()
         if (
           currentSkillLevel === "unknown" ||
           currentSkillLevel === "beginner"
@@ -21,7 +21,7 @@ export default async (): Promise<SubTopic | AllDone> => {
       }
 
       for (const [, subTopic] of subTopics) {
-        const currentSkillLevel = subTopic.getCurrentSkillLevel()
+        const currentSkillLevel = subTopic.skillLevel.getSkillLevel()
         if (currentSkillLevel === "skilled") {
           return subTopic
         }

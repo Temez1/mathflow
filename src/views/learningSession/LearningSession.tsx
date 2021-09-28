@@ -23,6 +23,8 @@ import recommendationAlgorithm, {
 } from "../../math/recommendationAlgorithm"
 import SessionAnswers from "./SessionAnswers"
 
+const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
+
 export default () => {
   const [isAlert, setIsAlert] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -54,7 +56,11 @@ export default () => {
     }
 
     setSubTopic(subTopicRef.current)
-    setChallenge(subTopicRef.current.getChallenge())
+    setChallenge(
+      subTopicRef.current.getChallenge(
+        subTopicRef.current.skillLevel.getSkillLevel()
+      )
+    )
   }
 
   useEffect(() => {
@@ -97,19 +103,23 @@ export default () => {
     }
 
     sessionAnswers.addRightAnswer()
-    const currentSkillLevel = subTopicRef.current.getCurrentSkillLevel()
+    const currentSkillLevel = subTopicRef.current.skillLevel.getSkillLevel()
 
     if (currentSkillLevel === "unknown") {
-      subTopicRef.current.updateSkillLevel("beginner")
+      subTopicRef.current.skillLevel.updateSkillLevel("beginner")
       console.log("Hi, I'm now a beginner!")
-      setChallenge(subTopicRef.current.getChallenge())
+      setChallenge(
+        subTopicRef.current.getChallenge(
+          subTopicRef.current.skillLevel.getSkillLevel()
+        )
+      )
     } else if (
       currentSkillLevel === "beginner" &&
       sessionAnswers.lastFiveAnswers.answers === 5 &&
       sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
     ) {
-      subTopicRef.current.updateSkillLevel("skilled")
+      subTopicRef.current.skillLevel.updateSkillLevel("skilled")
       console.log("Hi, I'm now skilled!")
       setNextSubTopicAndChallenge()
     } else if (
@@ -117,11 +127,15 @@ export default () => {
       sessionAnswers.lastFiveAnswers.streak === 5 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
-      subTopicRef.current.updateSkillLevel("pro")
+      subTopicRef.current.skillLevel.updateSkillLevel("pro")
       console.log("Hi, I'm now pro!")
       setNextSubTopicAndChallenge()
     } else {
-      setChallenge(subTopicRef.current.getChallenge())
+      setChallenge(
+        subTopicRef.current.getChallenge(
+          subTopicRef.current.skillLevel.getSkillLevel()
+        )
+      )
     }
 
     showSuccess()
@@ -133,14 +147,24 @@ export default () => {
       return
     }
 
-    for (const answer of challengeRef.current.answers) {
-      if (studentAnswer === answer) {
-        updateLearningSessionRightAnswer()
-        console.log(sessionAnswers)
-
-        return
+    if (challengeRef.current.answers === undefined) {
+      for (const undefinedAnswer of UNDEFINED_ANSWERS) {
+        if (studentAnswer.toLowerCase() === undefinedAnswer) {
+          updateLearningSessionRightAnswer()
+          console.log(sessionAnswers)
+          return
+        }
+      }
+    } else {
+      for (const answer of challengeRef.current.answers) {
+        if (studentAnswer === answer) {
+          updateLearningSessionRightAnswer()
+          console.log(sessionAnswers)
+          return
+        }
       }
     }
+
     console.log(sessionAnswers)
     sessionAnswers.addWrongAnswer()
     showAlert()
@@ -159,7 +183,7 @@ export default () => {
         onClose={() => {}}
       >
         <ModalContent>
-          <ModalBody bg={successBgColor}>
+          <ModalBody p="0" bg={successBgColor}>
             <Center h="100vh">
               <Heading>Hienosti tehty!</Heading>
             </Center>
@@ -173,9 +197,17 @@ export default () => {
         <MathDisplay value={challenge.descriptionLatex} />
       )}
 
-      {steps.map((step) => (
-        <MathDisplay key={step.math} value={step.math} />
-      ))}
+      {steps.map((step) => {
+        if (step.explanation) {
+          return (
+            <div key={step.explanation}>
+              <MathDisplay value={step.math} />
+              <Text> {step.explanation} </Text>
+            </div>
+          )
+        }
+        return <MathDisplay key={step.math} value={step.math} />
+      })}
 
       <Spacer />
 

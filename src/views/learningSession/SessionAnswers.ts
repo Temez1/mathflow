@@ -65,13 +65,11 @@ class SessionAnswers implements AnswerData {
         }
         if (this.lastFiveAnswers.streak !== 5) {
           this.lastFiveAnswers.streak += 1
-          console.log("last five answers streak", this.lastFiveAnswers.streak)
         }
       } else {
         if (this.lastFiveAnswers.correctAnswers !== 0) {
           this.lastFiveAnswers.correctAnswers -= 1
         }
-        console.log("Last five answers streak lost")
         this.lastFiveAnswers.streak = 0
       }
 
@@ -88,9 +86,7 @@ class SessionAnswers implements AnswerData {
       if (correct) {
         this.lastFiveAnswers.correctAnswers += 1
         this.lastFiveAnswers.streak += 1
-        console.log("last five answers streak", this.lastFiveAnswers.streak)
       } else {
-        console.log("Last five answers streak lost")
         this.lastFiveAnswers.streak = 0
       }
 
