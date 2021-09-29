@@ -1,7 +1,7 @@
 import arithmeticTopics from "./arithmetic"
 
 const initCategoriesSkillLevels = async () => {
-  const categories = new Map<NameLowerCamelCase, Category>()
+  const categories: Categories = new Map()
 
   categories.set("arithmetic", {
     name: "Aritmetiikka",

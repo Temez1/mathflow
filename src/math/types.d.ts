@@ -4,6 +4,7 @@ type NameLowerCamelCase = string
 
 type SkillLevels = import("./SkillLevel").SkillLevels
 
+type Categories = Map<NameLowerCamelCase, Category>
 interface Step {
   math: Latex
   explanation?: string

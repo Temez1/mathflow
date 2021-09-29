@@ -1,4 +1,4 @@
-export type SkillLevels = "unknown" | "beginner" | "skilled" | "pro" | "expert"
+export type SkillLevels = "unknown" | "beginner" | "skilled" | "pro"
 
 class SkillLevel {
   private skillLevel: SkillLevels
@@ -13,6 +13,23 @@ class SkillLevel {
 
   getSkillLevel() {
     return this.skillLevel
+  }
+
+  getSkillLevelPercentage() {
+    if (this.skillLevel === "unknown") {
+      return 0
+    }
+    if (this.skillLevel === "beginner") {
+      return (1 / 3) * 100
+    }
+    if (this.skillLevel === "skilled") {
+      return (2 / 3) * 100
+    }
+    if (this.skillLevel === "pro") {
+      return 100
+    }
+    console.error("error")
+    return -1
   }
 
   updateSkillLevel(newSkillLevel: SkillLevels) {

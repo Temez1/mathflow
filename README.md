@@ -1,6 +1,10 @@
 # MathFlow
 
-Personal math teacher for high school students
+Math learning app for students
+
+- Personalized learning
+- 10x shorter feedback loop
+- 100x cheaper than a tutor
 
 ## Development
 
