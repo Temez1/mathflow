@@ -2,7 +2,7 @@ import { Flex, Heading, Box, Icon, Progress } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { MdExpandMore } from "react-icons/md"
-import Card from "../../../sharedComponents/Card"
+import Card from "../../sharedComponents/Card"
 import SubTopicProgress from "./SubTopicProgress"
 
 const calculateTopicProgressPercentage = (subTopics: SubTopic[]): number => {

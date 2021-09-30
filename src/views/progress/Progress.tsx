@@ -1,22 +1,13 @@
 import { Heading } from "@chakra-ui/react"
 
-import { useEffect, useState } from "react"
-import AppBarLayout from "../../layouts/app/AppBarLayout"
+import HeaderLayout from "../../layouts/app/HeaderLayout"
 import CardsLayout from "../../layouts/CardsLayout"
-import TopicProgressCard from "./topicProgressCard/TopicProgressCard"
-import Categories from "../../math/Categories"
+import TopicProgressCard from "./TopicProgressCard"
+
+import useCategories from "../../hooks/useCategories"
 
 export default () => {
-  const [categories, setCategories] = useState<Categories | null>(null)
-
-  const initCategories = async () => {
-    const c = await Categories
-    setCategories(c)
-  }
-
-  useEffect(() => {
-    initCategories()
-  })
+  const categories = useCategories()
 
   if (categories === null) {
     return <></>
@@ -24,9 +15,9 @@ export default () => {
 
   return (
     <>
-      <AppBarLayout>
+      <HeaderLayout>
         <Heading size="xl">Edistyminen</Heading>
-      </AppBarLayout>
+      </HeaderLayout>
       <CardsLayout>
         {[...categories].map(([, category]) =>
           [...category.topics].map(([, topic]) => (

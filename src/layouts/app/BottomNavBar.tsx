@@ -1,4 +1,4 @@
-import { Flex, Center, Icon, Text, useColorModeValue } from "@chakra-ui/react"
+import { Flex, Center, Icon, Text } from "@chakra-ui/react"
 import { MdHome, MdShowChart, MdPerson } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 
@@ -8,9 +8,6 @@ export default () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const bgColor = useColorModeValue("white", "gray.800")
-  const iconColor = useColorModeValue("black", "white")
-
   return (
     <Flex
       position="fixed"
@@ -18,7 +15,6 @@ export default () => {
       left="0"
       width="100vw"
       height={`${bottomNavBarHeightInPixels}px`}
-      bg={bgColor}
       borderTop="1px"
       borderColor="gray.300"
       as="nav"
@@ -33,7 +29,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize="6" color={iconColor} as={MdHome} />
+            <Icon boxSize="6" as={MdHome} />
             <Text>Opi</Text>
           </Flex>
         </Center>
@@ -48,7 +44,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize="6" color={iconColor} as={MdShowChart} />
+            <Icon boxSize="6" as={MdShowChart} />
             <Text>Edistyminen</Text>
           </Flex>
         </Center>
@@ -63,7 +59,7 @@ export default () => {
       >
         <Center w="100%" h="100%">
           <Flex flexDir="column" alignItems="center">
-            <Icon boxSize="6" color={iconColor} as={MdPerson} />
+            <Icon boxSize="6" as={MdPerson} />
             <Text>Profiili</Text>
           </Flex>
         </Center>

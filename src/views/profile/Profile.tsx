@@ -1,6 +1,6 @@
 import { Heading, Switch, Text, useColorMode } from "@chakra-ui/react"
 import Card from "../../sharedComponents/Card"
-import AppBarLayout from "../../layouts/app/AppBarLayout"
+import HeaderLayout from "../../layouts/app/HeaderLayout"
 import CardsLayout from "../../layouts/CardsLayout"
 
 export default () => {
@@ -8,9 +8,9 @@ export default () => {
 
   return (
     <>
-      <AppBarLayout>
+      <HeaderLayout>
         <Heading size="xl">Profiili</Heading>
-      </AppBarLayout>
+      </HeaderLayout>
       <CardsLayout>
         <Card>
           <Text display="inline-block">Pimeä tila</Text>
