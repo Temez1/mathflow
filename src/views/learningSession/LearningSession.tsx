@@ -82,7 +82,7 @@ export default () => {
     setIsSuccess(true)
     setTimeout(() => {
       setIsSuccess(false)
-    }, 2500)
+    }, 1500)
   }
 
   const showStep = () => {
