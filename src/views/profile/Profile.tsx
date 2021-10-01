@@ -1,10 +1,32 @@
-import { Heading, Switch, Text, useColorMode } from "@chakra-ui/react"
+import {
+  Button,
+  Heading,
+  Switch,
+  Text,
+  useColorMode,
+  useToast,
+} from "@chakra-ui/react"
+import { useAuth } from "reactfire"
+import { AuthError } from "firebase/auth"
 import Card from "../../sharedComponents/Card"
 import HeaderLayout from "../../layouts/app/HeaderLayout"
 import CardsLayout from "../../layouts/CardsLayout"
 
 export default () => {
   const { colorMode, toggleColorMode } = useColorMode()
+  const auth = useAuth()
+  const toast = useToast()
+
+  const signOut = async () => {
+    await auth.signOut().catch((error: AuthError) => {
+      toast({
+        title: "Uloskirjautuminen epäonnistui",
+        description: error.message,
+        status: "error",
+        isClosable: true,
+      })
+    })
+  }
 
   return (
     <>
@@ -20,6 +42,7 @@ export default () => {
             onChange={toggleColorMode}
           />
         </Card>
+        <Button onClick={signOut}>Kirjaudu ulos</Button>
       </CardsLayout>
     </>
   )
