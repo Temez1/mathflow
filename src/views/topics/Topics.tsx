@@ -23,7 +23,7 @@ export default () => {
 
   return (
     <>
-      <AppBar />
+      <AppBar navigateBackTo="/" />
       <CardsLayout withAppBar>
         {topicsEntries.map(([key, topic]) => (
           <Card

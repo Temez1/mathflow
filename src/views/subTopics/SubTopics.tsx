@@ -6,6 +6,13 @@ import AppBar from "../../layouts/app/AppBar"
 import CardsLayout from "../../layouts/CardsLayout"
 import Card from "../../sharedComponents/Card"
 
+export interface SubTopicViewNavigateState {
+  mode: LearningSessionMode
+  categoryKey: string
+  topicKey: string
+  subTopicKey: string
+}
+
 export default () => {
   const navigate = useNavigate()
   const { categoryKey, topicKey } = useParams()
@@ -28,10 +35,22 @@ export default () => {
 
   return (
     <>
-      <AppBar />
+      <AppBar navigateBackTo={`/${categoryKey}`} />
       <CardsLayout withAppBar>
-        {subTopicsEntries.map(([, subTopic]) => (
-          <Card key={subTopic.name} onClickHandler={() => navigate(`/`)}>
+        {subTopicsEntries.map(([subTopicKey, subTopic]) => (
+          <Card
+            key={subTopic.name}
+            onClickHandler={() =>
+              navigate(`/learning`, {
+                state: {
+                  mode: "linear" as LearningSessionMode,
+                  categoryKey,
+                  topicKey,
+                  subTopicKey,
+                },
+              })
+            }
+          >
             <Flex justify="space-between" align="center">
               <Heading display="inline" size="lg">
                 {subTopic.name}

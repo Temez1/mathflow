@@ -1,0 +1,1 @@
+type LearningSessionMode = "default" | "linear"

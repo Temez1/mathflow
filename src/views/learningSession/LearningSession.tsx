@@ -15,13 +15,15 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import MathDisplay from "../../sharedComponents/MathDisplay"
 import MathField from "../../sharedComponents/MathField"
 import recommendationAlgorithm, {
   ALL_DONE,
 } from "../../math/recommendationAlgorithm"
 import SessionAnswers from "./SessionAnswers"
+import useCategories from "../../hooks/useCategories"
+import { SubTopicViewNavigateState } from "../subTopics/SubTopics"
 
 const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
 
@@ -41,18 +43,33 @@ export default () => {
 
   const navigate = useNavigate()
 
-  const setNextSubTopicAndChallenge = async (init = false) => {
-    subTopicRef.current = await recommendationAlgorithm()
+  const { state } = useLocation()
+
+  const { mode, categoryKey, topicKey, subTopicKey } =
+    (state as SubTopicViewNavigateState) || {}
+
+  const categories = useCategories()
+
+  const setNextSubTopicAndChallenge = async () => {
+    if (mode === "linear") {
+      const sameSubTopic = categories
+        ?.get(categoryKey)
+        ?.topics.get(topicKey)
+        ?.subTopics.get(subTopicKey)
+
+      if (sameSubTopic === undefined) {
+        console.error("Can't find subTopic")
+        return
+      }
+      subTopicRef.current = sameSubTopic
+    } else {
+      subTopicRef.current = await recommendationAlgorithm()
+    }
 
     if (subTopicRef.current === ALL_DONE) {
       alert("Wau! Oot Pro kaikessa, onnittelut!")
       navigate("/progress")
       return
-    }
-
-    if (!init) {
-      sessionAnswers.saveSubTopicAnswers()
-      sessionAnswers.resetLastFiveAnswers()
     }
 
     setSubTopic(subTopicRef.current)
@@ -64,12 +81,14 @@ export default () => {
   }
 
   useEffect(() => {
-    setNextSubTopicAndChallenge(true)
+    if (categories !== null) {
+      setNextSubTopicAndChallenge()
+    }
     return () => {
       setSubTopic(null)
       setChallenge(null)
     }
-  }, [])
+  }, [categories])
 
   const showAlert = () => {
     setIsAlert(true)
@@ -107,12 +126,6 @@ export default () => {
 
     if (currentSkillLevel === "unknown") {
       subTopicRef.current.skillLevel.updateSkillLevel("beginner")
-      console.log("Hi, I'm now a beginner!")
-      setChallenge(
-        subTopicRef.current.getChallenge(
-          subTopicRef.current.skillLevel.getSkillLevel()
-        )
-      )
     } else if (
       currentSkillLevel === "beginner" &&
       sessionAnswers.lastFiveAnswers.answers === 5 &&
@@ -120,15 +133,20 @@ export default () => {
       sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
     ) {
       subTopicRef.current.skillLevel.updateSkillLevel("skilled")
-      console.log("Hi, I'm now skilled!")
-      setNextSubTopicAndChallenge()
     } else if (
       currentSkillLevel === "skilled" &&
       sessionAnswers.lastFiveAnswers.streak === 5 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
       subTopicRef.current.skillLevel.updateSkillLevel("pro")
-      console.log("Hi, I'm now pro!")
+    }
+
+    const newSkillLevel = subTopicRef.current.skillLevel.getSkillLevel()
+    const skillLevelChanged = newSkillLevel !== currentSkillLevel
+
+    if (skillLevelChanged) {
+      sessionAnswers.saveSubTopicAnswers()
+      sessionAnswers.resetLastFiveAnswers()
       setNextSubTopicAndChallenge()
     } else {
       setChallenge(
@@ -170,7 +188,7 @@ export default () => {
     showAlert()
   }
 
-  if (subTopic === null || challenge === null) {
+  if (categories == null || subTopic === null || challenge === null) {
     return <></>
   }
 
