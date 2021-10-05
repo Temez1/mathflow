@@ -1,5 +1,4 @@
 import {
-  Spinner,
   Center,
   Heading,
   VStack,
@@ -18,6 +17,10 @@ import {
 import routes from "./routes"
 import Card from "./sharedComponents/Card"
 import responsiveConstants from "./layouts/responsiveConstants"
+import { UserProvider } from "./ContextProviders/UserContextProvider"
+import { CategoriesProvider } from "./ContextProviders/CategoriesContextProvider"
+import Loading from "./sharedComponents/Loading"
+import Error from "./sharedComponents/Error"
 
 export default () => {
   const routing = useRoutes(routes)
@@ -26,26 +29,23 @@ export default () => {
   const toast = useToast()
 
   if (status === "loading") {
+    return <Loading text="1+1=..." />
+  }
+
+  if (status === "error") {
     return (
-      <Center h="100vh">
-        <VStack>
-          <Spinner
-            thickness="4px"
-            speed="0.8s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-          <Heading>Ladataan...</Heading>
-        </VStack>
-      </Center>
+      <Error text="Profiilin hakeminen epäonnistui. Yritä päivittää sivu." />
     )
   }
 
-  const { signedIn } = signinResult
+  const { signedIn, user } = signinResult
 
-  if (signedIn) {
-    return <> {routing} </>
+  if (signedIn && user) {
+    return (
+      <UserProvider user={user}>
+        <CategoriesProvider>{routing}</CategoriesProvider>
+      </UserProvider>
+    )
   }
 
   const signIn = async () => {

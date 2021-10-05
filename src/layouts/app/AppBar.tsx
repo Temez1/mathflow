@@ -6,10 +6,11 @@ export const AppBarHeightInPixels = 56
 
 interface AppBarProps {
   title?: string
+  navigateBackTo: string
 }
 
 export default (props: AppBarProps) => {
-  const { title } = props
+  const { title, navigateBackTo } = props
   const navigate = useNavigate()
 
   return (
@@ -24,7 +25,12 @@ export default (props: AppBarProps) => {
       as="nav"
       align="center"
     >
-      <Flex pl="1" h="100%" align="center" onClick={() => navigate(-1)}>
+      <Flex
+        pl="1"
+        h="100%"
+        align="center"
+        onClick={() => navigate(navigateBackTo)}
+      >
         <Icon boxSize="12" as={MdChevronLeft} />
       </Flex>
       <Heading size="xl"> {title} </Heading>

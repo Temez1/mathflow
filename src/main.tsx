@@ -5,7 +5,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
 import { FirebaseAppProvider } from "reactfire"
 import App from "./App"
 import theme from "./theme"
-import FirebaseComponentsProvider from "./FirebaseComponentsProvider"
+import FirebaseComponentsProvider from "./ContextProviders/FirebaseComponentsProvider"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtDkJ25eyhVCp4cqnMSBEEQzj6GXKF9B4",

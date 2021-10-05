@@ -4,14 +4,20 @@ import { MdChevronRight } from "react-icons/md"
 import Card from "../../sharedComponents/Card"
 import HeaderLayout from "../../layouts/app/HeaderLayout"
 import CardsLayout from "../../layouts/CardsLayout"
-import useCategories from "../../hooks/useCategories"
+import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
+import Loading from "../../sharedComponents/Loading"
+import Error from "../../sharedComponents/Error"
 
 export default () => {
   const navigate = useNavigate()
-  const categories = useCategories()
+  const { categories, state } = useCategories()
 
-  if (categories === null) {
-    return <></>
+  if (state === "Running") {
+    return <Loading text="Teroitetaan kyniä" />
+  }
+
+  if (state === "Error" || categories === null) {
+    return <Error text="Kynät oli loppu tällä kertaa. Yritä päivittää sivu." />
   }
 
   return (

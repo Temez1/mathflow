@@ -5,6 +5,8 @@ import useTopicsEntries from "../../hooks/useTopicsEntries"
 import AppBar from "../../layouts/app/AppBar"
 import CardsLayout from "../../layouts/CardsLayout"
 import Card from "../../sharedComponents/Card"
+import Loading from "../../sharedComponents/Loading"
+import Error from "../../sharedComponents/Error"
 
 export default () => {
   const navigate = useNavigate()
@@ -12,20 +14,23 @@ export default () => {
 
   if (categoryKey === undefined) {
     console.error("Category key missing")
-    return <></>
+    return <Error text="Jotain meni pahasti pieleen" />
   }
 
-  const topicsEntries = useTopicsEntries(categoryKey)
+  const { topicEntries, state } = useTopicsEntries(categoryKey)
 
-  if (topicsEntries === null) {
-    return <></>
+  if (state === "Running") {
+    return <Loading text="Haetaan aihealueita" />
+  }
+  if (state === "Error" || topicEntries === null) {
+    return <Error text="Aihealueita ei löytynyt. Yritä päivittää sivu." />
   }
 
   return (
     <>
-      <AppBar />
+      <AppBar navigateBackTo="/" />
       <CardsLayout withAppBar>
-        {topicsEntries.map(([key, topic]) => (
+        {topicEntries.map(([key, topic]) => (
           <Card
             key={topic.name}
             onClickHandler={() => navigate(`/${categoryKey}/${key}`)}

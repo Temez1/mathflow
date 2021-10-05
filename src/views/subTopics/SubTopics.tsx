@@ -5,6 +5,15 @@ import useSubTopicsEntries from "../../hooks/useSubTopicsEntries"
 import AppBar from "../../layouts/app/AppBar"
 import CardsLayout from "../../layouts/CardsLayout"
 import Card from "../../sharedComponents/Card"
+import Loading from "../../sharedComponents/Loading"
+import Error from "../../sharedComponents/Error"
+
+export interface SubTopicViewNavigateState {
+  mode: LearningSessionMode
+  categoryKey: string
+  topicKey: string
+  subTopicKey: string
+}
 
 export default () => {
   const navigate = useNavigate()
@@ -20,18 +29,33 @@ export default () => {
     return <></>
   }
 
-  const subTopicsEntries = useSubTopicsEntries(categoryKey, topicKey)
+  const { subTopicEntries, state } = useSubTopicsEntries(categoryKey, topicKey)
 
-  if (subTopicsEntries === null) {
-    return <></>
+  if (state === "Running") {
+    return <Loading text="Haetaan aihealueita" />
+  }
+  if (state === "Error" || subTopicEntries === null) {
+    return <Error text="Aihealueita ei löytynyt. Yritä päivittää sivu." />
   }
 
   return (
     <>
-      <AppBar />
+      <AppBar navigateBackTo={`/${categoryKey}`} />
       <CardsLayout withAppBar>
-        {subTopicsEntries.map(([, subTopic]) => (
-          <Card key={subTopic.name} onClickHandler={() => navigate(`/`)}>
+        {subTopicEntries.map(([subTopicKey, subTopic]) => (
+          <Card
+            key={subTopic.name}
+            onClickHandler={() =>
+              navigate(`/learning`, {
+                state: {
+                  mode: "linear" as LearningSessionMode,
+                  categoryKey,
+                  topicKey,
+                  subTopicKey,
+                },
+              })
+            }
+          >
             <Flex justify="space-between" align="center">
               <Heading display="inline" size="lg">
                 {subTopic.name}

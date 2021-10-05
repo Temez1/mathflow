@@ -1,10 +1,15 @@
 import { Box, Icon } from "@chakra-ui/react"
 import { MdClose } from "react-icons/md"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useNavigate, useLocation } from "react-router-dom"
+import { SubTopicViewNavigateState } from "../views/subTopics/SubTopics"
 import responsiveConstants from "./responsiveConstants"
 
 export default () => {
   const navigate = useNavigate()
+  const { state } = useLocation()
+
+  const { mode, categoryKey, topicKey } =
+    (state as SubTopicViewNavigateState) || {}
 
   const exitButtonSize = 12
   const exitButtonSpacingTop = 4
@@ -16,7 +21,13 @@ export default () => {
         position="fixed"
         top={exitButtonSpacingTop}
         right={responsiveConstants.mx}
-        onClick={() => navigate("/progress")}
+        onClick={() => {
+          if (mode === "linear") {
+            navigate(`/${categoryKey}/${topicKey}`)
+          } else {
+            navigate("/progress")
+          }
+        }}
       >
         <Icon
           aria-label="Exit learning session"
