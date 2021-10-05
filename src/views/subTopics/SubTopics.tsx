@@ -5,6 +5,8 @@ import useSubTopicsEntries from "../../hooks/useSubTopicsEntries"
 import AppBar from "../../layouts/app/AppBar"
 import CardsLayout from "../../layouts/CardsLayout"
 import Card from "../../sharedComponents/Card"
+import Loading from "../../sharedComponents/Loading"
+import Error from "../../sharedComponents/Error"
 
 export interface SubTopicViewNavigateState {
   mode: LearningSessionMode
@@ -27,17 +29,20 @@ export default () => {
     return <></>
   }
 
-  const subTopicsEntries = useSubTopicsEntries(categoryKey, topicKey)
+  const { subTopicEntries, state } = useSubTopicsEntries(categoryKey, topicKey)
 
-  if (subTopicsEntries === null) {
-    return <></>
+  if (state === "Running") {
+    return <Loading text="Haetaan aihealueita" />
+  }
+  if (state === "Error" || subTopicEntries === null) {
+    return <Error text="Aihealueita ei löytynyt. Yritä päivittää sivu." />
   }
 
   return (
     <>
       <AppBar navigateBackTo={`/${categoryKey}`} />
       <CardsLayout withAppBar>
-        {subTopicsEntries.map(([subTopicKey, subTopic]) => (
+        {subTopicEntries.map(([subTopicKey, subTopic]) => (
           <Card
             key={subTopic.name}
             onClickHandler={() =>

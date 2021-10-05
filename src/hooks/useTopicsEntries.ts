@@ -1,18 +1,34 @@
-import useCategories from "./useCategories"
+import { TaskState } from "firebase/firestore"
+import { useState, useLayoutEffect } from "react"
+import { useCategories } from "../ContextProviders/CategoriesContextProvider"
 
 export default (categoryKey: string) => {
-  const categories = useCategories()
+  const { categories, state: categoriesState } = useCategories()
+  const [state, setState] = useState<TaskState>("Running")
+  const [topicEntries, setTopicEntries] = useState<[string, Topic][] | null>(
+    null
+  )
 
-  if (categories === null) {
-    return null
-  }
+  useLayoutEffect(() => {
+    if (categories === null) {
+      return
+    }
 
-  const category = categories.get(categoryKey)
+    if (categoriesState === "Error") {
+      setState("Error")
+      return
+    }
 
-  if (category === undefined) {
-    console.error("Can't find category with key", categoryKey)
-    return null
-  }
+    const category = categories.get(categoryKey)
 
-  return [...category.topics]
+    if (category === undefined) {
+      console.error("Can't find category with key", categoryKey)
+      setState("Error")
+      return
+    }
+    setState("Success")
+    setTopicEntries([...category.topics])
+  }, [categories])
+
+  return { topicEntries, state }
 }

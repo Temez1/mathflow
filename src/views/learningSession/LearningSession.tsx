@@ -16,39 +16,46 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { useFirestore } from "reactfire"
 import MathDisplay from "../../sharedComponents/MathDisplay"
 import MathField from "../../sharedComponents/MathField"
 import recommendationAlgorithm, {
+  SubTopicWithPath,
   ALL_DONE,
 } from "../../math/recommendationAlgorithm"
 import SessionAnswers from "./SessionAnswers"
-import useCategories from "../../hooks/useCategories"
 import { SubTopicViewNavigateState } from "../subTopics/SubTopics"
+import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
+import Loading from "../../sharedComponents/Loading"
+import Error from "../../sharedComponents/Error"
+import { useCurrentUser } from "../../ContextProviders/UserContextProvider"
 
-const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
+export const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
 
 export default () => {
   const [isAlert, setIsAlert] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
   const successBgColor = useColorModeValue("lightgreen", "darkgreen")
-  const [subTopic, setSubTopic] = useState<SubTopic | null>(null)
+  const [subTopic, setSubTopic] = useState<SubTopicWithPath | null>(null)
   const [challenge, setChallenge] = useState<Challenge | null>(null)
+  const { categories, state: categoriesState } = useCategories()
 
-  const subTopicRef = useRef<SubTopic | null>(subTopic)
+  const subTopicRef = useRef<SubTopicWithPath | null>(subTopic)
   subTopicRef.current = subTopic
   const challengeRef = useRef<Challenge | null>(challenge)
   challengeRef.current = challenge
   const sessionAnswers = useRef(new SessionAnswers()).current
+  const categoriesRef = useRef(categories)
 
   const navigate = useNavigate()
-
   const { state } = useLocation()
+
+  const firestore = useFirestore()
+  const user = useCurrentUser()
 
   const { mode, categoryKey, topicKey, subTopicKey } =
     (state as SubTopicViewNavigateState) || {}
-
-  const categories = useCategories()
 
   const setNextSubTopicAndChallenge = async () => {
     if (mode === "linear") {
@@ -61,9 +68,14 @@ export default () => {
         console.error("Can't find subTopic")
         return
       }
-      subTopicRef.current = sameSubTopic
-    } else {
-      subTopicRef.current = await recommendationAlgorithm()
+      subTopicRef.current = {
+        subTopic: sameSubTopic,
+        categoryKey,
+        topicKey,
+        subTopicKey,
+      }
+    } else if (categoriesRef.current !== null) {
+      subTopicRef.current = await recommendationAlgorithm(categoriesRef.current)
     }
 
     if (subTopicRef.current === ALL_DONE) {
@@ -74,14 +86,15 @@ export default () => {
 
     setSubTopic(subTopicRef.current)
     setChallenge(
-      subTopicRef.current.getChallenge(
-        subTopicRef.current.skillLevel.getSkillLevel()
+      subTopicRef.current.subTopic.getChallenge(
+        subTopicRef.current.subTopic.skillLevel.getSkillLevel()
       )
     )
   }
 
   useEffect(() => {
     if (categories !== null) {
+      categoriesRef.current = categories
       setNextSubTopicAndChallenge()
     }
     return () => {
@@ -122,26 +135,49 @@ export default () => {
     }
 
     sessionAnswers.addRightAnswer()
-    const currentSkillLevel = subTopicRef.current.skillLevel.getSkillLevel()
+    const currentSkillLevel =
+      subTopicRef.current.subTopic.skillLevel.getSkillLevel()
 
     if (currentSkillLevel === "unknown") {
-      subTopicRef.current.skillLevel.updateSkillLevel("beginner")
+      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
+        "beginner",
+        firestore,
+        user,
+        subTopicRef.current.categoryKey,
+        subTopicRef.current.topicKey,
+        subTopicRef.current.subTopicKey
+      )
     } else if (
       currentSkillLevel === "beginner" &&
       sessionAnswers.lastFiveAnswers.answers === 5 &&
       sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
     ) {
-      subTopicRef.current.skillLevel.updateSkillLevel("skilled")
+      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
+        "skilled",
+        firestore,
+        user,
+        subTopicRef.current.categoryKey,
+        subTopicRef.current.topicKey,
+        subTopicRef.current.subTopicKey
+      )
     } else if (
       currentSkillLevel === "skilled" &&
       sessionAnswers.lastFiveAnswers.streak === 5 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
-      subTopicRef.current.skillLevel.updateSkillLevel("pro")
+      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
+        "pro",
+        firestore,
+        user,
+        subTopicRef.current.categoryKey,
+        subTopicRef.current.topicKey,
+        subTopicRef.current.subTopicKey
+      )
     }
 
-    const newSkillLevel = subTopicRef.current.skillLevel.getSkillLevel()
+    const newSkillLevel =
+      subTopicRef.current.subTopic.skillLevel.getSkillLevel()
     const skillLevelChanged = newSkillLevel !== currentSkillLevel
 
     if (skillLevelChanged) {
@@ -150,8 +186,8 @@ export default () => {
       setNextSubTopicAndChallenge()
     } else {
       setChallenge(
-        subTopicRef.current.getChallenge(
-          subTopicRef.current.skillLevel.getSkillLevel()
+        subTopicRef.current.subTopic.getChallenge(
+          subTopicRef.current.subTopic.skillLevel.getSkillLevel()
         )
       )
     }
@@ -188,8 +224,17 @@ export default () => {
     showAlert()
   }
 
-  if (categories == null || subTopic === null || challenge === null) {
-    return <></>
+  if (categoriesState === "Running") {
+    return <Loading text="Lasketaan laskuja" />
+  }
+
+  if (
+    categoriesState === "Error" ||
+    categories === null ||
+    subTopic === null ||
+    challenge === null
+  ) {
+    return <Error text="Laskut meni pieleen. Yritä päivittää sivu." />
   }
 
   return (
