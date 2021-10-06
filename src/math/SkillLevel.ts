@@ -4,6 +4,7 @@ import {
   updateDoc,
   collection,
   Firestore,
+  serverTimestamp,
 } from "firebase/firestore"
 import { User } from "firebase/auth"
 
@@ -60,15 +61,23 @@ class SkillLevel {
         doc(firestore, "users", user.uid, "skillLevels", this.id),
         {
           skillLevel: newSkillLevel,
+          updatedAt: serverTimestamp(),
         }
-      )
+      ).catch((error) => Promise.reject(new Error(error)))
     } else {
-      await addDoc(collection(firestore, "users", user.uid, "skillLevels"), {
-        skillLevel: newSkillLevel,
-        categoryKey,
-        topicKey,
-        subTopicKey,
-      })
+      const skillLevelRef = await addDoc(
+        collection(firestore, "users", user.uid, "skillLevels"),
+        {
+          skillLevel: newSkillLevel,
+          categoryKey,
+          topicKey,
+          subTopicKey,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        }
+      ).catch((error) => Promise.reject(new Error(error)))
+
+      this.id = skillLevelRef.id
     }
   }
 }

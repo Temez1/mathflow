@@ -13,6 +13,7 @@ import {
   Center,
   Heading,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -50,12 +51,13 @@ export default () => {
 
   const navigate = useNavigate()
   const { state } = useLocation()
+  const { mode, categoryKey, topicKey, subTopicKey } =
+    (state as SubTopicViewNavigateState) || {}
 
   const firestore = useFirestore()
   const user = useCurrentUser()
 
-  const { mode, categoryKey, topicKey, subTopicKey } =
-    (state as SubTopicViewNavigateState) || {}
+  const toast = useToast()
 
   const setNextSubTopicAndChallenge = async () => {
     if (mode === "linear") {
@@ -139,41 +141,71 @@ export default () => {
       subTopicRef.current.subTopic.skillLevel.getSkillLevel()
 
     if (currentSkillLevel === "unknown") {
-      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
-        "beginner",
-        firestore,
-        user,
-        subTopicRef.current.categoryKey,
-        subTopicRef.current.topicKey,
-        subTopicRef.current.subTopicKey
-      )
+      subTopicRef.current.subTopic.skillLevel
+        .updateSkillLevel(
+          "beginner",
+          firestore,
+          user,
+          subTopicRef.current.categoryKey,
+          subTopicRef.current.topicKey,
+          subTopicRef.current.subTopicKey
+        )
+        .catch((error) => {
+          toast({
+            title:
+              "Taitotason tallentaminen epäonnistui. Varmista vakaa nettiyhteys.",
+            description: error.message,
+            status: "error",
+            isClosable: true,
+          })
+        })
     } else if (
       currentSkillLevel === "beginner" &&
       sessionAnswers.lastFiveAnswers.answers === 5 &&
       sessionAnswers.lastFiveAnswers.correctAnswers >= 4 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp <= 2
     ) {
-      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
-        "skilled",
-        firestore,
-        user,
-        subTopicRef.current.categoryKey,
-        subTopicRef.current.topicKey,
-        subTopicRef.current.subTopicKey
-      )
+      subTopicRef.current.subTopic.skillLevel
+        .updateSkillLevel(
+          "skilled",
+          firestore,
+          user,
+          subTopicRef.current.categoryKey,
+          subTopicRef.current.topicKey,
+          subTopicRef.current.subTopicKey
+        )
+        .catch((error) => {
+          toast({
+            title:
+              "Taitotason tallentaminen epäonnistui. Varmista vakaa nettiyhteys.",
+            description: error.message,
+            status: "error",
+            isClosable: true,
+          })
+        })
     } else if (
       currentSkillLevel === "skilled" &&
       sessionAnswers.lastFiveAnswers.streak === 5 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
-      subTopicRef.current.subTopic.skillLevel.updateSkillLevel(
-        "pro",
-        firestore,
-        user,
-        subTopicRef.current.categoryKey,
-        subTopicRef.current.topicKey,
-        subTopicRef.current.subTopicKey
-      )
+      subTopicRef.current.subTopic.skillLevel
+        .updateSkillLevel(
+          "pro",
+          firestore,
+          user,
+          subTopicRef.current.categoryKey,
+          subTopicRef.current.topicKey,
+          subTopicRef.current.subTopicKey
+        )
+        .catch((error) => {
+          toast({
+            title:
+              "Taitotason tallentaminen epäonnistui. Varmista vakaa nettiyhteys.",
+            description: error.message,
+            status: "error",
+            isClosable: true,
+          })
+        })
     }
 
     const newSkillLevel =

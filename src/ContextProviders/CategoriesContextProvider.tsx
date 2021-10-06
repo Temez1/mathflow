@@ -1,4 +1,9 @@
-import { query, collection, getDocs, TaskState } from "firebase/firestore"
+import {
+  query,
+  collection,
+  TaskState,
+  getDocsFromServer,
+} from "firebase/firestore"
 import { createContext, useEffect, useState, useContext } from "react"
 import { useFirestore } from "reactfire"
 import arithmetic from "../math/arithmetic"
@@ -34,7 +39,7 @@ export const CategoriesProvider = ({
       topics: arithmetic,
     })
 
-    const userSkillLevelsSnapshot = await getDocs(
+    const userSkillLevelsSnapshot = await getDocsFromServer(
       query(collection(firestore, "users", user.uid, "skillLevels"))
     ).catch(() => null)
 
