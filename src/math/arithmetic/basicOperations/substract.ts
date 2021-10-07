@@ -1,26 +1,36 @@
 import { getRandomInt } from "../../utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
-  let min = 0
-  let max = 10
+  let minA = 0
+  let maxA = 5
+  let minB = 5
+  let maxB = 10
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    min = 0
-    max = 10
+    minA = 5
+    maxA = 10
+    minB = 0
+    maxB = 5
   } else if (currentSkillLevel === "skilled") {
-    min = -50
-    max = 50
+    minA = 25
+    maxA = 50
+    minB = 0
+    maxB = 25
   } else if (currentSkillLevel === "pro") {
-    min = -100
-    max = 100
+    minA = 25
+    maxA = 50
+    minB = 0
+    maxB = 25
   } else if (currentSkillLevel === "expert") {
-    min = -100
-    max = 100
+    minA = 25
+    maxA = 50
+    minB = 0
+    maxB = 25
   }
 
-  const a = getRandomInt(min, max)
+  const a = getRandomInt(minA, maxA)
 
-  const b = getRandomInt(min, max)
+  const b = getRandomInt(minB, maxB)
 
   return {
     description: "Ratkaise",
