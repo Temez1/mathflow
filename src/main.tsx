@@ -9,7 +9,7 @@ import FirebaseComponentsProvider from "./ContextProviders/FirebaseComponentsPro
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtDkJ25eyhVCp4cqnMSBEEQzj6GXKF9B4",
-  authDomain: "mathflow-45dc3.firebaseapp.com",
+  authDomain: "mathflow.app",
   projectId: "mathflow-45dc3",
   storageBucket: "mathflow-45dc3.appspot.com",
   messagingSenderId: "917510915167",

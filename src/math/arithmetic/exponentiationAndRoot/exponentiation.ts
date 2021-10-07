@@ -12,14 +12,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     exponentMin = 1
     exponentMax = 2
   } else if (currentSkillLevel === "skilled") {
-    baseMin = -5
+    baseMin = 0
     baseMax = 5
     exponentMin = 0
     exponentMax = 3
   } else if (currentSkillLevel === "pro") {
-    baseMin = -6
-    baseMax = 6
-    exponentMin = -3
+    baseMin = 0
+    baseMax = 5
+    exponentMin = 0
     exponentMax = 3
   } else if (currentSkillLevel === "expert") {
     baseMin = -10

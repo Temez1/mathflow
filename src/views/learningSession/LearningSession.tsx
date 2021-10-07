@@ -17,7 +17,8 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { useFirestore } from "reactfire"
+import { useAnalytics, useFirestore } from "reactfire"
+import { logEvent } from "firebase/analytics"
 import MathDisplay from "../../sharedComponents/MathDisplay"
 import MathField from "../../sharedComponents/MathField"
 import recommendationAlgorithm, {
@@ -54,6 +55,7 @@ export default () => {
   const { mode, categoryKey, topicKey, subTopicKey } =
     (state as SubTopicViewNavigateState) || {}
 
+  const analytics = useAnalytics()
   const firestore = useFirestore()
   const user = useCurrentUser()
 
@@ -82,6 +84,7 @@ export default () => {
 
     if (subTopicRef.current === ALL_DONE) {
       alert("Wau! Oot Pro kaikessa, onnittelut!")
+      logEvent(analytics, "all_done")
       navigate("/progress")
       return
     }

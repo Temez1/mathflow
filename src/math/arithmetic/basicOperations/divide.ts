@@ -8,10 +8,10 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     min = 0
     max = 10
   } else if (currentSkillLevel === "skilled") {
-    min = -10
+    min = 0
     max = 10
   } else if (currentSkillLevel === "pro") {
-    min = -15
+    min = 0
     max = 15
   } else if (currentSkillLevel === "expert") {
     min = -20
