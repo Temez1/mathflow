@@ -216,6 +216,12 @@ export default () => {
     const skillLevelChanged = newSkillLevel !== currentSkillLevel
 
     if (skillLevelChanged) {
+      logEvent(analytics, "learned_new_skill", {
+        skillLevel: newSkillLevel,
+        category: subTopicRef.current.categoryKey,
+        topic: subTopicRef.current.topicKey,
+        subTopic: subTopicRef.current.subTopicKey,
+      })
       sessionAnswers.saveSubTopicAnswers()
       sessionAnswers.resetLastFiveAnswers()
       setNextSubTopicAndChallenge()
