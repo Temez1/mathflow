@@ -3,7 +3,6 @@ import {
   Flex,
   Spacer,
   Button,
-  Box,
   Alert,
   AlertDescription,
   AlertIcon,
@@ -323,9 +322,8 @@ export default () => {
           </AlertDescription>
         </Alert>
       )}
-      <Box border="1px" rounded="md" boxShadow="base" my="8">
-        <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
-      </Box>
+
+      <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
 
       <Flex direction="row-reverse">
         <Button size="lg" onClick={showStep}>
