@@ -21,6 +21,7 @@ export default ({
     virtualKeyboardMode: "manual",
     fontsDirectory: ".",
     soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
+    locale: "fi-FI",
   })
 
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
@@ -31,8 +32,6 @@ export default ({
   }
 
   useLayoutEffect(() => {
-    console.log("Mounting mathfield")
-
     ref.current?.appendChild(mfe)
     mfe.addEventListener(
       "change",
@@ -40,8 +39,6 @@ export default ({
     )
     mfe.focus()
     return () => {
-      console.log("Unmounting mathfield")
-
       mfe.removeEventListener(
         "change",
         handleOnEnterKeyPressedOrFocusLostAndValueChanged
