@@ -13,6 +13,12 @@ import {
   Heading,
   useColorModeValue,
   useToast,
+  Kbd,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Box,
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -251,6 +257,7 @@ export default () => {
       }
     } else {
       for (const answer of challengeRef.current.answers) {
+        console.log("student answer", studentAnswer, " answer", answer)
         if (studentAnswer === answer) {
           updateLearningSessionRightAnswer()
           console.log(sessionAnswers)
@@ -294,7 +301,7 @@ export default () => {
         </ModalContent>
       </Modal>
 
-      <Text>{challenge.description}</Text>
+      <Text pb="2">{challenge.description}</Text>
 
       {challenge.descriptionLatex && (
         <MathDisplay value={challenge.descriptionLatex} />
@@ -303,13 +310,17 @@ export default () => {
       {steps.map((step) => {
         if (step.explanation) {
           return (
-            <div key={step.explanation}>
+            <Box key={step.explanation} pt="2">
               <MathDisplay value={step.math} />
-              <Text> {step.explanation} </Text>
-            </div>
+              <Text pt="2"> {step.explanation} </Text>
+            </Box>
           )
         }
-        return <MathDisplay key={step.math} value={step.math} />
+        return (
+          <Box key={step.math} pt="2">
+            <MathDisplay value={step.math} />
+          </Box>
+        )
       })}
 
       <Spacer />
@@ -322,6 +333,62 @@ export default () => {
           </AlertDescription>
         </Alert>
       )}
+
+      <Flex>
+        {subTopic.subTopic.inputGuidance && (
+          <Popover returnFocusOnClose={false} placement="top-end">
+            <PopoverTrigger>
+              <Button variant="link">Kuinka vastaan?</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverBody>
+                <Heading size="sm"> Tietokoneella </Heading>
+                <div>
+                  {subTopic.subTopic.inputGuidance.desktop.map(
+                    (explanation) => (
+                      <span key={explanation.text}>
+                        <Text display="inline">{`${explanation.text} `}</Text>
+                        {explanation.keyboardKeys?.map(
+                          ({ keyboardKey, combiner }) => (
+                            <span key={keyboardKey}>
+                              <Kbd>{keyboardKey}</Kbd>
+                              <> {combiner} </>
+                            </span>
+                          )
+                        )}
+                      </span>
+                    )
+                  )}
+                </div>
+                {subTopic.subTopic.inputGuidance.mobile && (
+                  <>
+                    <Heading size="sm" pt="2">
+                      Kännykällä tai tabletilla
+                    </Heading>
+                    <div>
+                      {subTopic.subTopic.inputGuidance.mobile.map(
+                        (explanation) => (
+                          <span key={explanation.text}>
+                            <Text display="inline">{`${explanation.text} `}</Text>
+                            {explanation.keyboardKeys?.map(
+                              ({ keyboardKey, combiner }) => (
+                                <span key={keyboardKey}>
+                                  <Kbd>{keyboardKey}</Kbd>
+                                  <> {combiner} </>
+                                </span>
+                              )
+                            )}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </>
+                )}
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        )}
+      </Flex>
 
       <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
 
