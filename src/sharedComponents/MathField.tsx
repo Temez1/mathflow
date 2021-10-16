@@ -26,9 +26,10 @@ export default ({
     virtualKeyboardTheme: "material",
   })
 
-  const [responsiveMarginBottom, setResponsiveMarginBottom] = useState<
-    object | undefined
-  >()
+  const [
+    inputOffsetOnVirtualKeyboardVisible,
+    setInputOffsetOnVirtualKeyboardVisible,
+  ] = useState<object | undefined>()
 
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
@@ -38,7 +39,6 @@ export default ({
   }
 
   const handleTouch = () => {
-    console.log("touch")
     let viewportHeight = document.getElementById("root")?.clientHeight
 
     if (viewportHeight === undefined) {
@@ -59,13 +59,13 @@ export default ({
       heightOfVirtualKeyboardInPx - distanceFromBottomOfScreenInPx
     }px`
 
-    setResponsiveMarginBottom({ base: marginMobile, md: margin })
-
+    setInputOffsetOnVirtualKeyboardVisible({ base: marginMobile, md: margin })
+    window.scrollTo(0, document.body.scrollHeight)
     mfe.virtualKeyboardState = "visible"
   }
 
   const handleBlur = () => {
-    setResponsiveMarginBottom(undefined)
+    setInputOffsetOnVirtualKeyboardVisible(undefined)
   }
 
   useLayoutEffect(() => {
@@ -82,6 +82,8 @@ export default ({
         "change",
         handleOnEnterKeyPressedOrFocusLostAndValueChanged
       )
+      mfe.removeEventListener("touchstart", handleTouch)
+      mfe.removeEventListener("blur", handleBlur)
       ref.current?.removeChild(mfe)
     }
   }, [])
@@ -91,8 +93,8 @@ export default ({
       border="1px"
       rounded="md"
       boxShadow="base"
-      my="8"
-      mb={responsiveMarginBottom}
+      my={{ base: "4", md: "6" }}
+      mb={inputOffsetOnVirtualKeyboardVisible}
     >
       <div ref={ref} />
     </Box>

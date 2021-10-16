@@ -50,7 +50,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
   return {
     description: "Ratkaise",
-    descriptionLatex: `${numerator}/${denominator}`,
+    descriptionLatex: `${numerator} \\div ${denominator}`,
     steps,
     answers,
   }

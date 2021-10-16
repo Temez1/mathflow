@@ -17,10 +17,24 @@ interface Challenge {
   answers: Latex[] | undefined
 }
 
+interface InputGuidanceTextAndKeys {
+  text: string
+  keyboardKeys?: {
+    keyboardKey: string
+    combiner?: string
+  }[]
+}
+
+interface InputGuidance {
+  desktop: InputGuidanceTextAndKeys[]
+  mobile?: InputGuidanceTextAndKeys[]
+}
+
 interface SubTopic {
   name: string
   getChallenge: (currentSkillLevel: SkillLevels) => Challenge
   skillLevel: import("./SkillLevel").default
+  inputGuidance?: InputGuidance
 }
 
 interface Topic {
