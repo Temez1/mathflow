@@ -5,4 +5,4 @@ export const getRandomInt = (min: number, max: number): number => {
 }
 
 export const greatestCommonDivisor = (a: number, b: number): number =>
-  a ? greatestCommonDivisor(b % a, a) : b
+  a ? greatestCommonDivisor(b % a, a) : Math.abs(b)

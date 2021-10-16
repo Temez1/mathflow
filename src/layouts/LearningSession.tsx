@@ -19,6 +19,7 @@ export default () => {
       <Box
         as="button"
         position="fixed"
+        zIndex="1"
         top={exitButtonSpacingTop}
         right={responsiveConstants.mx}
         onClick={() => {

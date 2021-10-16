@@ -19,11 +19,14 @@ import {
   PopoverContent,
   PopoverTrigger,
   Box,
+  PopoverHeader,
+  Link,
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAnalytics, useFirestore } from "reactfire"
 import { logEvent } from "firebase/analytics"
+import { FaDiscord } from "react-icons/fa"
 import MathDisplay from "../../sharedComponents/MathDisplay"
 import MathField from "../../sharedComponents/MathField"
 import recommendationAlgorithm, {
@@ -392,10 +395,32 @@ export default () => {
 
       <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
 
-      <Flex direction="row-reverse">
+      <Flex direction="row-reverse" align="flex-end">
         <Button size="lg" onClick={showStep}>
           Vihje
         </Button>
+        <Popover returnFocusOnClose={false}>
+          <PopoverTrigger>
+            <Button size="xs" pr="2" variant="link">
+              Jäikö kysyttävää?
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverHeader>Tervetuloa yhteisöön!</PopoverHeader>
+            <PopoverBody>
+              <Text>
+                MathFlow:n yhteisö löytyy Discordista. Siellä voit kysyä apua
+                matematiikan opiskeluun, jakaa opiskeluvinkkejä tai antaa
+                palautetta sovelluksesta.
+              </Text>
+              <Link href="https://discord.gg/SgapBEqDXm" isExternal>
+                <Button rightIcon={<FaDiscord />} mt="2">
+                  Liity mukaan!
+                </Button>
+              </Link>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </Flex>
     </Flex>
   )

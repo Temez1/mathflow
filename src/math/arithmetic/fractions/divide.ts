@@ -1,9 +1,5 @@
 import { getRandomInt } from "../../utils"
-import {
-  simplifyNonZeroFraction,
-  fractionDivisionByZero,
-  fractionIsZero,
-} from "./utils"
+import { fractionNumeratorIsNegative, simplifyFraction } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const description = "Ratkaise ja sievennä"
@@ -30,9 +26,9 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
-          "Murtolukujen jakolasku muutetaan kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
+          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
@@ -51,9 +47,9 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
-          "Murtolukujen jakolasku muutetaan kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
+          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
@@ -72,9 +68,9 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
-          "Murtolukujen jakolasku muutetaan kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
+          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
@@ -93,9 +89,9 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
-          "Murtolukujen jakolasku muutetaan kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
+          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
@@ -113,22 +109,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const numeratorResult = aNumerator * bNumerator
   const denominatorResult = aDenominator * bDenominator
 
-  if (
-    fractionIsZero(
-      { numerator: numeratorResult, denominator: denominatorResult },
-      steps
-    )
-  ) {
-    const answers = [`0`]
-    return {
-      description,
-      descriptionLatex,
-      steps,
-      answers,
-    }
-  }
+  const simplifiedFraction = simplifyFraction(
+    {
+      numerator: numeratorResult,
+      denominator: denominatorResult,
+    },
+    steps
+  )
 
-  if (fractionDivisionByZero(denominatorResult, steps)) {
+  if (simplifiedFraction === undefined) {
     const answers = undefined
     return {
       description,
@@ -137,14 +126,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       answers,
     }
   }
-
-  const simplifiedFraction = simplifyNonZeroFraction(
-    {
-      numerator: numeratorResult,
-      denominator: denominatorResult,
-    },
-    steps
-  )
 
   if (typeof simplifiedFraction === "number") {
     const answers = [`${simplifiedFraction}`]
@@ -159,6 +140,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const answers = [
     `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
   ]
+
+  if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
+    answers.push(
+      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
+        simplifiedFraction.denominator
+      }}`
+    )
+  }
 
   return {
     description,

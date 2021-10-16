@@ -1,9 +1,9 @@
 import { getRandomInt } from "../../utils"
 import {
-  expandFractionsToHaveSameDenominator,
-  Fraction,
   fractionNumeratorIsNegative,
   simplifyFraction,
+  expandFractionsToHaveSameDenominator,
+  Fraction,
 } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
@@ -29,7 +29,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   let { expandedFractionA, expandedFractionB } =
-    expandFractionsToHaveSameDenominator(fractionA, fractionB, "+", steps)
+    expandFractionsToHaveSameDenominator(fractionA, fractionB, "-", steps)
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     steps = []
@@ -39,7 +39,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     bNumerator = getRandomInt(min, max)
     bDenominator = getRandomInt(min, max)
     aNumerator = getRandomInt(min, max)
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} - \\frac{${bNumerator}}{${bDenominator}}`
 
     fractionA = {
       numerator: aNumerator,
@@ -51,69 +51,69 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       denominator: bDenominator,
     }
     ;({ expandedFractionA, expandedFractionB } =
-      expandFractionsToHaveSameDenominator(fractionA, fractionB, "+", steps))
+      expandFractionsToHaveSameDenominator(fractionA, fractionB, "-", steps))
 
     steps.push(
       {
-        math: `=\\frac{${expandedFractionA.numerator}+${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
+        math: `=\\frac{${expandedFractionA.numerator}-${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
         explanation:
-          "Murtolukujen yhteenlasku tapahtuu laskemalla yläkerrat (osoittajat) yhteen.",
+          "Murtolukujen vähennyslasku tapahtuu vähentämällä yläkerrat (osoittajat) toisistaan.",
       },
       {
         math: `=\\frac{${
-          expandedFractionA.numerator + expandedFractionB.numerator
+          expandedFractionA.numerator - expandedFractionB.numerator
         }}{${expandedFractionA.denominator}}`,
       }
     )
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} - \\frac{${bNumerator}}{${bDenominator}}`
 
     steps.push(
       {
-        math: `=\\frac{${expandedFractionA.numerator}+${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
+        math: `=\\frac{${expandedFractionA.numerator}-${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
         explanation:
-          "Murtolukujen yhteenlasku tapahtuu laskemalla yläkerrat (osoittajat) yhteen.",
+          "Murtolukujen vähennyslasku tapahtuu vähentämällä yläkerrat (osoittajat) toisistaan.",
       },
       {
         math: `=\\frac{${
-          expandedFractionA.numerator + expandedFractionB.numerator
+          expandedFractionA.numerator - expandedFractionB.numerator
         }}{${expandedFractionA.denominator}}`,
       }
     )
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} - \\frac{${bNumerator}}{${bDenominator}}`
 
     steps.push(
       {
-        math: `=\\frac{${expandedFractionA.numerator}+${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
+        math: `=\\frac{${expandedFractionA.numerator}-${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
         explanation:
-          "Murtolukujen yhteenlasku tapahtuu laskemalla yläkerrat (osoittajat) yhteen.",
+          "Murtolukujen vähennyslasku tapahtuu vähentämällä yläkerrat (osoittajat) toisistaan.",
       },
       {
         math: `=\\frac{${
-          expandedFractionA.numerator + expandedFractionB.numerator
+          expandedFractionA.numerator - expandedFractionB.numerator
         }}{${expandedFractionA.denominator}}`,
       }
     )
   } else if (currentSkillLevel === "expert") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} - \\frac{${bNumerator}}{${bDenominator}}`
 
     steps.push(
       {
-        math: `=\\frac{${expandedFractionA.numerator}+${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
+        math: `=\\frac{${expandedFractionA.numerator}-${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
         explanation:
-          "Murtolukujen yhteenlasku tapahtuu laskemalla yläkerrat (osoittajat) yhteen.",
+          "Murtolukujen vähennyslasku tapahtuu vähentämällä yläkerrat (osoittajat) toisistaan.",
       },
       {
         math: `=\\frac{${
-          expandedFractionA.numerator + expandedFractionB.numerator
+          expandedFractionA.numerator - expandedFractionB.numerator
         }}{${expandedFractionA.denominator}}`,
       }
     )
   }
 
   const numeratorResult =
-    expandedFractionA.numerator + expandedFractionB.numerator
+    expandedFractionA.numerator - expandedFractionB.numerator
   const denominatorResult = expandedFractionA.denominator
 
   const simplifiedFraction = simplifyFraction(

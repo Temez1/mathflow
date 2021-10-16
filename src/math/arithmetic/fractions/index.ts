@@ -3,6 +3,7 @@ import SkillLevel from "../../SkillLevel"
 import inputGuidance from "./inputGuidance"
 import divideChallenge from "./divide"
 import sumChallenge from "./sum"
+import substractChallenge from "./substract"
 
 const subTopics = new Map<NameLowerCamelCase, SubTopic>()
 
@@ -23,6 +24,13 @@ subTopics.set("divide", {
 subTopics.set("sum", {
   name: "Yhteenlasku",
   getChallenge: sumChallenge,
+  skillLevel: new SkillLevel(),
+  inputGuidance,
+})
+
+subTopics.set("substract", {
+  name: "Vähennyslasku",
+  getChallenge: substractChallenge,
   skillLevel: new SkillLevel(),
   inputGuidance,
 })

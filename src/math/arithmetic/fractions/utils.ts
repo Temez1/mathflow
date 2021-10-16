@@ -5,14 +5,44 @@ export interface Fraction {
   denominator: number
 }
 
-export const simplifyNonZeroFraction = (
-  fraction: Fraction,
+const fractionDivisionByZero = (
+  denominator: number,
   steps: Step[]
-): Fraction | number => {
+): boolean => {
+  if (denominator === 0) {
+    steps.push({
+      math: `=määrittelemätön`,
+      explanation: "Nollalla jakamista ei ole määritelty",
+    })
+    return true
+  }
+  return false
+}
+
+const fractionIsZero = (fraction: Fraction, steps: Step[]): boolean => {
   const { numerator, denominator } = fraction
 
-  if (numerator === 0 || denominator === 0) {
-    return { numerator, denominator }
+  if (numerator === 0 && denominator !== 0) {
+    steps.push({
+      math: `=0`,
+    })
+    return true
+  }
+  return false
+}
+
+export const simplifyFraction = (
+  fraction: Fraction,
+  steps: Step[]
+): Fraction | number | undefined => {
+  const { numerator, denominator } = fraction
+
+  if (fractionDivisionByZero(denominator, steps)) {
+    return undefined
+  }
+
+  if (fractionIsZero(fraction, steps)) {
+    return 0
   }
 
   const gcd = greatestCommonDivisor(numerator, denominator)
@@ -46,41 +76,25 @@ export const simplifyNonZeroFraction = (
     }
   }
 
+  if (denominator === 1) {
+    steps.push({
+      math: `=${numerator}`,
+    })
+    return numerator
+  }
+
   return {
     numerator,
     denominator,
   }
 }
 
-export const fractionDivisionByZero = (
-  denominator: number,
-  steps: Step[]
-): boolean => {
-  if (denominator === 0) {
-    steps.push({
-      math: `=määrittelemätön`,
-      explanation: "Nollalla jakamista ei ole määritelty",
-    })
-    return true
-  }
-  return false
-}
-
-export const fractionIsZero = (fraction: Fraction, steps: Step[]): boolean => {
-  const { numerator, denominator } = fraction
-
-  if (numerator === 0 && denominator !== 0) {
-    steps.push({
-      math: `=0`,
-    })
-    return true
-  }
-  return false
-}
+export type ExpandFractionsOperator = "+" | "-"
 
 export const expandFractionsToHaveSameDenominator = (
   fractionA: Fraction,
   fractionB: Fraction,
+  operator: ExpandFractionsOperator,
   steps: Step[]
 ): { expandedFractionA: Fraction; expandedFractionB: Fraction } => {
   const { numerator: aNumerator, denominator: aDenominator } = fractionA
@@ -105,18 +119,30 @@ export const expandFractionsToHaveSameDenominator = (
       numerator: bNumerator * aDenominator,
       denominator: bDenominator * aDenominator,
     }
+
+    let explanation = ""
+
+    if (operator === "+") {
+      explanation =
+        "Ennen yhteenlaskua, pitää murtoluvut laventaa samannimisiksi. " +
+        "Samannimisyys tarkoittaa, että molempien lukujen alakerrat (nimittäjät) ovat samoja. " +
+        'Laventaminen samannimisiksi tapahtuu kertomalla murtoluvut "ristiin" toistensa nimittäjillä.'
+    } else if (operator === "-") {
+      explanation =
+        "Ennen vähennyslaskua, pitää murtoluvut laventaa samannimisiksi. " +
+        "Samannimisyys tarkoittaa, että molempien lukujen alakerrat (nimittäjät) ovat samoja. " +
+        'Laventaminen samannimisiksi tapahtuu kertomalla murtoluvut "ristiin" toistensa nimittäjillä.'
+    }
+
     steps.push(
       {
         math:
-          `\\frac{${aNumerator}*${bDenominator}}{${aDenominator}*${bDenominator}} + ` +
+          `=\\frac{${aNumerator}*${bDenominator}}{${aDenominator}*${bDenominator}} ${operator} ` +
           `\\frac{${bNumerator}*${aDenominator}}{${bDenominator}*${aDenominator}}`,
-        explanation:
-          "Ennen kuin murtoluvut voidaan laskea yhteen, pitää ne laventaa samannimisiksi. " +
-          "Samannimisyys tarkoittaa, että molempien lukujen nimittäjät (alakerrat) ovat samoja. " +
-          'Laventaminen samannimisiksi tapahtuu kertomalla murtoluvut "ristiin" toistensa nimittäjillä.',
+        explanation,
       },
       {
-        math: `\\frac{${expandedFractionA.numerator}}{${expandedFractionA.denominator}} + \\frac{${expandedFractionB.numerator}}{${expandedFractionB.denominator}}`,
+        math: `=\\frac{${expandedFractionA.numerator}}{${expandedFractionA.denominator}} ${operator} \\frac{${expandedFractionB.numerator}}{${expandedFractionB.denominator}}`,
       }
     )
 
@@ -124,4 +150,24 @@ export const expandFractionsToHaveSameDenominator = (
   }
 
   return { expandedFractionA: fractionA, expandedFractionB: fractionB }
+}
+
+export const fractionNumeratorIsNegative = (
+  fraction: Fraction,
+  steps: Step[]
+): boolean => {
+  if (fraction.numerator < 0) {
+    const lastStep = steps.pop()
+
+    if (lastStep) {
+      steps.push({
+        math: `${lastStep?.math}=-\\frac{${Math.abs(fraction.numerator)}}{${
+          fraction.denominator
+        }}`,
+        explanation: lastStep.explanation,
+      })
+    }
+    return true
+  }
+  return false
 }
