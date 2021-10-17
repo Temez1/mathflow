@@ -337,7 +337,18 @@ export default () => {
         </Alert>
       )}
 
-      <Flex>
+      <Flex direction="row-reverse" align="baseline">
+        <Button
+          size="xs"
+          onClick={() => {
+            checkAnswer("määrittelemätön")
+          }}
+        >
+          Määrittelemätön
+        </Button>
+
+        <Spacer />
+
         {subTopic.subTopic.inputGuidance && (
           <Popover returnFocusOnClose={false} placement="top-end">
             <PopoverTrigger>
