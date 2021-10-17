@@ -1,4 +1,4 @@
-import { Flex, Center, Icon, Text } from "@chakra-ui/react"
+import { Flex, Center, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { MdHome, MdShowChart, MdPerson } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 
@@ -7,6 +7,7 @@ export const bottomNavBarHeightInPixels = 56
 export default () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const bgColor = useColorModeValue("white", "gray.800")
 
   return (
     <Flex
@@ -18,6 +19,7 @@ export default () => {
       borderTop="1px"
       borderColor="gray.300"
       as="nav"
+      bg={bgColor}
     >
       <Flex
         as="button"
