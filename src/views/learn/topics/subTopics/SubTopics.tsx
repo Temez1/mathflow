@@ -1,12 +1,12 @@
-import { Flex, Heading, Icon } from "@chakra-ui/react"
+import { Flex, Heading, Text, Icon, Progress } from "@chakra-ui/react"
 import { MdChevronRight } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
-import useSubTopicsEntries from "../../hooks/useSubTopicsEntries"
-import AppBar from "../../layouts/app/AppBar"
-import CardsLayout from "../../layouts/CardsLayout"
-import Card from "../../sharedComponents/Card"
-import Loading from "../../sharedComponents/Loading"
-import Error from "../../sharedComponents/Error"
+import useSubTopicsEntries from "../../../../hooks/useSubTopicsEntries"
+import AppBar from "../../../../layouts/app/AppBar"
+import CardsLayout from "../../../../layouts/CardsLayout"
+import Card from "../../../../sharedComponents/Card"
+import Loading from "../../../../sharedComponents/Loading"
+import Error from "../../../../sharedComponents/Error"
 
 export interface SubTopicViewNavigateState {
   mode: LearningSessionMode
@@ -61,6 +61,17 @@ export default () => {
                 {subTopic.name}
               </Heading>
               <Icon boxSize="10" as={MdChevronRight} />
+            </Flex>
+            <Flex align="center">
+              <Progress
+                w="70%"
+                rounded="md"
+                value={subTopic.skillLevel.getSkillLevelPercentage()}
+                colorScheme="green"
+              />
+              <Text pl="8" fontSize="lg" display="inline">
+                {subTopic.skillLevel.getSkillLevel()}
+              </Text>
             </Flex>
           </Card>
         ))}

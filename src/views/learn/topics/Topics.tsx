@@ -1,12 +1,13 @@
-import { Flex, Heading, Icon } from "@chakra-ui/react"
+import { Box, Flex, Heading, Icon, Progress } from "@chakra-ui/react"
 import { MdChevronRight } from "react-icons/md"
 import { useNavigate, useParams } from "react-router-dom"
-import useTopicsEntries from "../../hooks/useTopicsEntries"
-import AppBar from "../../layouts/app/AppBar"
-import CardsLayout from "../../layouts/CardsLayout"
-import Card from "../../sharedComponents/Card"
-import Loading from "../../sharedComponents/Loading"
-import Error from "../../sharedComponents/Error"
+import useTopicsEntries from "../../../hooks/useTopicsEntries"
+import AppBar from "../../../layouts/app/AppBar"
+import CardsLayout from "../../../layouts/CardsLayout"
+import Card from "../../../sharedComponents/Card"
+import Loading from "../../../sharedComponents/Loading"
+import Error from "../../../sharedComponents/Error"
+import { calculateTopicProgressPercentage } from "./utils"
 
 export default () => {
   const navigate = useNavigate()
@@ -18,7 +19,6 @@ export default () => {
   }
 
   const { topicEntries, state } = useTopicsEntries(categoryKey)
-
   if (state === "Running") {
     return <Loading text="Haetaan aihealueita" />
   }
@@ -41,6 +41,15 @@ export default () => {
               </Heading>
               <Icon boxSize="10" as={MdChevronRight} />
             </Flex>
+            <Box pt="2">
+              <Progress
+                rounded="md"
+                value={calculateTopicProgressPercentage([
+                  ...topic.subTopics.values(),
+                ])}
+                colorScheme="green"
+              />
+            </Box>
           </Card>
         ))}
       </CardsLayout>

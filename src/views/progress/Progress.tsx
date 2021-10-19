@@ -1,11 +1,9 @@
-import { Heading } from "@chakra-ui/react"
 import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
 
-import HeaderLayout from "../../layouts/app/HeaderLayout"
 import CardsLayout from "../../layouts/CardsLayout"
 import Loading from "../../sharedComponents/Loading"
 import Error from "../../sharedComponents/Error"
-import TopicProgressCard from "./TopicProgressCard"
+import CategoryProgressCard from "./CategoryProgressCard"
 
 export default () => {
   const { categories, state: categoriesState } = useCategories()
@@ -18,17 +16,10 @@ export default () => {
     return <Error text="Taitotasoja ei löytynyt. Yritä päivittää sivu." />
   }
   return (
-    <>
-      <HeaderLayout>
-        <Heading size="xl">Edistyminen</Heading>
-      </HeaderLayout>
-      <CardsLayout>
-        {[...categories].map(([, category]) =>
-          [...category.topics].map(([, topic]) => (
-            <TopicProgressCard key={topic.name} topic={topic} />
-          ))
-        )}
-      </CardsLayout>
-    </>
+    <CardsLayout>
+      {[...categories].map(([, category]) => (
+        <CategoryProgressCard key={category.name} category={category} />
+      ))}
+    </CardsLayout>
   )
 }
