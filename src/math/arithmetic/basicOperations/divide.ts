@@ -28,7 +28,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     numerator = denominator * getRandomInt(min, max)
   }
 
-  let steps: Step[] = []
+  let steps: Steps = []
   let answers: Latex[] | undefined = []
 
   if (denominator === 0) {

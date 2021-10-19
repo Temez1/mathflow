@@ -7,6 +7,7 @@ import {
 import { createContext, useEffect, useState, useContext } from "react"
 import { useFirestore } from "reactfire"
 import arithmetic from "../math/arithmetic"
+import algebra from "../math/algebra"
 import { useCurrentUser } from "./UserContextProvider"
 
 export interface ICategoriesContext {
@@ -37,6 +38,11 @@ export const CategoriesProvider = ({
     c.set("arithmetic", {
       name: "Aritmetiikka",
       topics: arithmetic,
+    })
+
+    c.set("algebra", {
+      name: "Algebra",
+      topics: algebra,
     })
 
     const userSkillLevelsSnapshot = await getDocsFromServer(
