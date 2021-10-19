@@ -5,10 +5,7 @@ export interface Fraction {
   denominator: number
 }
 
-const fractionDivisionByZero = (
-  denominator: number,
-  steps: Step[]
-): boolean => {
+const fractionDivisionByZero = (denominator: number, steps: Steps): boolean => {
   if (denominator === 0) {
     steps.push({
       math: `=määrittelemätön`,
@@ -19,7 +16,7 @@ const fractionDivisionByZero = (
   return false
 }
 
-const fractionIsZero = (fraction: Fraction, steps: Step[]): boolean => {
+const fractionIsZero = (fraction: Fraction, steps: Steps): boolean => {
   const { numerator, denominator } = fraction
 
   if (numerator === 0 && denominator !== 0) {
@@ -33,7 +30,7 @@ const fractionIsZero = (fraction: Fraction, steps: Step[]): boolean => {
 
 export const simplifyFraction = (
   fraction: Fraction,
-  steps: Step[]
+  steps: Steps
 ): Fraction | number | undefined => {
   const { numerator, denominator } = fraction
 
@@ -95,7 +92,7 @@ export const expandFractionsToHaveSameDenominator = (
   fractionA: Fraction,
   fractionB: Fraction,
   operator: ExpandFractionsOperator,
-  steps: Step[]
+  steps: Steps
 ): { expandedFractionA: Fraction; expandedFractionB: Fraction } => {
   const { numerator: aNumerator, denominator: aDenominator } = fractionA
   const { numerator: bNumerator, denominator: bDenominator } = fractionB
@@ -154,7 +151,7 @@ export const expandFractionsToHaveSameDenominator = (
 
 export const fractionNumeratorIsNegative = (
   fraction: Fraction,
-  steps: Step[]
+  steps: Steps
 ): boolean => {
   if (fraction.numerator < 0) {
     const lastStep = steps.pop()

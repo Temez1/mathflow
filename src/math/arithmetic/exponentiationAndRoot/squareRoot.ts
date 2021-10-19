@@ -26,7 +26,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     a *= a
   }
 
-  let steps: Step[] = []
+  let steps: Steps = []
   let answers: Latex[] | undefined = []
 
   if (a < 0) {

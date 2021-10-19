@@ -13,7 +13,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const squareRoot = squareRootAnswer * squareRootAnswer
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
   let answers: Latex[] | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {

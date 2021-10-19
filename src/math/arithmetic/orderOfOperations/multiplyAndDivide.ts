@@ -12,7 +12,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const f = getRandomInt(min, max)
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
   let answers: Latex[] | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {

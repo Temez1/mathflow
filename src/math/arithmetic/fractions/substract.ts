@@ -12,7 +12,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let max = 9
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
 
   let aNumerator = getRandomInt(min, max)
   let aDenominator = getRandomInt(min, max)

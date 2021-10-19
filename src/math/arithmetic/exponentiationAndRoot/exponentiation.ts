@@ -32,7 +32,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
   const exponent = getRandomInt(exponentMin, exponentMax)
 
-  let steps: Step[] = []
+  let steps: Steps = []
   let answers: Latex[] | undefined = []
 
   if (exponent === 0 && base !== 0) {
