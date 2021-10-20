@@ -13,7 +13,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
   let descriptionLatex = ""
   let steps: Steps = []
-  let answers: Latex[] | undefined = []
+  let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     descriptionLatex = `${a}+${b}*${c}`
@@ -25,7 +25,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
       { math: `=${a + b * c}` },
     ]
-    answers = [`${a + b * c}`]
+    answers = [{ terms: [`${a + b * c}`] }]
   } else if (currentSkillLevel === "skilled") {
     descriptionLatex = `${a}+${b}*${c}+${d}*(${e}+${f})`
     steps = [
@@ -49,7 +49,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + b * c + d * (e + f)}`,
       },
     ]
-    answers = [`${a + b * c + d * (e + f)}`]
+    answers = [{ terms: [`${a + b * c + d * (e + f)}`] }]
   } else if (currentSkillLevel === "pro") {
     descriptionLatex = `${a}+${b}*${c}+${d}*(${e}+${f})`
     steps = [
@@ -73,31 +73,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + b * c + d * (e + f)}`,
       },
     ]
-    answers = [`${a + b * c + d * (e + f)}`]
-  } else if (currentSkillLevel === "expert") {
-    descriptionLatex = `${a}+${b}*${c}+${d}*(${e}+${f})`
-    steps = [
-      {
-        math: `=${a}+${b}*${c}+${d}*${e + f}`,
-        explanation: "Ratkaistaan ensin sulut, niinkuin aina.",
-      },
-      {
-        math: `=${a}+${b * c}+${d}*${e + f}`,
-        explanation: "Ratkaistaan ensimmäinen kertolasku ennen yhteenlaskuja",
-      },
-      {
-        math: `=${a}+${b * c}+${d * (e + f)}`,
-        explanation: "Ratkaistaan toinen kertolasku ennen yhteenlaskuja",
-      },
-      {
-        math: `=${a + b * c}+${d * (e + f)}`,
-        explanation: "Ratkaistaan ensimmäinen yhteenlasku",
-      },
-      {
-        math: `=${a + b * c + d * (e + f)}`,
-      },
-    ]
-    answers = [`${a + b * c + d * (e + f)}`]
+    answers = [{ terms: [`${a + b * c + d * (e + f)}`] }]
   }
 
   return {

@@ -65,21 +65,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         }}`,
       },
     ]
-  } else if (currentSkillLevel === "expert") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
-
-    steps = [
-      {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
-        explanation:
-          "Murtolukujen kertolaskussa molempien murtolukujen yläkerrat (osoittajat) ja alakerrat (nimittäjät) kerrotaan yhteen.",
-      },
-      {
-        math: `=\\frac{${aNumerator * bNumerator}}{${
-          aDenominator * bDenominator
-        }}`,
-      },
-    ]
   }
 
   const numeratorResult = aNumerator * bNumerator
@@ -104,7 +89,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   if (typeof simplifiedFraction === "number") {
-    const answers = [`${simplifiedFraction}`]
+    const answers = [{ terms: [`${simplifiedFraction}`] }]
     return {
       description,
       descriptionLatex,
@@ -114,15 +99,21 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   const answers = [
-    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    {
+      terms: [
+        `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+      ],
+    },
   ]
 
   if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push(
-      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-        simplifiedFraction.denominator
-      }}`
-    )
+    answers.push({
+      terms: [
+        `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
+          simplifiedFraction.denominator
+        }}`,
+      ],
+    })
   }
 
   return {

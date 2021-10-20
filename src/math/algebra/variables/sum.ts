@@ -3,7 +3,7 @@ import { getRandomInt } from "../../utils"
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const steps: Steps = []
   let descriptionLatex = ""
-  let answers: Latex[] | undefined = []
+  let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     const amountOfVariables = getRandomInt(2, 6)
@@ -18,7 +18,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         "Kertomerkki jätetään merkitsemättä, nopeamman kirjoittamisen takia. " +
         "Tämä on yleisesti hyväksytty tapa.",
     })
-    answers = [`${amountOfVariables}x`]
+    answers = [{ terms: [`${amountOfVariables}x`] }]
   } else if (currentSkillLevel === "skilled") {
     const a = getRandomInt(1, 10)
     const b = getRandomInt(1, 10)
@@ -38,20 +38,10 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + c}x+${b}x^2+${d}`,
         explanation:
           'Vain samankaltaiset termit lasketaan yhteen. Googlaa "termi matematiikka" termin määritelmälle. ' +
-          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti on sama.",
-      },
-      {
-        math: `=${b}x^2+${a + c}x+${d}`,
-        explanation:
-          "Luulit varmaan, että oltiin jo valmiita. Pahoittelut tästä viimeisestä välivaiheesta. " +
-          "Tehdään pieni sopimus. Tai no teknisesti ottaen sinulla ei ole vaihtoehtoja :D. Sovitaan, " +
-          "että järjestetään termit aina seuraavasti. Ensin tulee muuttujat, suurimmasta exponentista pienimpään " +
-          "ja lopuksi luvut. Mahdat miettiä miksi ihmeessä? Ensinnäkin, minun ei tarvitse kirjoittaa kaikkia eri " +
-          "vastausvaihtoehtoja erikseen (laiskuus). Toiseksi, tästä järjestelmällisyydestä saattaa olla jopa " +
-          "hyötyä sinullekkin jatkossa vaikeampien tehtävien kohdalla.",
+          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
       }
     )
-    answers = [`${b}x^2+${a + c}x+${d}`]
+    answers = [{ terms: [`${b}x^2`, `${a + c}x`, `${d}`] }]
   } else if (currentSkillLevel === "pro") {
     const a = getRandomInt(1, 10)
     const b = getRandomInt(1, 10)
@@ -71,20 +61,10 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + c}x+${b}x^2+${d}`,
         explanation:
           'Vain samankaltaiset termit lasketaan yhteen. Googlaa "termi matematiikka" termin määritelmälle. ' +
-          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti on sama.",
-      },
-      {
-        math: `=${b}x^2+${a + c}x+${d}`,
-        explanation:
-          "Luulit varmaan, että oltiin jo valmiita. Pahoittelut tästä viimeisestä välivaiheesta. " +
-          "Tehdään pieni sopimus. Tai no teknisesti ottaen sinulla ei ole vaihtoehtoja :D. Sovitaan, " +
-          "että järjestetään termit aina seuraavasti. Ensin tulee muuttujat, suurimmasta exponentista pienimpään " +
-          "ja lopuksi luvut. Mahdat miettiä miksi ihmeessä? Ensinnäkin, minun ei tarvitse kirjoittaa kaikkia eri " +
-          "vastausvaihtoehtoja erikseen (laiskuus). Toiseksi, tästä järjestelmällisyydestä saattaa olla jopa " +
-          "hyötyä sinullekkin jatkossa vaikeampien tehtävien kohdalla.",
+          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
       }
     )
-    answers = [`${b}x^2+${a + c}x+${d}`]
+    answers = [{ terms: [`${b}x^2`, `${a + c}x`, `${d}`] }]
   }
 
   return {

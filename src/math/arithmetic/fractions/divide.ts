@@ -83,27 +83,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         }}`,
       },
     ]
-  } else if (currentSkillLevel === "expert") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\div \\frac{${bNumerator}}{${bDenominator}}`
-    ;[bNumerator, bDenominator] = [bDenominator, bNumerator]
-
-    steps = [
-      {
-        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
-        explanation:
-          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
-          "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
-          "alkuperäisen murtoluvun vastaluvuksi.",
-      },
-      {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
-      },
-      {
-        math: `=\\frac{${aNumerator * bNumerator}}{${
-          aDenominator * bDenominator
-        }}`,
-      },
-    ]
   }
 
   const numeratorResult = aNumerator * bNumerator
@@ -128,7 +107,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   if (typeof simplifiedFraction === "number") {
-    const answers = [`${simplifiedFraction}`]
+    const answers = [{ terms: [`${simplifiedFraction}`] }]
     return {
       description,
       descriptionLatex,
@@ -138,15 +117,21 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   const answers = [
-    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    {
+      terms: [
+        `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+      ],
+    },
   ]
 
   if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push(
-      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-        simplifiedFraction.denominator
-      }}`
-    )
+    answers.push({
+      terms: [
+        `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
+          simplifiedFraction.denominator
+        }}`,
+      ],
+    })
   }
 
   return {

@@ -1,4 +1,5 @@
 import { getRandomInt } from "../../utils"
+import { divisionByZero } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   let min = 0
@@ -13,9 +14,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   } else if (currentSkillLevel === "pro") {
     min = 0
     max = 15
-  } else if (currentSkillLevel === "expert") {
-    min = -20
-    max = 20
   }
 
   const denominator = getRandomInt(min, max)
@@ -29,15 +27,9 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   let steps: Steps = []
-  let answers: Latex[] | undefined = []
+  let answers: Answers | undefined = []
 
-  if (denominator === 0) {
-    steps = [
-      {
-        math: "=määrittelemätön",
-        explanation: "Nollalla jakamista ei ole määritelty",
-      },
-    ]
+  if (divisionByZero(denominator, steps)) {
     answers = undefined
   } else {
     steps = [
@@ -45,7 +37,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${numerator / denominator}`,
       },
     ]
-    answers = [`${numerator / denominator}`]
+    answers = [{ terms: [`${numerator / denominator}`] }]
   }
 
   return {

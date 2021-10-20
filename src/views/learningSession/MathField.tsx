@@ -2,21 +2,17 @@ import { useLayoutEffect, useRef, useState } from "react"
 
 import { MathfieldElement } from "mathlive"
 import "mathlive/dist/mathlive-fonts.css"
-import { OutputFormat } from "mathlive/dist/public/mathfield"
 import { Box } from "@chakra-ui/react"
 
 const IS_DEV = import.meta.env.DEV
 const RELATIVE_PUBLIC_DIR_PATH = IS_DEV ? "../../" : "../"
 
 export interface MathFieldProps {
-  onEnterKeyPressedOrFocusLostAndValueChanged?: (newValue: string) => void
-  format?: OutputFormat
+  onEnterKeyPressedOrFocusLostAndValueChanged: (answer: Answer) => void
 }
 
-export default ({
-  onEnterKeyPressedOrFocusLostAndValueChanged = () => null,
-  format = "latex",
-}: MathFieldProps) => {
+export default (props: MathFieldProps) => {
+  const { onEnterKeyPressedOrFocusLostAndValueChanged } = props
   const ref = useRef<HTMLInputElement>(null)
   const mfe = new MathfieldElement({
     virtualKeyboardMode: "off",
@@ -31,9 +27,19 @@ export default ({
     setInputOffsetOnVirtualKeyboardVisible,
   ] = useState<object | undefined>()
 
+  const parseInputToAnswer = (input: string): Answer => {
+    let terms = input.split("+")
+    console.log(terms)
+
+    terms = terms.flatMap((term) => term.split(/(?=-)/g))
+    console.log(terms)
+
+    return { terms }
+  }
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
-      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.getValue(format))
+      const answer = parseInputToAnswer(mfe.value)
+      onEnterKeyPressedOrFocusLostAndValueChanged(answer)
       mfe.setValue("")
     }
   }

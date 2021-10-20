@@ -1,19 +1,9 @@
 import { greatestCommonDivisor } from "../../utils"
+import { divisionByZero } from "../basicOperations/utils"
 
 export interface Fraction {
   numerator: number
   denominator: number
-}
-
-const fractionDivisionByZero = (denominator: number, steps: Steps): boolean => {
-  if (denominator === 0) {
-    steps.push({
-      math: `=määrittelemätön`,
-      explanation: "Nollalla jakamista ei ole määritelty",
-    })
-    return true
-  }
-  return false
 }
 
 const fractionIsZero = (fraction: Fraction, steps: Steps): boolean => {
@@ -34,7 +24,7 @@ export const simplifyFraction = (
 ): Fraction | number | undefined => {
   const { numerator, denominator } = fraction
 
-  if (fractionDivisionByZero(denominator, steps)) {
+  if (divisionByZero(denominator, steps)) {
     return undefined
   }
 
