@@ -1,4 +1,5 @@
 import { getRandomInt } from "../../utils"
+import { Term, simplifyTerm } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const steps: Steps = []
@@ -42,12 +43,18 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a * b}*x^${exponentA}*x^${exponentB}`,
       },
       {
-        math: `=${a * b}*x^${exponentA + exponentB}`,
+        math: `=${a * b}x^${exponentA + exponentB}`,
         explanation:
           "Saman kantaluvun eksponentit summataan yhteen. Kantaluku voi olla myös muuttuja.",
       }
     )
-    answers = [{ terms: [`${a * b}*x^${exponentA + exponentB}`] }]
+
+    const term: Term = {
+      coefficient: a * b,
+      variable: "x",
+      exponent: exponentA + exponentB,
+    }
+    answers = [{ terms: [simplifyTerm(term, steps)] }]
   } else if (currentSkillLevel === "pro") {
     const a = getRandomInt(1, 9)
     const b = getRandomInt(0, 9)
@@ -72,12 +79,18 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a * b}*x^${exponentA}*x^${exponentB}`,
       },
       {
-        math: `=${a * b}*x^${exponentA + exponentB}`,
+        math: `=${a * b}x^${exponentA + exponentB}`,
         explanation:
           "Saman kantaluvun eksponentit summataan yhteen. Kantaluku voi olla myös muuttuja.",
       }
     )
-    answers = [{ terms: [`${a * b}*x^${exponentA + exponentB}`] }]
+
+    const term: Term = {
+      coefficient: a * b,
+      variable: "x",
+      exponent: exponentA + exponentB,
+    }
+    answers = [{ terms: [simplifyTerm(term, steps)] }]
   }
 
   return {

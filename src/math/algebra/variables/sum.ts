@@ -21,7 +21,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     answers = [{ terms: [`${amountOfVariables}x`] }]
   } else if (currentSkillLevel === "skilled") {
     const a = getRandomInt(1, 10)
-    const b = getRandomInt(1, 10)
+    const b = getRandomInt(2, 10)
     const c = getRandomInt(1, 10)
     const d = getRandomInt(1, 10)
 
@@ -29,7 +29,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps.push(
       {
-        math: `${a}x+${c}x+${b}x^2+${d}`,
+        math: `=${a}x+${c}x+${b}x^2+${d}`,
         explanation:
           "Yhteenlaskuihin pätee vaihdantalaki. Vaihdantalaki tarkoittaa, että voidaan vaihtaa termien paikkaa. " +
           "Ei ole siis väliä, missä järjestyksessä teet yhteenlaskun. Päädyt aina samaan lopputulokseen.",
@@ -41,10 +41,10 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
           "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
       }
     )
-    answers = [{ terms: [`${b}x^2`, `${a + c}x`, `${d}`] }]
+    answers = [{ terms: [`${b}x^2+${a + c}x+${d}`] }]
   } else if (currentSkillLevel === "pro") {
     const a = getRandomInt(1, 10)
-    const b = getRandomInt(1, 10)
+    const b = getRandomInt(2, 10)
     const c = getRandomInt(1, 10)
     const d = getRandomInt(1, 10)
 
@@ -52,7 +52,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps.push(
       {
-        math: `${a}x+${c}x+${b}x^2+${d}`,
+        math: `=${a}x+${c}x+${b}x^2+${d}`,
         explanation:
           "Yhteenlaskuihin pätee vaihdantalaki. Vaihdantalaki tarkoittaa, että voidaan vaihtaa termien paikkaa. " +
           "Ei ole siis väliä, missä järjestyksessä teet yhteenlaskun. Päädyt aina samaan lopputulokseen.",
