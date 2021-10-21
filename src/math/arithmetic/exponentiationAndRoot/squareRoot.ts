@@ -13,9 +13,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   } else if (currentSkillLevel === "pro") {
     min = -10
     max = 10
-  } else if (currentSkillLevel === "expert") {
-    min = -10
-    max = 10
   }
 
   let a = getRandomInt(min, max)
@@ -26,8 +23,8 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     a *= a
   }
 
-  let steps: Step[] = []
-  let answers: Latex[] | undefined = []
+  let steps: Steps = []
+  let answers: Answers | undefined = []
 
   if (a < 0) {
     steps = [
@@ -47,7 +44,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         }, mikä on alkuperäinen luku neliöjuuressa`,
       },
     ]
-    answers = [`${solvedA}`]
+    answers = [{ terms: [`${solvedA}`] }]
   }
 
   return {

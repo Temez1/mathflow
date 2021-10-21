@@ -28,7 +28,7 @@ import { useAnalytics, useFirestore } from "reactfire"
 import { logEvent } from "firebase/analytics"
 import { FaDiscord } from "react-icons/fa"
 import MathDisplay from "../../sharedComponents/MathDisplay"
-import MathField from "../../sharedComponents/MathField"
+import MathField from "./MathField"
 import recommendationAlgorithm, {
   SubTopicWithPath,
   ALL_DONE,
@@ -245,14 +245,27 @@ export default () => {
     setSteps([])
   }
 
-  const checkAnswer = (studentAnswer: string) => {
+  const answersEquals = (answerA: Answer, answerB: Answer): boolean => {
+    if (answerA.terms.length !== answerB.terms.length) {
+      return false
+    }
+
+    for (const termA of answerA.terms) {
+      if (!answerB.terms.includes(termA)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  const checkAnswer = (studentAnswer: Answer) => {
     if (challengeRef.current === null) {
       return
     }
 
     if (challengeRef.current.answers === undefined) {
       for (const undefinedAnswer of UNDEFINED_ANSWERS) {
-        if (studentAnswer.toLowerCase() === undefinedAnswer) {
+        if (studentAnswer.terms[0].toLowerCase() === undefinedAnswer) {
           updateLearningSessionRightAnswer()
           console.log(sessionAnswers)
           return
@@ -261,7 +274,7 @@ export default () => {
     } else {
       for (const answer of challengeRef.current.answers) {
         console.log("student answer", studentAnswer, " answer", answer)
-        if (studentAnswer === answer) {
+        if (answersEquals(studentAnswer, answer)) {
           updateLearningSessionRightAnswer()
           console.log(sessionAnswers)
           return
@@ -341,7 +354,7 @@ export default () => {
         <Button
           size="xs"
           onClick={() => {
-            checkAnswer("määrittelemätön")
+            checkAnswer({ terms: ["määrittelemätön"] })
           }}
         >
           Määrittelemätön
