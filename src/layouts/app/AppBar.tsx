@@ -1,4 +1,4 @@
-import { Flex, Heading, Icon } from "@chakra-ui/react"
+import { Flex, Heading, Icon, useColorModeValue } from "@chakra-ui/react"
 import { MdChevronLeft } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
 
@@ -12,6 +12,7 @@ interface AppBarProps {
 export default (props: AppBarProps) => {
   const { title, navigateBackTo } = props
   const navigate = useNavigate()
+  const bgColor = useColorModeValue("white", "gray.800")
 
   return (
     <Flex
@@ -24,6 +25,8 @@ export default (props: AppBarProps) => {
       borderColor="gray.300"
       as="nav"
       align="center"
+      bg={bgColor}
+      zIndex="1"
     >
       <Flex
         pl="1"
