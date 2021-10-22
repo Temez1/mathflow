@@ -31,53 +31,53 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       }
     )
 
-    answers = [{ terms: [`${a + c * d}x^2+${b}x+${e}`] }]
+    answers = [`${a + c * d}x^2+${b}x+${e}`]
   } else if (currentSkillLevel === "skilled") {
     descriptionLatex = `(${a}x+${b}*${c}x)*(${d}x+${e})`
 
     steps.push(
       {
-        math: `(${a}x+${b * c}x)*(${d}x+${e})`,
+        math: `=(${a}x+${b * c}x)*(${d}x+${e})`,
         explanation:
           "Lasketaan suluissa olevat laskut ensin. Aloitetaan kertolaskusta.",
       },
       {
-        math: `${a + b * c}x*(${d}x+${e})`,
+        math: `=${a + b * c}x*(${d}x+${e})`,
         explanation: "Lasketaan samankaltaiset termit yhteen.",
       },
       {
-        math: `${a + b * c}x*${d}x+${a + b * c}x*${e}`,
+        math: `=${a + b * c}x*${d}x+${a + b * c}x*${e}`,
         explanation:
           "Sulut avataan kertomalla sulkujen sisässä olevat termit sulkujen edessä olevalla termillä.",
       },
       {
-        math: `${(a + b * c) * d}x^2+${(a + b * c) * e}x`,
+        math: `=${(a + b * c) * d}x^2+${(a + b * c) * e}x`,
       }
     )
-    answers = [{ terms: [`${(a + b * c) * d}x^2+${(a + b * c) * e}x`] }]
+    answers = [`${(a + b * c) * d}x^2+${(a + b * c) * e}x`]
   } else if (currentSkillLevel === "pro") {
     descriptionLatex = `(${a}x+${b}*${c}x)*(${d}x+${e})`
 
     steps.push(
       {
-        math: `(${a}x+${b * c}x)*(${d}x+${e})`,
+        math: `=(${a}x+${b * c}x)*(${d}x+${e})`,
         explanation:
           "Lasketaan suluissa olevat laskut ensin. Aloitetaan kertolaskusta.",
       },
       {
-        math: `${a + b * c}x*(${d}x+${e})`,
+        math: `=${a + b * c}x*(${d}x+${e})`,
         explanation: "Lasketaan samankaltaiset termit yhteen.",
       },
       {
-        math: `${a + b * c}x*${d}x+${a + b * c}x*${e}`,
+        math: `=${a + b * c}x*${d}x+${a + b * c}x*${e}`,
         explanation:
           "Sulut avataan kertomalla sulkujen sisässä olevat termit sulkujen edessä olevalla termillä.",
       },
       {
-        math: `${(a + b * c) * d}x^2+${(a + b * c) * e}x`,
+        math: `=${(a + b * c) * d}x^2+${(a + b * c) * e}x`,
       }
     )
-    answers = [{ terms: [`${(a + b * c) * d}x^2+${(a + b * c) * e}x`] }]
+    answers = [`${(a + b * c) * d}x^2+${(a + b * c) * e}x`]
   }
 
   return {

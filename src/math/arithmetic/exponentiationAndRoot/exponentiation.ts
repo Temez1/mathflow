@@ -37,7 +37,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         explanation: "Kaikki nollaa suuremmat luvut potenssiin nolla on yksi.",
       },
     ]
-    answers = [{ terms: ["1"] }]
+    answers = ["1"]
   } else if (exponent === 0 && base === 0) {
     steps = [
       {
@@ -62,7 +62,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${base ** exponent}`,
       },
     ]
-    answers = [{ terms: [`${base ** exponent}`] }]
+    answers = [`${base ** exponent}`]
   }
 
   return {

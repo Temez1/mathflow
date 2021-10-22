@@ -18,7 +18,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         "Muuttujaan pätee samat laskusäännöt kuin lukuihin. " +
         "Potenssi on lyhennysmerkintä saman luvun tai muuttujan toistuvalle kertolaskulle.",
     })
-    answers = [{ terms: [`x^${amountOfVariables}`] }]
+    answers = [`x^${amountOfVariables}`]
   } else if (currentSkillLevel === "skilled") {
     const a = getRandomInt(1, 9)
     const b = getRandomInt(0, 9)
@@ -54,7 +54,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       variable: "x",
       exponent: exponentA + exponentB,
     }
-    answers = [{ terms: [simplifyTerm(term, steps)] }]
+    answers = [simplifyTerm(term, steps)]
   } else if (currentSkillLevel === "pro") {
     const a = getRandomInt(1, 9)
     const b = getRandomInt(0, 9)
@@ -90,7 +90,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       variable: "x",
       exponent: exponentA + exponentB,
     }
-    answers = [{ terms: [simplifyTerm(term, steps)] }]
+    answers = [simplifyTerm(term, steps)]
   }
 
   return {

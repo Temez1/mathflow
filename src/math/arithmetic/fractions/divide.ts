@@ -107,7 +107,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   if (typeof simplifiedFraction === "number") {
-    const answers = [{ terms: [`${simplifiedFraction}`] }]
+    const answers = [`${simplifiedFraction}`]
     return {
       description,
       descriptionLatex,
@@ -117,21 +117,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   }
 
   const answers = [
-    {
-      terms: [
-        `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
-      ],
-    },
+    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
   ]
 
   if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push({
-      terms: [
-        `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-          simplifiedFraction.denominator
-        }}`,
-      ],
-    })
+    answers.push(
+      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
+        simplifiedFraction.denominator
+      }}`
+    )
   }
 
   return {
