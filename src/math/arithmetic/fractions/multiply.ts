@@ -7,7 +7,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let max = 9
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
 
   let aNumerator = getRandomInt(min, max)
   let aDenominator = getRandomInt(min, max)
@@ -51,21 +51,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
     ]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
-
-    steps = [
-      {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
-        explanation:
-          "Murtolukujen kertolaskussa molempien murtolukujen yläkerrat (osoittajat) ja alakerrat (nimittäjät) kerrotaan yhteen.",
-      },
-      {
-        math: `=\\frac{${aNumerator * bNumerator}}{${
-          aDenominator * bDenominator
-        }}`,
-      },
-    ]
-  } else if (currentSkillLevel === "expert") {
     descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
 
     steps = [

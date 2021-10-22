@@ -7,7 +7,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let max = 9
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
 
   let aNumerator = getRandomInt(min, max)
   let aDenominator = getRandomInt(min, max)
@@ -63,27 +63,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
     ]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\div \\frac{${bNumerator}}{${bDenominator}}`
-    ;[bNumerator, bDenominator] = [bDenominator, bNumerator]
-
-    steps = [
-      {
-        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
-        explanation:
-          "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
-          "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
-          "alkuperäisen murtoluvun vastaluvuksi.",
-      },
-      {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
-      },
-      {
-        math: `=\\frac{${aNumerator * bNumerator}}{${
-          aDenominator * bDenominator
-        }}`,
-      },
-    ]
-  } else if (currentSkillLevel === "expert") {
     descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\div \\frac{${bNumerator}}{${bDenominator}}`
     ;[bNumerator, bDenominator] = [bDenominator, bNumerator]
 

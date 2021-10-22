@@ -17,8 +17,8 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const d = getRandomInt(min, max)
 
   let descriptionLatex = ""
-  let steps: Step[] = []
-  let answers: Latex[] | undefined = []
+  let steps: Steps = []
+  let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     descriptionLatex = `(${a}+${b}*(${base})^${exponent})*${c}`
@@ -67,31 +67,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${(a + b) * (squareRootAnswer + c) + d}`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
-    steps = [
-      {
-        math: `=((${a}+${b})*(${squareRootAnswer}+${c}))+${d}`,
-        explanation:
-          "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista. Aloitetaan ratkaisemalla neliöjuuri.",
-      },
-      {
-        math: `=(${a + b}*(${squareRootAnswer}+${c}))+${d}`,
-        explanation: "Ratkaistaan ensimmäiset sisemmät sulut",
-      },
-      {
-        math: `=(${a + b}*${squareRootAnswer + c})+${d}`,
-        explanation: "Ratkaistaan toiset sisemmät sulut",
-      },
-      {
-        math: `=${(a + b) * (squareRootAnswer + c)}+${d}`,
-        explanation: "Ratkaistaan kertolasku suluissa",
-      },
-      {
-        math: `=${(a + b) * (squareRootAnswer + c) + d}`,
-      },
-    ]
-    answers = [`${(a + b) * (squareRootAnswer + c) + d}`]
-  } else if (currentSkillLevel === "expert") {
     descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
     steps = [
       {

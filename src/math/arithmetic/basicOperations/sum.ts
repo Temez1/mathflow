@@ -13,9 +13,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   } else if (currentSkillLevel === "pro") {
     min = 0
     max = 100
-  } else if (currentSkillLevel === "expert") {
-    min = 0
-    max = 100
   }
 
   const a = getRandomInt(min, max)

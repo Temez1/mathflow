@@ -10,8 +10,8 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const d = getRandomInt(min, max)
 
   let descriptionLatex = ""
-  let steps: Step[] = []
-  let answers: Latex[] | undefined = []
+  let steps: Steps = []
+  let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     descriptionLatex = `(${a}+${b})*${c}`
@@ -36,18 +36,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${a * (b + c) * d}`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `(${a}*(${b}+${c}))*${d}`
-    steps = [
-      {
-        math: `=(${a}*${b + c})*${d}`,
-        explanation:
-          "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista.",
-      },
-      { math: `=${a * (b + c)}*${d}` },
-      { math: `=${a * (b + c) * d}` },
-    ]
-    answers = [`${a * (b + c) * d}`]
-  } else if (currentSkillLevel === "expert") {
     descriptionLatex = `(${a}*(${b}+${c}))*${d}`
     steps = [
       {

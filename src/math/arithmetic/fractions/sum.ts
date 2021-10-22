@@ -12,7 +12,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let max = 9
 
   let descriptionLatex = ""
-  let steps: Step[] = []
+  let steps: Steps = []
 
   let aNumerator = getRandomInt(min, max)
   let aDenominator = getRandomInt(min, max)
@@ -81,21 +81,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       }
     )
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
-
-    steps.push(
-      {
-        math: `=\\frac{${expandedFractionA.numerator}+${expandedFractionB.numerator}}{${expandedFractionA.denominator}}`,
-        explanation:
-          "Murtolukujen yhteenlasku tapahtuu laskemalla yläkerrat (osoittajat) yhteen.",
-      },
-      {
-        math: `=\\frac{${
-          expandedFractionA.numerator + expandedFractionB.numerator
-        }}{${expandedFractionA.denominator}}`,
-      }
-    )
-  } else if (currentSkillLevel === "expert") {
     descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} + \\frac{${bNumerator}}{${bDenominator}}`
 
     steps.push(

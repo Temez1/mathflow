@@ -27,8 +27,10 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { useAnalytics, useFirestore } from "reactfire"
 import { logEvent } from "firebase/analytics"
 import { FaDiscord } from "react-icons/fa"
+import { ComputeEngine, parse } from "@cortex-js/compute-engine"
+import { isEqual } from "lodash"
 import MathDisplay from "../../sharedComponents/MathDisplay"
-import MathField from "../../sharedComponents/MathField"
+import MathField from "./MathField"
 import recommendationAlgorithm, {
   SubTopicWithPath,
   ALL_DONE,
@@ -68,6 +70,8 @@ export default () => {
   const user = useCurrentUser()
 
   const toast = useToast()
+
+  const computeEngine = new ComputeEngine()
 
   const setNextSubTopicAndChallenge = async () => {
     if (mode === "linear") {
@@ -245,7 +249,24 @@ export default () => {
     setSteps([])
   }
 
-  const checkAnswer = (studentAnswer: string) => {
+  const answersEquals = (
+    answerA: Latex,
+    answerB: Latex
+  ): boolean | undefined => {
+    const canonicalA = computeEngine.canonical(parse(answerA))
+    const canonicalB = computeEngine.canonical(parse(answerB))
+
+    if (canonicalA === null || canonicalB === null) {
+      return undefined
+    }
+
+    if (isEqual(canonicalA, canonicalB)) {
+      return true
+    }
+    return false
+  }
+
+  const checkAnswer = (studentAnswer: Latex) => {
     if (challengeRef.current === null) {
       return
     }
@@ -254,22 +275,28 @@ export default () => {
       for (const undefinedAnswer of UNDEFINED_ANSWERS) {
         if (studentAnswer.toLowerCase() === undefinedAnswer) {
           updateLearningSessionRightAnswer()
-          console.log(sessionAnswers)
           return
         }
       }
     } else {
       for (const answer of challengeRef.current.answers) {
-        console.log("student answer", studentAnswer, " answer", answer)
-        if (studentAnswer === answer) {
+        const rightAnswer = answersEquals(studentAnswer, answer)
+
+        if (rightAnswer === undefined) {
+          console.error("Answers equals failed")
+          toast({
+            title: "Vastauksen tarkistaminen epäonnistui. Pahoittelut.",
+            status: "error",
+            isClosable: true,
+          })
+        }
+        if (rightAnswer) {
           updateLearningSessionRightAnswer()
-          console.log(sessionAnswers)
+
           return
         }
       }
     }
-
-    console.log(sessionAnswers)
     sessionAnswers.addWrongAnswer()
     showAlert()
   }

@@ -21,19 +21,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     baseMax = 5
     exponentMin = 0
     exponentMax = 3
-  } else if (currentSkillLevel === "expert") {
-    baseMin = -10
-    baseMax = 10
-    exponentMin = -3
-    exponentMax = 3
   }
 
   const base = getRandomInt(baseMin, baseMax)
 
   const exponent = getRandomInt(exponentMin, exponentMax)
 
-  let steps: Step[] = []
-  let answers: Latex[] | undefined = []
+  let steps: Steps = []
+  let answers: Answers | undefined = []
 
   if (exponent === 0 && base !== 0) {
     steps = [
