@@ -36,7 +36,7 @@ import recommendationAlgorithm, {
   ALL_DONE,
 } from "../../math/recommendationAlgorithm"
 import SessionAnswers from "./SessionAnswers"
-import { SubTopicViewNavigateState } from "../subTopics/SubTopics"
+import { SubTopicViewNavigateState } from "../learn/topics/subTopics/SubTopics"
 import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
 import Loading from "../../sharedComponents/Loading"
 import Error from "../../sharedComponents/Error"
@@ -47,7 +47,7 @@ export const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
 export default () => {
   const [isAlert, setIsAlert] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [steps, setSteps] = useState<Step[]>([])
+  const [steps, setSteps] = useState<Steps>([])
   const successBgColor = useColorModeValue("lightgreen", "darkgreen")
   const [subTopic, setSubTopic] = useState<SubTopicWithPath | null>(null)
   const [challenge, setChallenge] = useState<Challenge | null>(null)
@@ -371,7 +371,7 @@ export default () => {
             checkAnswer("määrittelemätön")
           }}
         >
-          Määrittelemätön
+          määrittelemätön
         </Button>
 
         <Spacer />
@@ -451,6 +451,9 @@ export default () => {
                 matematiikan opiskeluun, jakaa opiskeluvinkkejä tai antaa
                 palautetta sovelluksesta.
               </Text>
+              <Heading pt="2" size="xs">
+                Discord sovelluksen ikäraja on 13 vuotta.
+              </Heading>
               <Link href="https://discord.gg/SgapBEqDXm" isExternal>
                 <Button rightIcon={<FaDiscord />} mt="2">
                   Liity mukaan!

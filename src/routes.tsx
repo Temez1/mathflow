@@ -2,11 +2,11 @@ import { RouteObject } from "react-router-dom"
 import AppLayout from "./layouts/app/App"
 import LearningSessionLayout from "./layouts/LearningSession"
 import Learn from "./views/learn/Learn"
-import Topics from "./views/topics/Topics"
+import Topics from "./views/learn/topics/Topics"
 import LearningSession from "./views/learningSession/LearningSession"
 import Profile from "./views/profile/Profile"
 import Progress from "./views/progress/Progress"
-import SubTopics from "./views/subTopics/SubTopics"
+import SubTopics from "./views/learn/topics/subTopics/SubTopics"
 
 const routes: RouteObject[] = [
   {

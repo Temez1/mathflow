@@ -1,7 +1,7 @@
 import { Box, Icon } from "@chakra-ui/react"
 import { MdClose } from "react-icons/md"
 import { Outlet, useNavigate, useLocation } from "react-router-dom"
-import { SubTopicViewNavigateState } from "../views/subTopics/SubTopics"
+import { SubTopicViewNavigateState } from "../views/learn/topics/subTopics/SubTopics"
 import responsiveConstants from "./responsiveConstants"
 
 export default () => {
@@ -26,7 +26,7 @@ export default () => {
           if (mode === "linear") {
             navigate(`/${categoryKey}/${topicKey}`)
           } else {
-            navigate("/progress")
+            navigate("/")
           }
         }}
       >
