@@ -37,7 +37,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${numerator / denominator}`,
       },
     ]
-    answers = [{ terms: [`${numerator / denominator}`] }]
+    answers = [`${numerator / denominator}`]
   }
 
   return {

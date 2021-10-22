@@ -23,6 +23,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     description: "Ratkaise",
     descriptionLatex: `${a}-${b}`,
     steps: [{ math: `=${a - b}` }],
-    answers: [{ terms: [`${a - b}`] }],
+    answers: [`${a - b}`],
   }
 }

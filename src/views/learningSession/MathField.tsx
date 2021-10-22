@@ -8,7 +8,7 @@ const IS_DEV = import.meta.env.DEV
 const RELATIVE_PUBLIC_DIR_PATH = IS_DEV ? "../../" : "../"
 
 export interface MathFieldProps {
-  onEnterKeyPressedOrFocusLostAndValueChanged: (answer: Answer) => void
+  onEnterKeyPressedOrFocusLostAndValueChanged: (answer: Latex) => void
 }
 
 export default (props: MathFieldProps) => {
@@ -27,19 +27,9 @@ export default (props: MathFieldProps) => {
     setInputOffsetOnVirtualKeyboardVisible,
   ] = useState<object | undefined>()
 
-  const parseInputToAnswer = (input: string): Answer => {
-    let terms = input.split("+")
-    console.log(terms)
-
-    terms = terms.flatMap((term) => term.split(/(?=-)/g))
-    console.log(terms)
-
-    return { terms }
-  }
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
-      const answer = parseInputToAnswer(mfe.value)
-      onEnterKeyPressedOrFocusLostAndValueChanged(answer)
+      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.value)
       mfe.setValue("")
     }
   }

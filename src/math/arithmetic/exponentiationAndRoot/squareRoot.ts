@@ -44,7 +44,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         }, mikä on alkuperäinen luku neliöjuuressa`,
       },
     ]
-    answers = [{ terms: [`${solvedA}`] }]
+    answers = [`${solvedA}`]
   }
 
   return {

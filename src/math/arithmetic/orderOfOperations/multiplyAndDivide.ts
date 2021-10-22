@@ -25,7 +25,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
       { math: `=${a + b * c}` },
     ]
-    answers = [{ terms: [`${a + b * c}`] }]
+    answers = [`${a + b * c}`]
   } else if (currentSkillLevel === "skilled") {
     descriptionLatex = `${a}+${b}*${c}+${d}*(${e}+${f})`
     steps = [
@@ -49,7 +49,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + b * c + d * (e + f)}`,
       },
     ]
-    answers = [{ terms: [`${a + b * c + d * (e + f)}`] }]
+    answers = [`${a + b * c + d * (e + f)}`]
   } else if (currentSkillLevel === "pro") {
     descriptionLatex = `${a}+${b}*${c}+${d}*(${e}+${f})`
     steps = [
@@ -73,7 +73,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + b * c + d * (e + f)}`,
       },
     ]
-    answers = [{ terms: [`${a + b * c + d * (e + f)}`] }]
+    answers = [`${a + b * c + d * (e + f)}`]
   }
 
   return {

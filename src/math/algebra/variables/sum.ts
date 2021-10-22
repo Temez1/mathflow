@@ -18,7 +18,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         "Kertomerkki jätetään merkitsemättä, nopeamman kirjoittamisen takia. " +
         "Tämä on yleisesti hyväksytty tapa.",
     })
-    answers = [{ terms: [`${amountOfVariables}x`] }]
+    answers = [`${amountOfVariables}x`]
   } else if (currentSkillLevel === "skilled") {
     const a = getRandomInt(1, 10)
     const b = getRandomInt(2, 10)
@@ -41,7 +41,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
           "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
       }
     )
-    answers = [{ terms: [`${b}x^2+${a + c}x+${d}`] }]
+    answers = [`${b}x^2+${a + c}x+${d}`]
   } else if (currentSkillLevel === "pro") {
     const a = getRandomInt(1, 10)
     const b = getRandomInt(2, 10)
@@ -64,7 +64,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
           "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
       }
     )
-    answers = [{ terms: [`${b}x^2`, `${a + c}x`, `${d}`] }]
+    answers = [`${b}x^2`, `${a + c}x`, `${d}`]
   }
 
   return {

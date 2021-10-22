@@ -40,7 +40,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${(a + b * exponentiationAnswer) * c}`,
       },
     ]
-    answers = [{ terms: [`${(a + b * exponentiationAnswer) * c}`] }]
+    answers = [`${(a + b * exponentiationAnswer) * c}`]
   } else if (currentSkillLevel === "skilled") {
     descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
     steps = [
@@ -65,7 +65,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${(a + b) * (squareRootAnswer + c) + d}`,
       },
     ]
-    answers = [{ terms: [`${(a + b) * (squareRootAnswer + c) + d}`] }]
+    answers = [`${(a + b) * (squareRootAnswer + c) + d}`]
   } else if (currentSkillLevel === "pro") {
     descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
     steps = [
@@ -90,7 +90,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${(a + b) * (squareRootAnswer + c) + d}`,
       },
     ]
-    answers = [{ terms: [`${(a + b) * (squareRootAnswer + c) + d}`] }]
+    answers = [`${(a + b) * (squareRootAnswer + c) + d}`]
   }
 
   return {

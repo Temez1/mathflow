@@ -13,10 +13,7 @@ interface Step {
   explanation?: string
 }
 
-type Answers = Answer[]
-interface Answer {
-  terms: Latex[]
-}
+type Answers = Latex[]
 
 interface Challenge {
   description: string
