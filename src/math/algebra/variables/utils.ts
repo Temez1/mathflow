@@ -1,5 +1,7 @@
+import { Fraction } from "../../arithmetic/fractions/utils"
+
 export interface Term {
-  coefficient: number
+  coefficient: number | Fraction
   variable: string
   exponent: number
 }

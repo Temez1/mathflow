@@ -6,6 +6,10 @@ export interface Fraction {
   denominator: number
 }
 
+export interface SimplifiedFraction extends Fraction {
+  sign: FractionSign
+}
+
 const fractionIsZero = (fraction: Fraction, steps: Steps): boolean => {
   const { numerator, denominator } = fraction
 
@@ -18,10 +22,55 @@ const fractionIsZero = (fraction: Fraction, steps: Steps): boolean => {
   return false
 }
 
+const simplifyFractionSign = (
+  fraction: Fraction,
+  steps: Steps
+): SimplifiedFraction => {
+  const signedFraction: Fraction = {
+    numerator: Math.abs(fraction.numerator),
+    denominator: Math.abs(fraction.denominator),
+  }
+
+  if (fraction.numerator < 0 && fraction.denominator >= 0) {
+    const lastStep = steps.pop()
+    if (lastStep) {
+      steps.push({
+        math: `${lastStep?.math}=-\\frac{${signedFraction.numerator}}{${signedFraction.denominator}}`,
+        explanation: lastStep.explanation,
+      })
+    }
+
+    return { sign: "-", ...signedFraction }
+  }
+  if (fraction.denominator < 0 && fraction.numerator >= 0) {
+    const lastStep = steps.pop()
+    if (lastStep) {
+      steps.push({
+        math: `${lastStep?.math}=-\\frac{${signedFraction.numerator}}{${signedFraction.denominator}}`,
+        explanation: lastStep.explanation,
+      })
+    }
+
+    return { sign: "-", ...signedFraction }
+  }
+  if (fraction.numerator < 0 && fraction.denominator < 0) {
+    const lastStep = steps.pop()
+    if (lastStep) {
+      steps.push({
+        math: `${lastStep?.math}=\\frac{${signedFraction.numerator}}{${signedFraction.denominator}}`,
+        explanation: lastStep.explanation,
+      })
+    }
+
+    return { sign: "+", ...signedFraction }
+  }
+  return { sign: "+", ...signedFraction }
+}
+
 export const simplifyFraction = (
   fraction: Fraction,
   steps: Steps
-): Fraction | number | undefined => {
+): SimplifiedFraction | number | undefined => {
   const { numerator, denominator } = fraction
 
   if (divisionByZero(denominator, steps)) {
@@ -50,30 +99,42 @@ export const simplifyFraction = (
       math: `=\\frac{${simplifiedNumerator}}{${simplifiedDenominator}}`,
     })
 
-    if (simplifiedDenominator === 1) {
+    const signedFraction = simplifyFractionSign(
+      { numerator: simplifiedNumerator, denominator: simplifiedDenominator },
+      steps
+    )
+
+    if (signedFraction.denominator === 1) {
+      if (signedFraction.sign === "-") {
+        steps.push({
+          math: `=-${signedFraction.numerator}`,
+        })
+        return -signedFraction.numerator
+      }
       steps.push({
-        math: `=${simplifiedNumerator}`,
+        math: `=${signedFraction.numerator}`,
       })
-      return simplifiedNumerator
+      return signedFraction.numerator
     }
 
-    return {
-      numerator: simplifiedNumerator,
-      denominator: simplifiedDenominator,
-    }
+    return signedFraction
   }
 
-  if (denominator === 1) {
+  const signedFraction = simplifyFractionSign({ numerator, denominator }, steps)
+
+  if (signedFraction.denominator === 1) {
+    if (signedFraction.sign === "-") {
+      steps.push({
+        math: `=-${signedFraction.numerator}`,
+      })
+      return -signedFraction.numerator
+    }
     steps.push({
-      math: `=${numerator}`,
+      math: `=${signedFraction.numerator}`,
     })
-    return numerator
+    return signedFraction.numerator
   }
-
-  return {
-    numerator,
-    denominator,
-  }
+  return signedFraction
 }
 
 export type ExpandFractionsOperator = "+" | "-"
@@ -137,24 +198,4 @@ export const expandFractionsToHaveSameDenominator = (
   }
 
   return { expandedFractionA: fractionA, expandedFractionB: fractionB }
-}
-
-export const fractionNumeratorIsNegative = (
-  fraction: Fraction,
-  steps: Steps
-): boolean => {
-  if (fraction.numerator < 0) {
-    const lastStep = steps.pop()
-
-    if (lastStep) {
-      steps.push({
-        math: `${lastStep?.math}=-\\frac{${Math.abs(fraction.numerator)}}{${
-          fraction.denominator
-        }}`,
-        explanation: lastStep.explanation,
-      })
-    }
-    return true
-  }
-  return false
 }

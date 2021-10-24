@@ -1,5 +1,5 @@
 import { getRandomInt } from "../../utils"
-import { fractionNumeratorIsNegative, simplifyFraction } from "./utils"
+import { simplifyFraction } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const description = "Ratkaise ja sievennä"
@@ -115,17 +115,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       answers,
     }
   }
-
-  const answers = [
-    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
-  ]
-
-  if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push(
-      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-        simplifiedFraction.denominator
-      }}`
-    )
+  let answers = []
+  if (simplifiedFraction.sign === "-") {
+    answers = [
+      `-\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
+  } else {
+    answers = [
+      `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
   }
 
   return {
