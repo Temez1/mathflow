@@ -185,8 +185,8 @@ export const expandFractionsToHaveSameDenominator = (
     steps.push(
       {
         math:
-          `=\\frac{${aNumerator}*${bDenominator}}{${aDenominator}*${bDenominator}} ${operator} ` +
-          `\\frac{${bNumerator}*${aDenominator}}{${bDenominator}*${aDenominator}}`,
+          `=\\frac{${aNumerator} \\cdot ${bDenominator}}{${aDenominator} \\cdot ${bDenominator}} ${operator} ` +
+          `\\frac{${bNumerator} \\cdot ${aDenominator}}{${bDenominator} \\cdot ${aDenominator}}`,
         explanation,
       },
       {

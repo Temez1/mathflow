@@ -14,36 +14,36 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    descriptionLatex = `(${a}+${b})*${c}`
+    descriptionLatex = `(${a}+${b}) \\cdot ${c}`
     steps = [
       {
-        math: `=${a + b}*${c}`,
+        math: `=${a + b} \\cdot ${c}`,
         explanation: "Sulkujen sisässä olevat laskut lasketaan aina ensin.",
       },
       { math: `=${(a + b) * c}` },
     ]
     answers = [`${(a + b) * c}`]
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `(${a}*(${b}+${c}))*${d}`
+    descriptionLatex = `(${a} \\cdot (${b}+${c})) \\cdot ${d}`
     steps = [
       {
-        math: `=(${a}*${b + c})*${d}`,
+        math: `=(${a} \\cdot ${b + c}) \\cdot ${d}`,
         explanation:
           "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista.",
       },
-      { math: `=${a * (b + c)}*${d}` },
+      { math: `=${a * (b + c)} \\cdot ${d}` },
       { math: `=${a * (b + c) * d}` },
     ]
     answers = [`${a * (b + c) * d}`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `(${a}*(${b}+${c}))*${d}`
+    descriptionLatex = `(${a} \\cdot (${b}+${c})) \\cdot ${d}`
     steps = [
       {
-        math: `=(${a}*${b + c})*${d}`,
+        math: `=(${a} \\cdot ${b + c}) \\cdot ${d}`,
         explanation:
           "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista.",
       },
-      { math: `=${a * (b + c)}*${d}` },
+      { math: `=${a * (b + c)} \\cdot ${d}` },
       { math: `=${a * (b + c) * d}` },
     ]
     answers = [`${a * (b + c) * d}`]

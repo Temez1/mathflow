@@ -21,11 +21,11 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     bNumerator = getRandomInt(min, max)
     bDenominator = getRandomInt(min, max)
     aNumerator = getRandomInt(min, max)
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
         explanation:
           "Murtolukujen kertolaskussa molempien murtolukujen yläkerrat (osoittajat) ja alakerrat (nimittäjät) kerrotaan yhteen.",
       },
@@ -36,11 +36,11 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
     ]
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
         explanation:
           "Murtolukujen kertolaskussa molempien murtolukujen yläkerrat (osoittajat) ja alakerrat (nimittäjät) kerrotaan yhteen.",
       },
@@ -51,11 +51,11 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       },
     ]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}}*\\frac{${bNumerator}}{${bDenominator}}`
+    descriptionLatex = `\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
         explanation:
           "Murtolukujen kertolaskussa molempien murtolukujen yläkerrat (osoittajat) ja alakerrat (nimittäjät) kerrotaan yhteen.",
       },

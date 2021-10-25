@@ -9,7 +9,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     const amountOfVariables = getRandomInt(2, 6)
 
-    descriptionLatex = `${"x*".repeat(amountOfVariables - 1)}x`
+    descriptionLatex = `${"x \\cdot ".repeat(amountOfVariables - 1)}x`
 
     steps.push({
       math: `=x^${amountOfVariables}`,
@@ -25,27 +25,30 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     const exponentA = getRandomInt(1, 4)
     const exponentB = getRandomInt(1, 4)
 
-    descriptionLatex = `${a}x^${exponentA}*${b}x^${exponentB}`
+    descriptionLatex = `${a}x^${exponentA} \\cdot ${b}x^${exponentB}`
 
     steps.push(
       {
-        math: `=${a}*x^${exponentA}*${b}*x^${exponentB}`,
+        math: `=${a} \\cdot x^${exponentA} \\cdot ${b} \\cdot x^${exponentB}`,
         explanation:
           "Kertomerkki on olemassa, vaikka se jätetäänkin merkkaamatta nopeamman kirjoittamisen takia.",
       },
       {
-        math: `=${a}*${b}*x^${exponentA}*x^${exponentB}`,
+        math: `=${a} \\cdot ${b} \\cdot x^${exponentA} \\cdot x^${exponentB}`,
         explanation:
           "Kertolaskuihin pätee vaihdantalaki. Vaihdantalaki tarkoittaa, että voidaan vaihtaa termien paikkaa. " +
           "Ei ole siis väliä, missä järjestyksessä teet kertolaskun. Päädyt aina samaan lopputulokseen.",
       },
       {
-        math: `=${a * b}*x^${exponentA}*x^${exponentB}`,
+        math: `=${a * b} \\cdot x^${exponentA} \\cdot x^${exponentB}`,
       },
       {
-        math: `=${a * b}x^${exponentA + exponentB}`,
+        math: `=${a * b}x^{${exponentA} + ${exponentB}}`,
         explanation:
           "Saman kantaluvun eksponentit summataan yhteen. Kantaluku voi olla myös muuttuja.",
+      },
+      {
+        math: `=${a * b}x^{${exponentA + exponentB}}`,
       }
     )
 
@@ -61,27 +64,30 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     const exponentA = getRandomInt(1, 4)
     const exponentB = getRandomInt(1, 4)
 
-    descriptionLatex = `${a}x^${exponentA}*${b}x^${exponentB}`
+    descriptionLatex = `${a}x^${exponentA} \\cdot ${b}x^${exponentB}`
 
     steps.push(
       {
-        math: `=${a}*x^${exponentA}*${b}*x^${exponentB}`,
+        math: `=${a} \\cdot x^${exponentA} \\cdot ${b} \\cdot x^${exponentB}`,
         explanation:
           "Kertomerkki on olemassa, vaikka se jätetäänkin merkkaamatta nopeamman kirjoittamisen takia.",
       },
       {
-        math: `=${a}*${b}*x^${exponentA}*x^${exponentB}`,
+        math: `=${a} \\cdot ${b} \\cdot x^${exponentA} \\cdot x^${exponentB}`,
         explanation:
           "Kertolaskuihin pätee vaihdantalaki. Vaihdantalaki tarkoittaa, että voidaan vaihtaa termien paikkaa. " +
           "Ei ole siis väliä, missä järjestyksessä teet kertolaskun. Päädyt aina samaan lopputulokseen.",
       },
       {
-        math: `=${a * b}*x^${exponentA}*x^${exponentB}`,
+        math: `=${a * b} \\cdot x^${exponentA} \\cdot x^${exponentB}`,
       },
       {
-        math: `=${a * b}x^${exponentA + exponentB}`,
+        math: `=${a * b}x^{${exponentA} + ${exponentB}}`,
         explanation:
           "Saman kantaluvun eksponentit summataan yhteen. Kantaluku voi olla myös muuttuja.",
+      },
+      {
+        math: `=${a * b}x^{${exponentA + exponentB}}`,
       }
     )
 

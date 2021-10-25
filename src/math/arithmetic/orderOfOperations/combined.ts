@@ -21,19 +21,19 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    descriptionLatex = `(${a}+${b}*(${base})^${exponent})*${c}`
+    descriptionLatex = `(${a}+${b} \\cdot (${base})^${exponent}) \\cdot ${c}`
     steps = [
       {
-        math: `=(${a}+${b}*${exponentiationAnswer})*${c}`,
+        math: `=(${a}+${b} \\cdot ${exponentiationAnswer}) \\cdot ${c}`,
         explanation:
           "Ratkaistaan ensin sulkujen sisässä olevat laskut. Alkaen potenssista",
       },
       {
-        math: `=(${a}+${b * exponentiationAnswer})*${c}`,
+        math: `=(${a}+${b * exponentiationAnswer}) \\cdot ${c}`,
         explanation: "Ratkaistaan kertolasku ennen yhteenlaskua",
       },
       {
-        math: `=${a + b * exponentiationAnswer}*${c}`,
+        math: `=${a + b * exponentiationAnswer} \\cdot ${c}`,
         explanation: "Ratkaistaan yhteenlasku suluissa",
       },
       {
@@ -42,19 +42,19 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${(a + b * exponentiationAnswer) * c}`]
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
+    descriptionLatex = `((${a}+${b}) \\cdot (\\sqrt{${squareRoot}}+${c}))+${d}`
     steps = [
       {
-        math: `=((${a}+${b})*(${squareRootAnswer}+${c}))+${d}`,
+        math: `=((${a}+${b}) \\cdot (${squareRootAnswer}+${c}))+${d}`,
         explanation:
           "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista. Aloitetaan ratkaisemalla neliöjuuri.",
       },
       {
-        math: `=(${a + b}*(${squareRootAnswer}+${c}))+${d}`,
+        math: `=(${a + b} \\cdot (${squareRootAnswer}+${c}))+${d}`,
         explanation: "Ratkaistaan ensimmäiset sisemmät sulut",
       },
       {
-        math: `=(${a + b}*${squareRootAnswer + c})+${d}`,
+        math: `=(${a + b} \\cdot ${squareRootAnswer + c})+${d}`,
         explanation: "Ratkaistaan toiset sisemmät sulut",
       },
       {
@@ -67,19 +67,19 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${(a + b) * (squareRootAnswer + c) + d}`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `((${a}+${b})*(\\sqrt{${squareRoot}}+${c}))+${d}`
+    descriptionLatex = `((${a}+${b}) \\cdot (\\sqrt{${squareRoot}}+${c}))+${d}`
     steps = [
       {
-        math: `=((${a}+${b})*(${squareRootAnswer}+${c}))+${d}`,
+        math: `=((${a}+${b}) \\cdot (${squareRootAnswer}+${c}))+${d}`,
         explanation:
           "Kun sulkuja on useampia, aloitetaan aina sisimmistä suluista. Aloitetaan ratkaisemalla neliöjuuri.",
       },
       {
-        math: `=(${a + b}*(${squareRootAnswer}+${c}))+${d}`,
+        math: `=(${a + b} \\cdot (${squareRootAnswer}+${c}))+${d}`,
         explanation: "Ratkaistaan ensimmäiset sisemmät sulut",
       },
       {
-        math: `=(${a + b}*${squareRootAnswer + c})+${d}`,
+        math: `=(${a + b} \\cdot ${squareRootAnswer + c})+${d}`,
         explanation: "Ratkaistaan toiset sisemmät sulut",
       },
       {
