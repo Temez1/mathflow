@@ -402,12 +402,16 @@ export default () => {
                 <Heading size="sm"> Tietokoneella </Heading>
                 <div>
                   {subTopic.subTopic.inputGuidance.desktop.map(
-                    (explanation) => (
-                      <span key={explanation.text}>
+                    (explanation, i) => (
+                      // We are just listing the values
+                      // eslint-disable-next-line react/no-array-index-key
+                      <span key={i}>
                         <Text display="inline">{`${explanation.text} `}</Text>
                         {explanation.keyboardKeys?.map(
-                          ({ keyboardKey, combiner }) => (
-                            <span key={keyboardKey}>
+                          ({ keyboardKey, combiner }, j) => (
+                            // We are just listing the values
+                            // eslint-disable-next-line react/no-array-index-key
+                            <span key={j}>
                               <Kbd>{keyboardKey}</Kbd>
                               <> {combiner} </>
                             </span>
@@ -424,12 +428,16 @@ export default () => {
                     </Heading>
                     <div>
                       {subTopic.subTopic.inputGuidance.mobile.map(
-                        (explanation) => (
-                          <span key={explanation.text}>
+                        (explanation, i) => (
+                          // We are just listing the values
+                          // eslint-disable-next-line react/no-array-index-key
+                          <span key={i}>
                             <Text display="inline">{`${explanation.text} `}</Text>
                             {explanation.keyboardKeys?.map(
-                              ({ keyboardKey, combiner }) => (
-                                <span key={keyboardKey}>
+                              ({ keyboardKey, combiner }, j) => (
+                                // We are just listing the values
+                                // eslint-disable-next-line react/no-array-index-key
+                                <span key={j}>
                                   <Kbd>{keyboardKey}</Kbd>
                                   <> {combiner} </>
                                 </span>
