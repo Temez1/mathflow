@@ -47,7 +47,8 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       a = c + 1
     }
 
-    // Avoid divide by 1 when coefficient is 1. To simplify logic needed.
+    // Avoid divide by 1 when coefficient is 1 or 0.
+    // To simplify logic needed.
     if (Math.abs(coefficient) < 2) {
       a = c + 2
     }
@@ -69,7 +70,6 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       {
         math: `${a - c}x=${-d - b}`,
       },
-
       {
         math: `\\frac{${a - c}x}{${a - c}}=\\frac{${-d - b}}{${a - c}}`,
         explanation: `Jaetaan molemmat puolet ${a - c}:lla `,
