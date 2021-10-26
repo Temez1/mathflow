@@ -253,6 +253,22 @@ export default () => {
     answerA: Latex,
     answerB: Latex
   ): boolean | undefined => {
+    const answersA = answerA.split(",").map((answer) => parse(answer))
+    const answersB = answerB.split(",").map((answer) => parse(answer))
+    if (
+      answersA.length > 1 &&
+      answersB.length > 1 &&
+      answersA.length === answersB.length
+    ) {
+      const setA = new Set(answersA)
+      const setB = new Set(answersB)
+
+      if (isEqual(setA, setB)) {
+        return true
+      }
+      return false
+    }
+
     const canonicalA = computeEngine.canonical(parse(answerA))
     const canonicalB = computeEngine.canonical(parse(answerB))
 
