@@ -5,9 +5,7 @@ const inputGuidance: InputGuidance = {
       keyboardKeys: [{ keyboardKey: "," }],
     },
     {
-      text:
-        "avulla. Erottele siis jokainen vastauksesi pilkulla. " +
-        "Esim. x=3, y=3",
+      text: "avulla. Esim. x=3, y=3",
     },
   ],
   mobile: [
