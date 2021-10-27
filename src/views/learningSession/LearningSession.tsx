@@ -253,8 +253,14 @@ export default () => {
     answerA: Latex,
     answerB: Latex
   ): boolean | undefined => {
-    const answersA = answerA.split(",").map((answer) => parse(answer))
-    const answersB = answerB.split(",").map((answer) => parse(answer))
+    console.log(answerA)
+
+    const answersA = answerA
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
+    const answersB = answerB
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
     if (
       answersA.length > 1 &&
       answersB.length > 1 &&
