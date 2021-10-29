@@ -18,7 +18,11 @@ export default (props: MathFieldProps) => {
     virtualKeyboardMode: "off",
     fontsDirectory: ".",
     soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
+
+    // Workaround#25
+    // See https://github.com/Temez1/mathflow/issues/25
     locale: "fi-FI",
+
     virtualKeyboardTheme: "material",
   })
 
@@ -34,6 +38,8 @@ export default (props: MathFieldProps) => {
     }
   }
 
+  // Workaround#41
+  // See https://github.com/Temez1/mathflow/issues/41
   const handleTouch = () => {
     let viewportHeight = document.getElementById("root")?.clientHeight
 

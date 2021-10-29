@@ -6,6 +6,7 @@ import quadraticChallenge from "./quadratic"
 import fractionGuidance from "../../inputGuidance/fraction"
 import multipleAnswersGuidance from "../../inputGuidance/multipleAnswers"
 import quadraticGuidance from "../../inputGuidance/quadratic"
+import rationalChallenge from "./rational"
 
 const subTopics = new Map<NameLowerCamelCase, SubTopic>()
 
@@ -28,6 +29,12 @@ subTopics.set("quadratic", {
   getChallenge: quadraticChallenge,
   skillLevel: new SkillLevel(),
   inputGuidance: quadraticGuidance,
+})
+
+subTopics.set("rational", {
+  name: "Rationaaliyhtälö",
+  getChallenge: rationalChallenge,
+  skillLevel: new SkillLevel(),
 })
 
 export default subTopics

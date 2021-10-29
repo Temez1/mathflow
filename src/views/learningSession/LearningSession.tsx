@@ -362,7 +362,7 @@ export default () => {
       {steps.map((step) => {
         if (step.explanation) {
           return (
-            <Box key={step.explanation} pt="2">
+            <Box key={step.math} pt="2">
               <MathDisplay value={step.math} />
               <Text pt="2"> {step.explanation} </Text>
             </Box>

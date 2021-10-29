@@ -33,6 +33,10 @@ const inputGuidance: InputGuidance = {
   ],
   mobile: [
     {
+      text: "Aloita murtolauseke painamalla ensin",
+      keyboardKeys: [{ keyboardKey: "÷" }],
+    },
+    {
       text: "",
       keyboardKeys: [
         {

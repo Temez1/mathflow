@@ -67,6 +67,21 @@ const simplifyFractionSign = (
   return { sign: "+", ...signedFraction }
 }
 
+export const fractionToLatex = (
+  simplifiedFrac: SimplifiedFraction | number | undefined
+): Latex => {
+  if (simplifiedFrac === undefined) {
+    return "määrittelemätön"
+  }
+  if (typeof simplifiedFrac === "number") {
+    return `${simplifiedFrac}`
+  }
+  if (simplifiedFrac.sign === "-") {
+    return `-\\frac{${simplifiedFrac.numerator}}{${simplifiedFrac.denominator}}`
+  }
+  return `\\frac{${simplifiedFrac.numerator}}{${simplifiedFrac.denominator}}`
+}
+
 export const simplifyFraction = (
   fraction: Fraction,
   steps: Steps
