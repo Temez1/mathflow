@@ -1,4 +1,4 @@
-export default {
+const inputGuidance: InputGuidance = {
   desktop: [
     {
       text: "Murtolukujen syöttäminen tapahtuu",
@@ -22,3 +22,5 @@ export default {
     },
   ],
 }
+
+export default inputGuidance

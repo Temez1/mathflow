@@ -47,7 +47,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = undefined
   } else {
-    const baseWithMultiplier = `${base.toString()}*`
+    const baseWithMultiplier = `${base.toString()}\\cdot`
     const exponentiationAsMultiplies = `${baseWithMultiplier.repeat(
       exponent - 1
     )}${base}`

@@ -1,9 +1,9 @@
 import { getRandomInt } from "../../utils"
-import { fractionNumeratorIsNegative, simplifyFraction } from "./utils"
+import { simplifyFraction } from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const description = "Ratkaise ja sievennä"
-  let min = 0
+  let min = 1
   let max = 9
 
   let descriptionLatex = ""
@@ -26,14 +26,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
           "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
       },
       {
         math: `=\\frac{${aNumerator * bNumerator}}{${
@@ -47,14 +47,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
           "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
       },
       {
         math: `=\\frac{${aNumerator * bNumerator}}{${
@@ -68,14 +68,14 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     steps = [
       {
-        math: `=\\frac{${aNumerator}}{${aDenominator}} * \\frac{${bNumerator}}{${bDenominator}}`,
+        math: `=\\frac{${aNumerator}}{${aDenominator}} \\cdot \\frac{${bNumerator}}{${bDenominator}}`,
         explanation:
           "Murtolukujen jakolasku ratkaistaan muuttamalla jakolasku kertolaskuksi vaihtamalla jälkimmäisen murtoluvun " +
           "ylä- ja alakerran (osoittaja ja nimittäjä) paikkoja. Tätä uutta murtolukua kutsutaan " +
           "alkuperäisen murtoluvun vastaluvuksi.",
       },
       {
-        math: `=\\frac{${aNumerator}*${bNumerator}}{${aDenominator}*${bDenominator}}`,
+        math: `=\\frac{${aNumerator} \\cdot ${bNumerator}}{${aDenominator} \\cdot ${bDenominator}}`,
       },
       {
         math: `=\\frac{${aNumerator * bNumerator}}{${
@@ -115,17 +115,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       answers,
     }
   }
-
-  const answers = [
-    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
-  ]
-
-  if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push(
-      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-        simplifiedFraction.denominator
-      }}`
-    )
+  let answers = []
+  if (simplifiedFraction.sign === "-") {
+    answers = [
+      `-\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
+  } else {
+    answers = [
+      `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
   }
 
   return {

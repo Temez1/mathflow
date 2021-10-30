@@ -2,7 +2,6 @@ import { getRandomInt } from "../../utils"
 import {
   expandFractionsToHaveSameDenominator,
   Fraction,
-  fractionNumeratorIsNegative,
   simplifyFraction,
 } from "./utils"
 
@@ -129,16 +128,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     }
   }
 
-  const answers = [
-    `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
-  ]
-
-  if (fractionNumeratorIsNegative(simplifiedFraction, steps)) {
-    answers.push(
-      `-\\frac{${Math.abs(simplifiedFraction.numerator)}}{${
-        simplifiedFraction.denominator
-      }}`
-    )
+  let answers = []
+  if (simplifiedFraction.sign === "-") {
+    answers = [
+      `-\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
+  } else {
+    answers = [
+      `\\frac{${simplifiedFraction.numerator}}{${simplifiedFraction.denominator}}`,
+    ]
   }
 
   return {

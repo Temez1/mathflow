@@ -21,7 +21,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
   return {
     description: "Ratkaise",
-    descriptionLatex: `${a}*${b}`,
+    descriptionLatex: `${a} \\cdot ${b}`,
     steps: [{ math: `=${a * b}` }],
     answers: [`${a * b}`],
   }

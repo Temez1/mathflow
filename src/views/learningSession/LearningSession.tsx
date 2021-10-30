@@ -250,11 +250,32 @@ export default () => {
   }
 
   const answersEquals = (
-    answerA: Latex,
-    answerB: Latex
+    studentAnswer: Latex,
+    rightAnswer: Latex
   ): boolean | undefined => {
-    const canonicalA = computeEngine.canonical(parse(answerA))
-    const canonicalB = computeEngine.canonical(parse(answerB))
+    const studentAnswers = studentAnswer
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
+    const rightAnswers = rightAnswer
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
+
+    if (
+      studentAnswers.length > 1 &&
+      rightAnswers.length > 1 &&
+      studentAnswers.length === rightAnswers.length
+    ) {
+      const setA = new Set(studentAnswers)
+      const setB = new Set(rightAnswers)
+
+      if (isEqual(setA, setB)) {
+        return true
+      }
+      return false
+    }
+
+    const canonicalA = computeEngine.canonical(parse(studentAnswer))
+    const canonicalB = computeEngine.canonical(parse(rightAnswer))
 
     if (canonicalA === null || canonicalB === null) {
       return undefined
@@ -340,7 +361,7 @@ export default () => {
       {steps.map((step) => {
         if (step.explanation) {
           return (
-            <Box key={step.explanation} pt="2">
+            <Box key={step.math} pt="2">
               <MathDisplay value={step.math} />
               <Text pt="2"> {step.explanation} </Text>
             </Box>
@@ -386,12 +407,16 @@ export default () => {
                 <Heading size="sm"> Tietokoneella </Heading>
                 <div>
                   {subTopic.subTopic.inputGuidance.desktop.map(
-                    (explanation) => (
-                      <span key={explanation.text}>
+                    (explanation, i) => (
+                      // We are just listing the values
+                      // eslint-disable-next-line react/no-array-index-key
+                      <span key={i}>
                         <Text display="inline">{`${explanation.text} `}</Text>
                         {explanation.keyboardKeys?.map(
-                          ({ keyboardKey, combiner }) => (
-                            <span key={keyboardKey}>
+                          ({ keyboardKey, combiner }, j) => (
+                            // We are just listing the values
+                            // eslint-disable-next-line react/no-array-index-key
+                            <span key={j}>
                               <Kbd>{keyboardKey}</Kbd>
                               <> {combiner} </>
                             </span>
@@ -408,12 +433,16 @@ export default () => {
                     </Heading>
                     <div>
                       {subTopic.subTopic.inputGuidance.mobile.map(
-                        (explanation) => (
-                          <span key={explanation.text}>
+                        (explanation, i) => (
+                          // We are just listing the values
+                          // eslint-disable-next-line react/no-array-index-key
+                          <span key={i}>
                             <Text display="inline">{`${explanation.text} `}</Text>
                             {explanation.keyboardKeys?.map(
-                              ({ keyboardKey, combiner }) => (
-                                <span key={keyboardKey}>
+                              ({ keyboardKey, combiner }, j) => (
+                                // We are just listing the values
+                                // eslint-disable-next-line react/no-array-index-key
+                                <span key={j}>
                                   <Kbd>{keyboardKey}</Kbd>
                                   <> {combiner} </>
                                 </span>

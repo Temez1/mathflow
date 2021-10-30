@@ -11,7 +11,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   const e = getRandomInt(1, 4)
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    descriptionLatex = `${a}x^2+${b}x+${c}x*${d}x+${e}`
+    descriptionLatex = `${a}x^2+${b}x+${c}x \\cdot ${d}x+${e}`
 
     steps.push(
       {
@@ -33,20 +33,20 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
 
     answers = [`${a + c * d}x^2+${b}x+${e}`]
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `(${a}x+${b}*${c}x)*(${d}x+${e})`
+    descriptionLatex = `(${a}x+${b} \\cdot ${c}x) \\cdot (${d}x+${e})`
 
     steps.push(
       {
-        math: `=(${a}x+${b * c}x)*(${d}x+${e})`,
+        math: `=(${a}x+${b * c}x) \\cdot (${d}x+${e})`,
         explanation:
           "Lasketaan suluissa olevat laskut ensin. Aloitetaan kertolaskusta.",
       },
       {
-        math: `=${a + b * c}x*(${d}x+${e})`,
+        math: `=${a + b * c}x \\cdot (${d}x+${e})`,
         explanation: "Lasketaan samankaltaiset termit yhteen.",
       },
       {
-        math: `=${a + b * c}x*${d}x+${a + b * c}x*${e}`,
+        math: `=${a + b * c}x \\cdot ${d}x+${a + b * c}x \\cdot ${e}`,
         explanation:
           "Sulut avataan kertomalla sulkujen sisässä olevat termit sulkujen edessä olevalla termillä.",
       },
@@ -56,20 +56,20 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     )
     answers = [`${(a + b * c) * d}x^2+${(a + b * c) * e}x`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `(${a}x+${b}*${c}x)*(${d}x+${e})`
+    descriptionLatex = `(${a}x+${b} \\cdot ${c}x) \\cdot (${d}x+${e})`
 
     steps.push(
       {
-        math: `=(${a}x+${b * c}x)*(${d}x+${e})`,
+        math: `=(${a}x+${b * c}x) \\cdot (${d}x+${e})`,
         explanation:
           "Lasketaan suluissa olevat laskut ensin. Aloitetaan kertolaskusta.",
       },
       {
-        math: `=${a + b * c}x*(${d}x+${e})`,
+        math: `=${a + b * c}x \\cdot (${d}x+${e})`,
         explanation: "Lasketaan samankaltaiset termit yhteen.",
       },
       {
-        math: `=${a + b * c}x*${d}x+${a + b * c}x*${e}`,
+        math: `=${a + b * c}x \\cdot ${d}x+${a + b * c}x \\cdot ${e}`,
         explanation:
           "Sulut avataan kertomalla sulkujen sisässä olevat termit sulkujen edessä olevalla termillä.",
       },

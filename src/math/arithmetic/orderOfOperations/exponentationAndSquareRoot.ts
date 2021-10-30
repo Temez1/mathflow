@@ -17,15 +17,15 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let answers: Answers | undefined = []
 
   if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
-    descriptionLatex = `(${base})^${exponent}*${a}*\\sqrt{${squareRoot}}`
+    descriptionLatex = `(${base})^${exponent} \\cdot ${a} \\cdot \\sqrt{${squareRoot}}`
     steps = [
       {
-        math: `=${exponentiationAnswer}*${a}*${squareRootAnswer}`,
+        math: `=${exponentiationAnswer} \\cdot ${a} \\cdot ${squareRootAnswer}`,
         explanation:
           "Potenssi ja neliöjuuri lasketaan ennen kerto- tai jakolaskua.",
       },
       {
-        math: `=${exponentiationAnswer * a}*${squareRootAnswer}`,
+        math: `=${exponentiationAnswer * a} \\cdot ${squareRootAnswer}`,
       },
       {
         math: `=${exponentiationAnswer * a * squareRootAnswer}`,
@@ -33,19 +33,19 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${exponentiationAnswer * a * squareRootAnswer}`]
   } else if (currentSkillLevel === "skilled") {
-    descriptionLatex = `((${base})^${exponent}+${a})*\\sqrt{${squareRoot}}`
+    descriptionLatex = `((${base})^${exponent}+${a}) \\cdot \\sqrt{${squareRoot}}`
     steps = [
       {
-        math: `=(${exponentiationAnswer}+${a})*\\sqrt{${squareRoot}}`,
+        math: `=(${exponentiationAnswer}+${a}) \\cdot \\sqrt{${squareRoot}}`,
         explanation:
           "Ratkaistaan ensin sulkujen sisässä olevat laskut. Alkaen potenssista",
       },
       {
-        math: `=(${exponentiationAnswer + a})*\\sqrt{${squareRoot}}`,
+        math: `=(${exponentiationAnswer + a}) \\cdot \\sqrt{${squareRoot}}`,
         explanation: "Ratkaistaan sulkujen sisässä olevat laskut loppuun.",
       },
       {
-        math: `=${exponentiationAnswer + a}*${squareRootAnswer}`,
+        math: `=${exponentiationAnswer + a} \\cdot ${squareRootAnswer}`,
         explanation: "Ratkaistaan neliöjuuri kun sulut on ratkaistu.",
       },
       {
@@ -54,19 +54,19 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     ]
     answers = [`${(exponentiationAnswer + a) * squareRootAnswer}`]
   } else if (currentSkillLevel === "pro") {
-    descriptionLatex = `((${base})^${exponent}+${a})*\\sqrt{${squareRoot}}`
+    descriptionLatex = `((${base})^${exponent}+${a}) \\cdot \\sqrt{${squareRoot}}`
     steps = [
       {
-        math: `=(${exponentiationAnswer}+${a})*\\sqrt{${squareRoot}}`,
+        math: `=(${exponentiationAnswer}+${a}) \\cdot \\sqrt{${squareRoot}}`,
         explanation:
           "Ratkaistaan ensin sulkujen sisässä olevat laskut. Alkaen potenssista",
       },
       {
-        math: `=(${exponentiationAnswer + a})*\\sqrt{${squareRoot}}`,
+        math: `=(${exponentiationAnswer + a}) \\cdot \\sqrt{${squareRoot}}`,
         explanation: "Ratkaistaan sulkujen sisässä olevat laskut loppuun.",
       },
       {
-        math: `=${exponentiationAnswer + a}*${squareRootAnswer}`,
+        math: `=${exponentiationAnswer + a} \\cdot ${squareRootAnswer}`,
         explanation: "Ratkaistaan neliöjuuri kun sulut on ratkaistu.",
       },
       {

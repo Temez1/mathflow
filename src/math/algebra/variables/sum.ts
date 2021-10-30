@@ -11,7 +11,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
     descriptionLatex = `${"x+".repeat(amountOfVariables - 1)}x`
 
     steps.push({
-      math: `=${amountOfVariables}*x = ${amountOfVariables}x`,
+      math: `=${amountOfVariables} \\cdot x = ${amountOfVariables}x`,
       explanation:
         "Muuttuja symboloi (kuvaa tai edustaa) tuntematonta. " +
         "Muuttujaan pätee samat laskusäännöt kuin lukuihin. " +
@@ -38,7 +38,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + c}x+${b}x^2+${d}`,
         explanation:
           'Vain samankaltaiset termit lasketaan yhteen. Googlaa "termi matematiikka" termin määritelmälle. ' +
-          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
+          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti on sama.",
       }
     )
     answers = [`${b}x^2+${a + c}x+${d}`]
@@ -61,10 +61,10 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `=${a + c}x+${b}x^2+${d}`,
         explanation:
           'Vain samankaltaiset termit lasketaan yhteen. Googlaa "termi matematiikka" termin määritelmälle. ' +
-          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti ja kantaluku on sama.",
+          "Samankaltainen tarkoittaa muuttujia, joiden eksponentti on sama.",
       }
     )
-    answers = [`${b}x^2`, `${a + c}x`, `${d}`]
+    answers = [`${b}x^2+${a + c}x+${d}`]
   }
 
   return {

@@ -1,5 +1,7 @@
 type Latex = string
 
+type FractionSign = "+" | "-"
+
 type NameLowerCamelCase = string
 
 type SkillLevels = import("./SkillLevel").SkillLevels

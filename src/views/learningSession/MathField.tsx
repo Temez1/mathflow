@@ -11,6 +11,16 @@ export interface MathFieldProps {
   onEnterKeyPressedOrFocusLostAndValueChanged: (answer: Latex) => void
 }
 
+// Workaround#79
+// Numbers and fractions supported
+const addOmittedNotEqualsToAnswer = (answer: Latex): Latex => {
+  // x<any +-number> or x<+-frac>
+  const regex = /(x)(?=(-?\d+|-?\\frac))/gi
+  const subst = `$1\\ne`
+  const result = answer.replace(regex, subst)
+  return result
+}
+
 export default (props: MathFieldProps) => {
   const { onEnterKeyPressedOrFocusLostAndValueChanged } = props
   const ref = useRef<HTMLInputElement>(null)
@@ -18,7 +28,11 @@ export default (props: MathFieldProps) => {
     virtualKeyboardMode: "off",
     fontsDirectory: ".",
     soundsDirectory: RELATIVE_PUBLIC_DIR_PATH,
+
+    // Workaround#25
+    // See https://github.com/Temez1/mathflow/issues/25
     locale: "fi-FI",
+
     virtualKeyboardTheme: "material",
   })
 
@@ -29,11 +43,14 @@ export default (props: MathFieldProps) => {
 
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
-      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.value)
+      const withNotEquals = addOmittedNotEqualsToAnswer(mfe.value)
+      onEnterKeyPressedOrFocusLostAndValueChanged(withNotEquals)
       mfe.setValue("")
     }
   }
 
+  // Workaround#41
+  // See https://github.com/Temez1/mathflow/issues/41
   const handleTouch = () => {
     let viewportHeight = document.getElementById("root")?.clientHeight
 
