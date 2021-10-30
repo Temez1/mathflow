@@ -1,13 +1,17 @@
 import { isEqual } from "lodash"
 import { getRandomInt } from "../../utils"
-import { solveQuadraticEquation } from "./utils"
+import {
+  solveQuadraticEquation,
+  RationalNumber,
+  rationalNumberToLatex,
+} from "./utils"
 
 export default (currentSkillLevel: SkillLevels): Challenge => {
   const steps: Steps = []
   let descriptionLatex = ""
   let answers: Answers | undefined = []
 
-  if (currentSkillLevel === "unknown" || currentSkillLevel === "skilled") {
+  if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     let x1 = getRandomInt(2, 5)
     const x2 = getRandomInt(2, 5)
     let a = getRandomInt(1, 6) * x1
@@ -74,26 +78,42 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       explanation: "Ratkaisu täyttää ehdon, joten yhtälöllä on ratkaisu.",
     })
     answers = [`x=${x1Result} , x \\ne ${x2Result}`]
-  } else if (currentSkillLevel === "beginner") {
-    let x1 = getRandomInt(2, 4)
-    const x2 = getRandomInt(2, 4)
-    const x3 = x2 * getRandomInt(2, 3)
+  } else if (currentSkillLevel === "skilled" || currentSkillLevel === "pro") {
+    const x1 = getRandomInt(3, 5)
+    const x2 = getRandomInt(2, 3)
 
-    let a = getRandomInt(1, 3) * x1
-    const b = getRandomInt(1, 3) * x3
+    // To simplify the logic needed
+    const x3 = x2 * getRandomInt(2, 4)
+    const a = getRandomInt(1, 3)
+    let b = getRandomInt(2, 3)
 
-    // x1 is not zero
-    let x1Result = -a / x1
-    const x2Result = 0
-    const x3Result = -x3 / x2
+    let { result: xResults, steps: quadraticSteps } = solveQuadraticEquation(
+      -(b * x2),
+      x1 - b * x3,
+      a
+    )
+
+    const xCondition1 = 0
+    const xCondition2 = -x3 / x2
 
     // TODO#67
     // Avoid no answer, see https://github.com/Temez1/mathflow/issues/67
-    if (isEqual(x1Result, x2Result)) {
-      x1Result += 1
-      x1 = getRandomInt(2, 3) * Math.abs(x1Result)
-      a = x1 * getRandomInt(2, 3)
-      x1Result = -a / x1
+    if (xResults && typeof xResults[0] !== "string") {
+      if (
+        (xResults?.length === 1 &&
+          (isEqual(xResults[0], xCondition1) ||
+            isEqual(xResults[0], xCondition2))) ||
+        (xResults?.length === 2 &&
+          (xResults as RationalNumber[]).includes(xCondition1) &&
+          (xResults as RationalNumber[]).includes(xCondition2))
+      ) {
+        b += 1
+        ;({ result: xResults, steps: quadraticSteps } = solveQuadraticEquation(
+          -(b * x2),
+          x1 - b * x3,
+          a
+        ))
+      }
     }
 
     descriptionLatex = `\\frac{${x1}x+${a}}{${x2}x^2+${x3}x}=${b}}`
@@ -113,7 +133,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       {
         math: `x \\ne 0 \\qquad \\text{tai} \\qquad ${x2}x+${x3} \\ne 0 `,
         explanation:
-          `Tulon nollasäännön mukaan jos a·b=0, niin jompi kumpi tulon tekijöistä on nolla, eli a=0 tai b=0.` +
+          `Tulon nollasäännön mukaan jos a·b=0, niin jompi kumpi tulon tekijöistä on nolla, eli a=0 tai b=0. ` +
           "Muutenhan tulosta ei tulisi nollaa.",
       },
       {
@@ -123,8 +143,8 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
         math: `x \\ne 0 \\qquad \\text{tai} \\qquad x \\ne \\frac{-${x3}}{${x2}}  \\quad || \\enskip ÷ \\enskip ${x2} `,
       },
       {
-        math: `x \\ne 0 \\qquad \\text{tai} \\qquad x \\ne ${x3Result} `,
-        explanation: `Lopputulokseksi tulee kaksi ehtoa, x ≠ 0 ja x≠${x3Result}`,
+        math: `x \\ne 0 \\qquad \\text{tai} \\qquad x \\ne ${xCondition2} `,
+        explanation: `Lopputulokseksi tulee kaksi ehtoa, x ≠ 0 ja x≠${xCondition2}`,
       }
     )
 
@@ -154,16 +174,69 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
       }
     )
 
-    const xResults = solveQuadraticEquation(-(b * x2), x1 - b * x3, a, steps)
+    steps.push(...quadraticSteps)
 
-    if (xResults)
+    const x1ResultLatex =
+      xResults && typeof (xResults[0] !== "string")
+        ? rationalNumberToLatex(xResults[0] as RationalNumber)
+        : xResults
+
+    const x2ResultLatex =
+      xResults && typeof (xResults[1] !== "string")
+        ? rationalNumberToLatex(xResults[1] as RationalNumber)
+        : xResults
+
+    if (xResults === undefined) {
+      answers = undefined
+    } else if (typeof xResults[0] === "string") {
       steps.push({
-        math: `x=${x1Result} \\enskip , \\enskip x \\ne ${x2Result} `,
-        explanation: "Ratkaisu täyttää ehdon, joten yhtälöllä on ratkaisu.",
+        math: `x \\ne 0, x \\ne ${xCondition2}, x=${xResults[0]}, x=${xResults[1]}`,
+        explanation:
+          "Koska molempien x:ien arvo täyttää ehdot, molemmat ratkaisut hyväksytään.",
       })
-    answers = [`x=${x1Result} , x \\ne ${x2Result}`]
-  } else if (currentSkillLevel === "pro") {
-    // lol
+      answers = [
+        `x \\ne 0, x \\ne ${xCondition2}, x=${xResults[0]}, x=${xResults[1]}`,
+        `x \\ne 0 , x \\ne ${xCondition2} ,x=${xResults[2]}`,
+      ]
+    }
+    // TODO#67
+    // Avoid no answer, see https://github.com/Temez1/mathflow/issues/67
+    // Here we assume x has at least one answer as it's checked previously.
+    else if (xResults.length === 1) {
+      steps.push({
+        math: `x \\ne 0, x \\ne ${xCondition2}, x=${xResults[0]}`,
+        explanation: "x täyttää molemmat ehdot, joten ratkaisu hyväksytään.",
+      })
+      answers = [`x \\ne 0, x \\ne ${xCondition2}, x=${x1ResultLatex}`]
+    } else if (
+      isEqual(xResults[0], xCondition1) ||
+      isEqual(xResults[0], xCondition2)
+    ) {
+      steps.push({
+        math: `x \\ne 0, x \\ne ${xCondition2}, x=${x2ResultLatex}`,
+        explanation:
+          "Vain toinen x:n ratkaisuista täyttää ehdon. Toinen vastaus hylätään.",
+      })
+      answers = [`x \\ne 0, x \\ne ${xCondition2}, x=${x2ResultLatex}`]
+    } else if (
+      isEqual(xResults[1], xCondition1 || isEqual(xResults[1], xCondition2))
+    ) {
+      steps.push({
+        math: `x \\ne 0, x \\ne ${xCondition2}, x=${x1ResultLatex}`,
+        explanation:
+          "Vain toinen x:n ratkaisuista täyttää ehdon. Toinen vastaus hylätään.",
+      })
+      answers = [`x \\ne 0, x \\ne ${xCondition2}, x=${x1ResultLatex}`]
+    } else {
+      steps.push({
+        math: `x \\ne 0, x \\ne ${xCondition2}, x=${x1ResultLatex}, x=${x2ResultLatex}`,
+        explanation:
+          "Koska molempien x:ien arvo täyttää ehdot, molemmat ratkaisut hyväksytään.",
+      })
+      answers = [
+        `x \\ne 0 , x \\ne ${xCondition2} ,x=${x1ResultLatex}, x=${x2ResultLatex}`,
+      ]
+    } // END TODO#67
   }
 
   return {
