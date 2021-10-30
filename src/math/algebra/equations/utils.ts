@@ -18,7 +18,6 @@ export interface SolveQuadraticEquationReturnValue {
   steps: Steps
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const solveQuadraticEquation = (
   a: number,
   b: number,
