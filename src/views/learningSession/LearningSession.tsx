@@ -250,24 +250,23 @@ export default () => {
   }
 
   const answersEquals = (
-    answerA: Latex,
-    answerB: Latex
+    studentAnswer: Latex,
+    rightAnswer: Latex
   ): boolean | undefined => {
-    console.log(answerA)
+    const studentAnswers = studentAnswer
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
+    const rightAnswers = rightAnswer
+      .split(",")
+      .map((answer) => computeEngine.canonical(parse(answer)))
 
-    const answersA = answerA
-      .split(",")
-      .map((answer) => computeEngine.canonical(parse(answer)))
-    const answersB = answerB
-      .split(",")
-      .map((answer) => computeEngine.canonical(parse(answer)))
     if (
-      answersA.length > 1 &&
-      answersB.length > 1 &&
-      answersA.length === answersB.length
+      studentAnswers.length > 1 &&
+      rightAnswers.length > 1 &&
+      studentAnswers.length === rightAnswers.length
     ) {
-      const setA = new Set(answersA)
-      const setB = new Set(answersB)
+      const setA = new Set(studentAnswers)
+      const setB = new Set(rightAnswers)
 
       if (isEqual(setA, setB)) {
         return true
@@ -275,8 +274,8 @@ export default () => {
       return false
     }
 
-    const canonicalA = computeEngine.canonical(parse(answerA))
-    const canonicalB = computeEngine.canonical(parse(answerB))
+    const canonicalA = computeEngine.canonical(parse(studentAnswer))
+    const canonicalB = computeEngine.canonical(parse(rightAnswer))
 
     if (canonicalA === null || canonicalB === null) {
       return undefined

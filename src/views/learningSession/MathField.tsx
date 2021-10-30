@@ -11,6 +11,16 @@ export interface MathFieldProps {
   onEnterKeyPressedOrFocusLostAndValueChanged: (answer: Latex) => void
 }
 
+// Workaround#79
+// Numbers and fractions supported
+const addOmittedNotEqualsToAnswer = (answer: Latex): Latex => {
+  // x<any +-number> or x<+-frac>
+  const regex = /(x)(?=(-?\d+|-?\\frac))/gi
+  const subst = `$1\\ne`
+  const result = answer.replace(regex, subst)
+  return result
+}
+
 export default (props: MathFieldProps) => {
   const { onEnterKeyPressedOrFocusLostAndValueChanged } = props
   const ref = useRef<HTMLInputElement>(null)
@@ -33,7 +43,8 @@ export default (props: MathFieldProps) => {
 
   const handleOnEnterKeyPressedOrFocusLostAndValueChanged = () => {
     if (mfe.value !== "") {
-      onEnterKeyPressedOrFocusLostAndValueChanged(mfe.value)
+      const withNotEquals = addOmittedNotEqualsToAnswer(mfe.value)
+      onEnterKeyPressedOrFocusLostAndValueChanged(withNotEquals)
       mfe.setValue("")
     }
   }
