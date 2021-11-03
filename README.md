@@ -1,6 +1,6 @@
 # MathFlow
 
-Math learning app for students
+Adaptive math learning app for students
 
 - Personalized learning
 - 10x shorter feedback loop
