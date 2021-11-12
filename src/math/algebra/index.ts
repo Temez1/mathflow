@@ -18,4 +18,5 @@ topics.set("logarithm", {
   name: "Logaritmi",
   subTopics: logarithmsSubTopics,
 })
+
 export default topics
