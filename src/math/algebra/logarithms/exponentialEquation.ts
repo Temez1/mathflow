@@ -9,7 +9,7 @@ export default (currentSkillLevel: SkillLevels): Challenge => {
   let answers: Answers = []
   const steps: Steps = []
 
-  if (currentSkillLevel === "beginner") {
+  if (currentSkillLevel === "unknown" || currentSkillLevel === "beginner") {
     const a = getRandomInt(1, 5)
     const b = getRandomInt(1, 10)
 

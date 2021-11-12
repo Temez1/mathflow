@@ -200,7 +200,7 @@ export default () => {
         })
     } else if (
       currentSkillLevel === "skilled" &&
-      sessionAnswers.lastFiveAnswers.streak === 5 &&
+      sessionAnswers.lastFiveAnswers.streak === 3 &&
       sessionAnswers.lastFiveAnswers.answersWithHelp === 0
     ) {
       subTopicRef.current.subTopic.skillLevel
