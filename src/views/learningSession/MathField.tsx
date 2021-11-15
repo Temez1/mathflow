@@ -77,6 +77,16 @@ export default (props: MathFieldProps) => {
     mfe.virtualKeyboardState = "visible"
   }
 
+  const handleInput = () => {
+    // HotFix#83
+    // See, https://github.com/Temez1/mathflow/issues/83
+    if (mfe.value.includes("Dead")) {
+      mfe.setValue(mfe.value.replace("Dead", "^"))
+      mfe.position -= 1
+      console.log(mfe.value)
+    }
+  }
+
   const handleBlur = () => {
     setInputOffsetOnVirtualKeyboardVisible(undefined)
   }
@@ -87,6 +97,7 @@ export default (props: MathFieldProps) => {
       "change",
       handleOnEnterKeyPressedOrFocusLostAndValueChanged
     )
+    mfe.addEventListener("input", handleInput)
     mfe.addEventListener("touchstart", handleTouch)
     mfe.addEventListener("blur", handleBlur)
     mfe.focus()
@@ -97,6 +108,7 @@ export default (props: MathFieldProps) => {
       )
       mfe.removeEventListener("touchstart", handleTouch)
       mfe.removeEventListener("blur", handleBlur)
+      mfe.removeEventListener("input", handleInput)
       ref.current?.removeChild(mfe)
     }
   }, [])
