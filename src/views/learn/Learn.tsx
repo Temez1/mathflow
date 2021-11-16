@@ -7,10 +7,12 @@ import CardsLayout from "../../layouts/CardsLayout"
 import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
 import Loading from "../../sharedComponents/Loading"
 import Error from "../../sharedComponents/Error"
+import { useCurrentUser } from "../../ContextProviders/UserContextProvider"
 
 export default () => {
   const navigate = useNavigate()
   const { categories, state } = useCategories()
+  const user = useCurrentUser()
 
   if (state === "Running") {
     return <Loading text="Teroitetaan kyniä" />
@@ -23,14 +25,14 @@ export default () => {
   return (
     <>
       <HeaderLayout>
-        <Heading size="xl">Tervetuloa takaisin!</Heading>
+        <Heading size="lg">Tervetuloa {user.displayName}!</Heading>
       </HeaderLayout>
       <CardsLayout>
         <Card>
-          <Text>Jatka oppimista siitä mihin jäit</Text>
+          <Text>Opiskele ja edisty sitä mukaan kun kehityt!</Text>
           <Flex direction="row-reverse">
             <Button my="4" size="lg" onClick={() => navigate("/learning")}>
-              Jatka oppimista
+              Opiskele
             </Button>
           </Flex>
         </Card>
