@@ -13,7 +13,6 @@ import {
   Heading,
   useColorModeValue,
   useToast,
-  Kbd,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -21,6 +20,7 @@ import {
   Box,
   PopoverHeader,
   Link,
+  Progress,
 } from "@chakra-ui/react"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -41,6 +41,7 @@ import { useCategories } from "../../ContextProviders/CategoriesContextProvider"
 import Loading from "../../sharedComponents/Loading"
 import Error from "../../sharedComponents/Error"
 import { useCurrentUser } from "../../ContextProviders/UserContextProvider"
+import InputGuidance from "./InputGuidance"
 
 export const UNDEFINED_ANSWERS = ["undefined", "määrittelemätön"]
 
@@ -59,6 +60,7 @@ export default () => {
   challengeRef.current = challenge
   const sessionAnswers = useRef(new SessionAnswers()).current
   const categoriesRef = useRef(categories)
+  const bottomOfPageRef = useRef<HTMLDivElement | null>(null)
 
   const navigate = useNavigate()
   const { state } = useLocation()
@@ -119,6 +121,10 @@ export default () => {
       setChallenge(null)
     }
   }, [categories])
+
+  useEffect(() => {
+    bottomOfPageRef.current?.scrollIntoView()
+  }, [steps])
 
   const showAlert = () => {
     setIsAlert(true)
@@ -397,72 +403,12 @@ export default () => {
 
         <Spacer />
 
-        {subTopic.subTopic.inputGuidance && (
-          <Popover returnFocusOnClose={false} placement="top-end">
-            <PopoverTrigger>
-              <Button variant="link">Kuinka vastaan?</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverBody>
-                <Heading size="sm"> Tietokoneella </Heading>
-                <div>
-                  {subTopic.subTopic.inputGuidance.desktop.map(
-                    (explanation, i) => (
-                      // We are just listing the values
-                      // eslint-disable-next-line react/no-array-index-key
-                      <span key={i}>
-                        <Text display="inline">{`${explanation.text} `}</Text>
-                        {explanation.keyboardKeys?.map(
-                          ({ keyboardKey, combiner }, j) => (
-                            // We are just listing the values
-                            // eslint-disable-next-line react/no-array-index-key
-                            <span key={j}>
-                              <Kbd>{keyboardKey}</Kbd>
-                              <> {combiner} </>
-                            </span>
-                          )
-                        )}
-                      </span>
-                    )
-                  )}
-                </div>
-                {subTopic.subTopic.inputGuidance.mobile && (
-                  <>
-                    <Heading size="sm" pt="2">
-                      Kännykällä tai tabletilla
-                    </Heading>
-                    <div>
-                      {subTopic.subTopic.inputGuidance.mobile.map(
-                        (explanation, i) => (
-                          // We are just listing the values
-                          // eslint-disable-next-line react/no-array-index-key
-                          <span key={i}>
-                            <Text display="inline">{`${explanation.text} `}</Text>
-                            {explanation.keyboardKeys?.map(
-                              ({ keyboardKey, combiner }, j) => (
-                                // We are just listing the values
-                                // eslint-disable-next-line react/no-array-index-key
-                                <span key={j}>
-                                  <Kbd>{keyboardKey}</Kbd>
-                                  <> {combiner} </>
-                                </span>
-                              )
-                            )}
-                          </span>
-                        )
-                      )}
-                    </div>
-                  </>
-                )}
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        )}
+        <InputGuidance subTopic={subTopic} />
       </Flex>
 
       <MathField onEnterKeyPressedOrFocusLostAndValueChanged={checkAnswer} />
 
-      <Flex direction="row-reverse" align="flex-end">
+      <Flex direction="row-reverse" align="flex-end" pb="10">
         <Button size="lg" onClick={showStep}>
           Vihje
         </Button>
@@ -491,7 +437,23 @@ export default () => {
             </PopoverBody>
           </PopoverContent>
         </Popover>
+
+        <Spacer />
+
+        <Flex w="25%" direction="column">
+          <Text fontSize={{ base: "md", md: "xl" }}>
+            {subTopic.subTopic.skillLevel.getSkillLevelName()}
+          </Text>
+          <Progress
+            rounded="md"
+            w="100%"
+            value={subTopic.subTopic.skillLevel.getSkillLevelPercentage()}
+            colorScheme="green"
+          />
+        </Flex>
       </Flex>
+
+      <div ref={bottomOfPageRef} />
     </Flex>
   )
 }

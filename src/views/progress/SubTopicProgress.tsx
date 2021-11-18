@@ -20,7 +20,7 @@ export default (props: SubTopicProgressProps) => {
           colorScheme="green"
         />
         <Text pl="8" fontSize="lg" display="inline">
-          {subTopic.skillLevel.getSkillLevel()}
+          {subTopic.skillLevel.getSkillLevelName()}
         </Text>
       </Flex>
     </Box>

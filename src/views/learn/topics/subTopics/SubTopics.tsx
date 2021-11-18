@@ -70,7 +70,7 @@ export default () => {
                 colorScheme="green"
               />
               <Text pl="8" fontSize="lg" display="inline">
-                {subTopic.skillLevel.getSkillLevel()}
+                {subTopic.skillLevel.getSkillLevelName()}
               </Text>
             </Flex>
           </Card>
