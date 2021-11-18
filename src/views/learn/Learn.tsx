@@ -22,10 +22,12 @@ export default () => {
     return <Error text="Kynät oli loppu tällä kertaa. Yritä päivittää sivu." />
   }
 
+  const firstName = user.displayName?.split(" ")[0]
+
   return (
     <>
       <HeaderLayout>
-        <Heading size="lg">Tervetuloa {user.displayName}!</Heading>
+        <Heading size="lg">Tervetuloa {firstName}!</Heading>
       </HeaderLayout>
       <CardsLayout>
         <Card>

@@ -29,6 +29,19 @@ class SkillLevel {
     return this.skillLevel
   }
 
+  getSkillLevelName() {
+    if (this.skillLevel === "unknown") {
+      return "Tuntematon"
+    }
+    if (this.skillLevel === "beginner") {
+      return "Aloittelija"
+    }
+    if (this.skillLevel === "skilled") {
+      return "Taitava"
+    }
+    return "Pro"
+  }
+
   getSkillLevelPercentage() {
     if (this.skillLevel === "unknown") {
       return 0

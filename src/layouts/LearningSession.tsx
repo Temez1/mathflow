@@ -42,7 +42,6 @@ export default () => {
         h="100vh"
         mx={responsiveConstants.mx}
         pt={`${(exitButtonSize + exitButtonSpacingTop) * 4}px`}
-        pb="10"
       >
         <Outlet />
       </Box>
